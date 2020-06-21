@@ -1,0 +1,70 @@
+﻿@model GestorDeTaller.Model.Articulo
+
+@{
+    ViewData["Title"] = "DetallesDelArticulo";
+}
+
+<h1>Detalles del articulo</h1>
+
+<div>
+
+    <hr />
+    <dl class="row">
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Nombre)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Marca)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Marca)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Descripcion)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Descripcion)
+        </dd>
+    </dl>
+</div>
+<h4>Repuesto</h4>
+<br>
+
+@foreach (var std in ViewData["Repuesto"] as IList<GestorDeTaller.Model.Repuesto>)
+{
+
+    <b> <label for="Name">Nombre</label> </b> @std.Nombre
+    <br>
+    <b><label for="Name">Precio</label> </b> @std.Precio
+    <br>
+    <br>
+    
+}
+<div class="card bg-light mb-3" style="max-width: 20rem;">
+    <div class="card-header">Cantidad de órdenes</div>
+    <div class="card-body">
+
+        <p class="card-text">
+
+            <h5>Terminadas:</h5>
+            @ViewBag.OrdenesTerminadas
+        </p>
+
+        <p class="card-text">
+
+            <h5>En proceso:</h5>
+            @ViewBag.OrdenesEnProceso
+        </p>
+
+    </div>
+</div>
+
+<br>
+<div>
+    <a href="javascript: history.go(-1)">Regresar</a>
+
+</div>

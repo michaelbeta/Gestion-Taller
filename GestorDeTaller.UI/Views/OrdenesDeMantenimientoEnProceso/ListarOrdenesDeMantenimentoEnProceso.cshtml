@@ -1,0 +1,61 @@
+﻿@model IEnumerable<GestorDeTaller.Model.OrdenDeMantenimiento>
+
+@{
+    ViewData["Title"] = "ListarOrdenesDeMantenimeintoEnProceso";
+}
+
+<h1>Listar ordenes de mantenimeinto en proceso</h1>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.NombreDelCliente)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaDeIngreso)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaDeInicio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CantidadDeDiasEnProceso)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NombreDelCliente)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FechaDeIngreso)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FechaDeInicio)
+                </td>
+                <td>
+                    @{
+                        var CantidadDeDiasEnProceso = (item.FechaDeInicio - item.FechaDeIngreso);
+                    } @Html.DisplayFor(modelItem => CantidadDeDiasEnProceso.Value.Days)
+                </td>
+                <td>
+                    <a asp-action="TerminarOrdeMantenimiento" asp-route-id="@item.Id" class="btn btn-warning">Terminar</a>
+                    <a asp-action="CancelarOrdenDeMantenimiento" asp-route-id="@item.Id" class="btn btn-warning">Cancelar</a>
+                    <a asp-action="AgregarMantenimiento" asp-route-id="@item.Id" class="btn btn-warning">Agregar Mantenimiento</a>
+                    <a asp-action="DetallesDeOrdenDeMantenimiento" asp-route-id="@item.Id" class="btn btn-warning">Ver Detalle</a>
+
+        
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<br><br>
+<div>
+    <a href="javascript: history.go(-1)">Regresar</a>
+</div>

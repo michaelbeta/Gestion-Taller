@@ -1,0 +1,72 @@
+﻿@model IEnumerable<GestorDeTaller.Model.OrdenDeMantenimiento>
+
+@{ ViewData["Title"] = "ListarOrdenesDeMantenimeintoTerminadas"; }
+
+<h1>Ordenes De Mantenimeinto Terminadas</h1>
+
+
+<table class="table">
+    <thead>
+        <tr>
+
+            <th>
+                @Html.DisplayNameFor(model => model.NombreDelCliente)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaDeIngreso)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaDeInicio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaDeFinalizacion)
+            </th>
+            <td>
+                <b> @Html.DisplayNameFor(model => model.CantidadDeDiasEnProceso)</b>
+            </td>
+            <td>
+                <b>  @Html.DisplayNameFor(model => model.CantidadDeDiasTrabajados)</b>
+            </td>
+
+
+
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+<tr>
+
+    <td>
+        @Html.DisplayFor(modelItem => item.NombreDelCliente)
+    </td>
+
+
+    <td>
+        @Html.DisplayFor(modelItem => item.FechaDeIngreso)
+    </td>
+
+
+    <td>
+        @Html.DisplayFor(modelItem => item.FechaDeInicio)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.FechaDeFinalizacion)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.CantidadDeDiasEnProceso)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.CantidadDeDiasTrabajados)
+    </td>
+
+    <td>
+        <a asp-action="DetallesDeOrdenesDeMantenimientoTerminadas" asp-route-id="@item.Id" class="btn btn-secondary">Detalles</a>
+    </td>
+</tr>}
+    </tbody>
+</table>
+<td>
+    <br><br>
+    <a href="javascript: history.go(-1)">Regresar</a>

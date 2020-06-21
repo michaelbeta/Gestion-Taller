@@ -1,0 +1,49 @@
+﻿@model IEnumerable<GestorDeTaller.Model.Mantenimiento>
+
+@{ ViewData["Title"] = "ListarMantenimientosDisponiblesParaArticulo"; }
+
+<h1>Mantenimientos disponibles para el Articulo</h1>
+
+
+<table class="table">
+    <thead>
+        <tr>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Descripcion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CostoFijo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CostoDeRepuestos)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+<tr>
+
+    <td>
+        @Html.DisplayFor(modelItem => item.Descripcion)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.CostoFijo)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.CostoDeRepuestos)
+    </td>
+    <td>
+        <a asp-action="AgregarMantenimientoAOrdenRecibidas" asp-route-id="@item.Id" class="btn btn-success">Seleccionar mantenimiento</a>
+
+    </td>
+</tr>
+}
+    </tbody>
+</table>
+<br><br>
+<div>
+    <a href="javascript: history.go(-1)">Regresar</a>
+</div>

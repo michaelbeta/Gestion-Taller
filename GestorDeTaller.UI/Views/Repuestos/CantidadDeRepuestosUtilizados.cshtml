@@ -1,0 +1,21 @@
+﻿@model GestorDeTaller.Model.DetallesRepuesto
+
+@{ ViewData["Title"] = "CantidadDeRepuestosUtilizados"; }
+
+<h1>Cantidad De Repuestos Utilizados</h1>
+
+<div>
+
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Cantidad)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Cantidad)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a href="javascript: history.go(-1)">Regresar</a>
+</div>

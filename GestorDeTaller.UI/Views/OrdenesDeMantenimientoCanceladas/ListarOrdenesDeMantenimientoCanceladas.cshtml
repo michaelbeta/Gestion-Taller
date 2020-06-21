@@ -1,0 +1,48 @@
+﻿@model IEnumerable<GestorDeTaller.Model.OrdenDeMantenimiento>
+
+@{
+    ViewData["Title"] = "ListarOrdenesDeMantenimientoCanceladas";
+}
+
+<h1>Ordenenes canceladas</h1>
+
+
+<table class="table">
+    <thead>
+        <tr>
+           
+            <th>
+                @Html.DisplayNameFor(model => model.NombreDelCliente)
+            </th>
+       
+            <th>
+                @Html.DisplayNameFor(model => model.FechaDeIngreso)
+            </th>
+         
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            
+            <td>
+                @Html.DisplayFor(modelItem => item.NombreDelCliente)
+            </td>
+          
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaDeIngreso)
+            </td>
+            <td>
+
+                <a asp-action="DetallesDeLaOrden" asp-route-id="@item.Id" class="btn btn-danger">Detalles</a>
+
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+<td>
+    <br><br>
+    <a href="javascript: history.go(-1)">Regresar</a>
+</td>

@@ -1,0 +1,40 @@
+﻿@model GestorDeTaller.Model.OrdenDeMantenimiento
+
+@{
+    ViewData["Title"] = "EditarOrden";
+}
+
+<h1>Editar Orden</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="EditarOrden">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="NombreDelCliente" class="control-label"></label>
+                <input asp-for="NombreDelCliente" class="form-control" />
+                <span asp-validation-for="NombreDelCliente" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DescripcionDelProblema" class="control-label"></label>
+                <input asp-for="DescripcionDelProblema" class="form-control" />
+                <span asp-validation-for="DescripcionDelProblema" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MontoDeAdelanto" class="control-label"></label>
+                <input asp-for="MontoDeAdelanto" class="form-control" />
+                <span asp-validation-for="MontoDeAdelanto" class="text-danger"></span>
+            </div>
+           
+            <div class="form-group">
+                <input type="submit" value="Guardar" class="btn btn-success" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<td>
+    <a href="javascript: history.go(-1)">Regresar</a>
+</td>
+

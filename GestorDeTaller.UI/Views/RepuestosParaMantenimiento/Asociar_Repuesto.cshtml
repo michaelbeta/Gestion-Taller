@@ -1,0 +1,24 @@
+﻿
+@using (Html.BeginForm())
+{
+    <h1>Catalogo de Repuestos</h1>
+    <br>
+    <br>
+
+
+    <label for="Name">Seleccione un repuesto</label> @Html.DropDownList("Repuesto", new SelectList(ViewBag.laLista, "Id", "Nombre"))
+
+    <input type="submit" name="Elegir" value="Elegir" />
+
+    <br>
+    <br>
+
+    <div>
+        <a href="javascript: history.go(-1)">Regresar</a>
+    </div>
+}
+
+
+
+
+

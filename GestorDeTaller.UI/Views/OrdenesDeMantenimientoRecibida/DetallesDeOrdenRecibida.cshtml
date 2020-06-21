@@ -1,0 +1,63 @@
+﻿@model GestorDeTaller.Model.OrdenDeMantenimiento
+
+@{ ViewData["Title"] = "DetallesDeOrdenRecibida"; }
+
+<h1>Detalles de orden recibida</h1>
+
+<div>
+
+    <hr />
+    <dl class="row">
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.NombreDelCliente)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.NombreDelCliente)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.DescripcionDelProblema)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DescripcionDelProblema)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.FechaDeIngreso)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.FechaDeIngreso)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.MontoDeAdelanto)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.MontoDeAdelanto)
+        </dd>
+
+
+    </dl>
+    <h4>Articulo</h4>
+    <br>
+
+    @foreach (var std in ViewData["Articulo"] as IList<GestorDeTaller.Model.Articulo>)
+    {
+
+<b> <label for="Name">Nombre</label> </b> @std.Nombre <br>
+ <b><label for="Name">Marca</label> </b> @std.Marca <br>}
+    <br>
+    <h4>Mantenimiento</h4>
+    <br>
+    @foreach (var std in ViewData["Mantenimiento"] as IList<GestorDeTaller.Model.Mantenimiento>)
+    {
+
+
+<b> <label for="Name">Descripcion</label></b>@std.Descripcion <br>
+<b><label for="Name">Costo fijo</label> </b>@std.CostoFijo <br>
+<b><label for="Name">Costo de repuesto</label> </b>@std.CostoDeRepuestos<br>}
+
+    <br>
+</div>
+<div>
+    <a href="javascript: history.go(-1)">Regresar</a>
+</div>
