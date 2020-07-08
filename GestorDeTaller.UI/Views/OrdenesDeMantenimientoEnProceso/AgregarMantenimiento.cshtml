@@ -1,20 +1,19 @@
 ﻿@using (Html.BeginForm())
 {
 <h1>Lista de Mantenimiento</h1>
+   <br>
+  <br>
+
+
+  <label for="Name">Seleccione un Mantenimiento</label>
+
+  @Html.DropDownList("Mantenimiento", new SelectList(ViewBag.laLista, "Id", "DescripCosto", null))
+
+   <input type="submit" name="Elegir" value="Elegir" />
 <br>
-<br>
+     <br>
 
+                                                                                                                                <div>
 
-<label for="Name">Seleccione un Mantenimiento</label>
-
-@Html.DropDownList("Mantenimiento", new SelectList(ViewBag.laLista, "Id", "DescripCosto", null))
-
-<input type="submit" name="Elegir" value="Elegir" />
-
-<br>
-<br>
-
-<div>
-    <a href="javascript: history.go(-1)">Regresar</a>
-</div>
-}
+                                                                                                                                    <a href="javascript: history.go(-1)" class="btn btn-succes">Cancelar</a>
+                                                                                                                                </div>}

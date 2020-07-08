@@ -1,8 +1,6 @@
 ﻿@model IEnumerable<GestorDeTaller.Model.Repuesto>
 
-@{
-    ViewData["Title"] = "Listar Repuestos Asociados al Mantenimiento";
-}
+@{ ViewData["Title"] = "Listar Repuestos Asociados al Mantenimiento"; }
 
 <h1>Repuestos Asociados a un Mantenimiento</h1>
 <p>
@@ -20,21 +18,22 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nombre)
-            </td>
-            <td>
-                @Html.ActionLink("Desasociar ", "ConfirmarRepuestoAdesasociar", "RepuestosParaMantenimiento", new { id = item.Id }, null)
-               
+        @foreach (var item in Model)
+        {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.Nombre)
+    </td>
+    <td>
+        @Html.ActionLink("Desasociar ", "ConfirmarRepuestoAdesasociar", "RepuestosParaMantenimiento", new { id = item.Id }, null)
 
-            </td>
-        </tr>
-}
+
+    </td>
+</tr>}
     </tbody>
 </table>
-<br><br>
+<br>
+<br>
 <div>
-    <a href="javascript: history.go(-1)">Regresar</a>
+    <a href="javascript: history.go(-1)" class="btn btn-primary">Cancelar</a>
 </div>

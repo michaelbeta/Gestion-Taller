@@ -1,8 +1,6 @@
 ﻿@model GestorDeTaller.Model.Mantenimiento
 
-@{
-    ViewData["Title"] = "EditarMantenimiento";
-}
+@{ ViewData["Title"] = "EditarMantenimiento"; }
 
 <h1>Editar Mantenimiento</h1>
 
@@ -11,7 +9,7 @@
     <div class="col-md-4">
         <form asp-action="EditarMantenimiento">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            
+
             <div class="form-group">
                 <label asp-for="Descripcion" class="control-label"></label>
                 <input asp-for="Descripcion" class="form-control" />
@@ -30,8 +28,8 @@
 </div>
 
 <div>
-    <a href="javascript: history.go(-1)">Regresar</a>
-   
+    <a href="javascript: history.go(-1)" class="btn btn-primary">Cancelar</a>
+
 </div>
 
 @section Scripts {

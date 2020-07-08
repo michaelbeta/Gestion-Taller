@@ -1,8 +1,6 @@
 ﻿@model GestorDeTaller.UI.Models.MotivoDeCancelacion
 
-@{
-    ViewData["Title"] = "CancelarOrdenDeMantenimiento";
-}
+@{ ViewData["Title"] = "CancelarOrdenDeMantenimiento"; }
 
 <h1>Cancelar Orden De Mantenimiento</h1>
 
@@ -18,12 +16,12 @@
                 <span asp-validation-for="motivoDeCancelacion" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Guardar" class="btn btn-primary" />
+                <input type="submit" value="Guardar" class="btn btn-warning" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a href="javascript: history.go(-1)">Regresar</a>
+    <a href="javascript: history.go(-1)" class="btn btn-warning">Cancelar</a>
 </div>

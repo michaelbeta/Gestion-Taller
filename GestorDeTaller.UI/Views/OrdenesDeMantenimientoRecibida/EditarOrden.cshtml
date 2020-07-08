@@ -1,8 +1,6 @@
 ﻿@model GestorDeTaller.Model.OrdenDeMantenimiento
 
-@{
-    ViewData["Title"] = "EditarOrden";
-}
+@{ ViewData["Title"] = "EditarOrden"; }
 
 <h1>Editar Orden</h1>
 
@@ -26,7 +24,7 @@
                 <input asp-for="MontoDeAdelanto" class="form-control" />
                 <span asp-validation-for="MontoDeAdelanto" class="text-danger"></span>
             </div>
-           
+
             <div class="form-group">
                 <input type="submit" value="Guardar" class="btn btn-success" />
             </div>
@@ -35,6 +33,6 @@
 </div>
 
 <td>
-    <a href="javascript: history.go(-1)">Regresar</a>
+    <a href="javascript: history.go(-1)" class="btn btn-succes">Cancelar</a>
 </td>
 

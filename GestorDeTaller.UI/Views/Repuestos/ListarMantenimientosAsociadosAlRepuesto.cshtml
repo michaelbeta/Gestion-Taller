@@ -1,8 +1,6 @@
 ﻿@model IEnumerable<GestorDeTaller.Model.Mantenimiento>
 
-@{
-    ViewData["Title"] = "ListarMantenimientosAsociadosAlRepuesto";
-}
+@{ ViewData["Title"] = "ListarMantenimientosAsociadosAlRepuesto"; }
 
 <h1>Mantenimientos Asociados</h1>
 
@@ -20,17 +18,16 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
+<tr>
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.Descripcion)
-                </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Descripcion)
+    </td>
 
-            </tr>
-        }
+</tr>}
     </tbody>
 </table>
 <div>
     <br><br>
-    <a href="javascript: history.go(-1)">Regresar</a>
+    < <a href="javascript: history.go(-1)" class="btn btn-primary">Cancelar</a>
 </div>
