@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using GestorDeTaller.DA;
+﻿using GestorDeTaller.DA;
 using GestorDeTaller.Model;
 using GestorDeTaller.UI.Models;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace GestorDeTaller.BL
 {
@@ -13,12 +11,12 @@ namespace GestorDeTaller.BL
     {
         private ContextoDeBaseDeDatos ElContextoDeBaseDeDatos;
 
-      
+
 
         public RepositorioDeTaller(ContextoDeBaseDeDatos contexto)
         {
             ElContextoDeBaseDeDatos = contexto;
-           
+
         }
 
 
@@ -68,7 +66,7 @@ namespace GestorDeTaller.BL
             return resultado.ToList();
         }
 
-        public void AgregarRepuesto(Repuesto repuesto,int id)
+        public void AgregarRepuesto(Repuesto repuesto, int id)
         {
             repuesto.Id_Articulo = id;
             ElContextoDeBaseDeDatos.repuestos.Add(repuesto);
@@ -88,7 +86,7 @@ namespace GestorDeTaller.BL
             ElContextoDeBaseDeDatos.mantenimientos.Update(ActualizarUnMantenimiento);
             ElContextoDeBaseDeDatos.SaveChanges();
         }
-        public void AgregarMantenimiento(Mantenimiento mantenimiento,int id)
+        public void AgregarMantenimiento(Mantenimiento mantenimiento, int id)
         {
             mantenimiento.Id_Articulo = id;
             ElContextoDeBaseDeDatos.mantenimientos.Add(mantenimiento);
@@ -102,7 +100,7 @@ namespace GestorDeTaller.BL
 
             return resultado.ToList();
         }
-      
+
 
         public Mantenimiento ObteneCatalogoDeMantenimeintosPorId(int id)
         {
@@ -153,30 +151,30 @@ namespace GestorDeTaller.BL
 
             return resultado.ToList();
         }
-       
+
         public List<Repuesto> ObtenerRepuestosAsociadosAlMantenimiento(int id)
         {
             int idRepuesto = 0;
-           
+
             if (ElContextoDeBaseDeDatos.RepuestosParaMantenimiento.Count() == 0)
-            {}
+            { }
             else
             {
- 
-              Mantenimiento mantenimiento = ElContextoDeBaseDeDatos.mantenimientos.Find(id);
 
-              List<RepuestoParaMantenimiento> listaDeRepuestoParaMantenimiento = ElContextoDeBaseDeDatos.RepuestosParaMantenimiento.ToList();
-              
+                Mantenimiento mantenimiento = ElContextoDeBaseDeDatos.mantenimientos.Find(id);
+
+                List<RepuestoParaMantenimiento> listaDeRepuestoParaMantenimiento = ElContextoDeBaseDeDatos.RepuestosParaMantenimiento.ToList();
+
 
                 foreach (var item in listaDeRepuestoParaMantenimiento)
                 {
                     if (item.Id_Mantenimiento == mantenimiento.Id)
                     {
-                     
+
                         idRepuesto = item.Id_Repuesto;
                     }
                 }
-               
+
             }
             var resultado = from c in ElContextoDeBaseDeDatos.repuestos
                             where c.Id == idRepuesto
@@ -185,7 +183,7 @@ namespace GestorDeTaller.BL
 
             return resultado.ToList();
         }
-       
+
 
         public List<Mantenimiento> ObtenerMantenimientoAsociadoAlRepuesto(int id)
         {
@@ -209,7 +207,7 @@ namespace GestorDeTaller.BL
         public List<OrdenDeMantenimiento> ListarOrdenesDeMantenimientoRecibidas()
         {
             var resultado = from c in ElContextoDeBaseDeDatos.ordenesDeMantenimiento
-                            where c.Estado== Estado.Recibido
+                            where c.Estado == Estado.Recibido
                             select c;
 
             return resultado.ToList();
@@ -241,7 +239,7 @@ namespace GestorDeTaller.BL
             ordenDeMantenimiento.Estado = Estado.Terminado;
             ordenDeMantenimiento.FechaDeFinalizacion = DateTime.Now;
             Articulo articulo = new Articulo();
-           
+
             ElContextoDeBaseDeDatos.ordenesDeMantenimiento.Update(ordenDeMantenimiento);
             ElContextoDeBaseDeDatos.SaveChanges();
         }
@@ -270,17 +268,17 @@ namespace GestorDeTaller.BL
 
         public void AgregarARepuestosParaMantenimiento(int idRepuesto, int idMantenimiento)
         {
-            List< RepuestoParaMantenimiento> listaDeRepuestoParaMantenimiento = ElContextoDeBaseDeDatos.RepuestosParaMantenimiento.ToList();
-            Boolean contieneRepuesto=false;
+            List<RepuestoParaMantenimiento> listaDeRepuestoParaMantenimiento = ElContextoDeBaseDeDatos.RepuestosParaMantenimiento.ToList();
+            Boolean contieneRepuesto = false;
 
             foreach (var item in listaDeRepuestoParaMantenimiento)
             {
-                if (item.Id_Mantenimiento == idMantenimiento && item.Id_Repuesto==idRepuesto)
+                if (item.Id_Mantenimiento == idMantenimiento && item.Id_Repuesto == idRepuesto)
                 {
                     contieneRepuesto = true;
                 }
             }
-            if (contieneRepuesto==false)
+            if (contieneRepuesto == false)
             {
                 RepuestoParaMantenimiento repuestoParaMantenimiento = new RepuestoParaMantenimiento();
                 repuestoParaMantenimiento.Id_Repuesto = idRepuesto;
@@ -289,7 +287,7 @@ namespace GestorDeTaller.BL
                 ElContextoDeBaseDeDatos.RepuestosParaMantenimiento.Add(repuestoParaMantenimiento);
                 ElContextoDeBaseDeDatos.SaveChanges();
             }
-          
+
         }
 
         public void CancelarMantenimiento(int id, string MotivoDeCancelacion)
@@ -318,8 +316,8 @@ namespace GestorDeTaller.BL
         public Repuesto ObtenerRepuestoAdesasociar(int id)
         {
 
-           Repuesto Repuesto;
-           Repuesto = ElContextoDeBaseDeDatos.repuestos.Find(id);
+            Repuesto Repuesto;
+            Repuesto = ElContextoDeBaseDeDatos.repuestos.Find(id);
 
             return Repuesto;
         }
@@ -327,7 +325,7 @@ namespace GestorDeTaller.BL
         public void DesasociarRepuesto(int id)
         {
             List<RepuestoParaMantenimiento> listaDeRepuestoParaMantenimiento = ElContextoDeBaseDeDatos.RepuestosParaMantenimiento.ToList();
-            int idRepuestoParaMantenimientoAbuscar=0;
+            int idRepuestoParaMantenimientoAbuscar = 0;
             foreach (var item in listaDeRepuestoParaMantenimiento)
             {
                 if (item.Id_Repuesto == id)
@@ -366,14 +364,14 @@ namespace GestorDeTaller.BL
             List<RepuestoParaMantenimiento> listaRepuestoParaMantenimiento = ElContextoDeBaseDeDatos.RepuestosParaMantenimiento.ToList();
             List<Repuesto> listaDeRepuestos = ElContextoDeBaseDeDatos.repuestos.ToList();
             int idMantenimientoABuscar = 0;
-           
+
             foreach (var item in listaDetalleOrdenesDeMantenimiento)
             {
                 if (item.Id_OrdenesDeMantenimiento == id)
                 {
                     idMantenimientoABuscar = item.Id_Mantenimiento;
 
-                   
+
                 }
             }
             ///Costo de repuestos. La suma de los montos de los repuestos asociados al mantenimiento.
@@ -382,14 +380,14 @@ namespace GestorDeTaller.BL
             double monto = 0;
             foreach (var item in listaRepuestoParaMantenimiento)
             {
-               
 
-                if (item.Id_Mantenimiento==idMantenimientoABuscar)
+
+                if (item.Id_Mantenimiento == idMantenimientoABuscar)
                 {
 
                     foreach (var BuscarPrecioRepuesto in listaDeRepuestos)
                     {
-                        if (BuscarPrecioRepuesto.Id==item.Id_Repuesto)
+                        if (BuscarPrecioRepuesto.Id == item.Id_Repuesto)
                         {
                             Repuesto repuesto;
                             repuesto = ElContextoDeBaseDeDatos.repuestos.Find(BuscarPrecioRepuesto.Id);
@@ -399,23 +397,23 @@ namespace GestorDeTaller.BL
                         }
 
                     }
-            }
                 }
-            if (idMantenimientoABuscar==0)
-            {}
+            }
+            if (idMantenimientoABuscar == 0)
+            { }
             else
             {
                 mantenimiento.CostoDeRepuestos = monto;
             }
-           
 
-          var resultado = from c in ElContextoDeBaseDeDatos.mantenimientos
+
+            var resultado = from c in ElContextoDeBaseDeDatos.mantenimientos
                             where c.Id == idMantenimientoABuscar
                             select c;
 
             return resultado.ToList();
         }
-        public void AgregarOrdenDeMantenimientoRecibida(int id,OrdenDeMantenimiento ordenDeMantenimiento)
+        public void AgregarOrdenDeMantenimientoRecibida(int id, OrdenDeMantenimiento ordenDeMantenimiento)
         {
 
             OrdenDeMantenimiento orden = new OrdenDeMantenimiento();

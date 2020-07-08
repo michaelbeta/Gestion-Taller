@@ -1,11 +1,9 @@
-﻿using System;
+﻿using GestorDeTaller.BL;
+using GestorDeTaller.Model;
+using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using GestorDeTaller.BL;
-using GestorDeTaller.Model;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 
 namespace GestorDeTaller.Controllers
 {
@@ -55,7 +53,7 @@ namespace GestorDeTaller.Controllers
             repuestoasociado = Repositorio.ObtenerRepuestoAsociadosAlArticulo(id);
 
             ViewData["Repuesto"] = repuestoasociado;
-           
+
             List<OrdenDeMantenimiento> ordenesDeMantenimientosEnProceso;
             ordenesDeMantenimientosEnProceso = Repositorio.ListarOrdenesDeMantenimientoEnProceso();
             int CantidadDeOrdenesEnProceso = ordenesDeMantenimientosEnProceso.Count();

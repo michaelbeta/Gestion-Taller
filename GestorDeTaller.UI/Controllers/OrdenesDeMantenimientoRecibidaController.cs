@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using GestorDeTaller.BL;
+﻿using GestorDeTaller.BL;
 using GestorDeTaller.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
 
 namespace GestorDeTaller.UI.Controllers
 {
@@ -20,13 +18,13 @@ namespace GestorDeTaller.UI.Controllers
         // GET: OrdenesDeMantenimientoRecibidatroller
         public ActionResult ListarOrdenesDeMantenimientoRecibidas()
         {
-           List<OrdenDeMantenimiento> laLista;
-           laLista = Repositorio.ListarOrdenesDeMantenimientoRecibidas();
+            List<OrdenDeMantenimiento> laLista;
+            laLista = Repositorio.ListarOrdenesDeMantenimientoRecibidas();
 
             return View(laLista);
         }
 
-       
+
         public ActionResult DetallesDeOrdenRecibida(int id)
         {
             OrdenDeMantenimiento DetallesDelAOrden;
@@ -87,12 +85,12 @@ namespace GestorDeTaller.UI.Controllers
 
                 if (ModelState.IsValid)
                 {
-                  
+
                     Repositorio.AgregarOrdenDeMantenimientoRecibida(idArticulo, ordenDeMantenimiento);
 
                     return RedirectToAction(nameof(ListarOrdenesDeMantenimientoRecibidas));
-                    
-                  
+
+
                 }
                 else
                 {
@@ -100,7 +98,7 @@ namespace GestorDeTaller.UI.Controllers
                 }
 
             }
-            catch (Exception )
+            catch (Exception)
             {
 
                 return View();

@@ -8,7 +8,7 @@ namespace GestorDeTaller.Model
     public class Articulo
     {
         public int Id { get; set; }
-        [Required(ErrorMessage ="Este campo es requerido")]
+        [Required(ErrorMessage = "Este campo es requerido")]
         [Display(Name = "Nombre")]
         [MaxLength(25)]
         public String Nombre { get; set; }
@@ -17,7 +17,7 @@ namespace GestorDeTaller.Model
         [MaxLength(25)]
         public String Marca { get; set; }
         [Required(ErrorMessage = "Este campo es requerido")]
-        [Display(Name = "Descripcion")]
+        [Display(Name = "Descripción")]
         [MaxLength(150)]
         public String Descripcion { get; set; }
 

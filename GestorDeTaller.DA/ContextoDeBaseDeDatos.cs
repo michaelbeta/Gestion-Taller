@@ -1,9 +1,6 @@
-﻿
-using GestorDeTaller.Model;
+﻿using GestorDeTaller.Model;
 using GestorDeTaller.UI.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Text;
 
 
 

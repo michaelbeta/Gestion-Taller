@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using GestorDeTaller.BL;
+﻿using GestorDeTaller.BL;
 using GestorDeTaller.Model;
 using GestorDeTaller.UI.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
 
 namespace GestorDeTaller.UI.Controllers
 {
@@ -56,7 +53,7 @@ namespace GestorDeTaller.UI.Controllers
                     return View(motivoCancelacion);
                 }
             }
-            catch (Exception )
+            catch (Exception)
             {
 
                 return View(motivoCancelacion);
@@ -85,21 +82,21 @@ namespace GestorDeTaller.UI.Controllers
 
         public ActionResult DetallesDeOrdenDeMantenimiento(int id)
         {
-            
-                OrdenDeMantenimiento DetallesDelAOrden;
-                DetallesDelAOrden = Repositorio.ObtenerOrdenesDeMantenimentoCanceladasPorid(id);
 
-                List<Articulo> articuloAsociado;
-                articuloAsociado = Repositorio.ObtenerArticuloAsociadosALaOrdenEnMantenimiento(id);
+            OrdenDeMantenimiento DetallesDelAOrden;
+            DetallesDelAOrden = Repositorio.ObtenerOrdenesDeMantenimentoCanceladasPorid(id);
 
-                List<Mantenimiento> MantenimientoAsosiado;
-                MantenimientoAsosiado = Repositorio.ObtenermantenimientoAsociadosalaOrden(id);
+            List<Articulo> articuloAsociado;
+            articuloAsociado = Repositorio.ObtenerArticuloAsociadosALaOrdenEnMantenimiento(id);
 
-                ViewData["Articulo"] = articuloAsociado;
-                ViewData["Mantenimiento"] = MantenimientoAsosiado;
+            List<Mantenimiento> MantenimientoAsosiado;
+            MantenimientoAsosiado = Repositorio.ObtenermantenimientoAsociadosalaOrden(id);
 
-                return View(DetallesDelAOrden);
-            
+            ViewData["Articulo"] = articuloAsociado;
+            ViewData["Mantenimiento"] = MantenimientoAsosiado;
+
+            return View(DetallesDelAOrden);
+
         }
 
         public ActionResult Articulo(int id)

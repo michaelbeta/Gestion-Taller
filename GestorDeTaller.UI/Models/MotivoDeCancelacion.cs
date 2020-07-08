@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace GestorDeTaller.UI.Models
 {
     public class MotivoDeCancelacion
     {
-        [Display(Name = "Motivo de cancelacion")]
+        [Display(Name = "Motivo de cancelación")]
         [MaxLength(50)]
-        [Required]
+        [Required(ErrorMessage = "Debe digitar el motivo de cancelación")]
         public String motivoDeCancelacion { get; set; }
         public int Id { get; set; }
     }

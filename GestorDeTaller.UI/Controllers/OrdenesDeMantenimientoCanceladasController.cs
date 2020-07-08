@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using GestorDeTaller.BL;
+﻿using GestorDeTaller.BL;
 using GestorDeTaller.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
 
 namespace GestorDeTaller.UI.Controllers
 {
@@ -23,23 +21,23 @@ namespace GestorDeTaller.UI.Controllers
             List<OrdenDeMantenimiento> laLista;
             laLista = Repositorio.ListarOrdenesDeMantenimentoCanceladas();
             return View(laLista);
-            
+
         }
 
-       
+
         public ActionResult DetallesDeLaOrden(int id)
         {
             OrdenDeMantenimiento DetallesDelAOrden;
-            DetallesDelAOrden=Repositorio.ObtenerOrdenesDeMantenimentoCanceladasPorid(id);
-            
+            DetallesDelAOrden = Repositorio.ObtenerOrdenesDeMantenimentoCanceladasPorid(id);
+
             List<Articulo> articuloAsociado;
-            articuloAsociado= Repositorio.ObtenerArticuloAsociadosALaOrdenEnMantenimiento(id);
+            articuloAsociado = Repositorio.ObtenerArticuloAsociadosALaOrdenEnMantenimiento(id);
 
             List<Mantenimiento> MantenimientoAsosiado;
             MantenimientoAsosiado = Repositorio.ObtenermantenimientoAsociadosalaOrden(id);
 
-           ViewData["Articulo"] = articuloAsociado;
-           ViewData["Mantenimiento"] = MantenimientoAsosiado;
+            ViewData["Articulo"] = articuloAsociado;
+            ViewData["Mantenimiento"] = MantenimientoAsosiado;
 
             return View(DetallesDelAOrden);
         }

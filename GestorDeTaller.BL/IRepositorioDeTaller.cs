@@ -1,20 +1,16 @@
-﻿using GestorDeTaller.DA;
-using GestorDeTaller.Model;
-using GestorDeTaller.UI.Models;
-using System;
+﻿using GestorDeTaller.Model;
 using System.Collections.Generic;
-using System.Text;
 
 namespace GestorDeTaller.BL
 {
     public interface IRepositorioDeTaller
     {
         public List<Articulo> ObtenerArticulo();
-        void AgregarRepuesto(Repuesto repuesto,int id);
+        void AgregarRepuesto(Repuesto repuesto, int id);
         public List<Repuesto> ObtenerRepuestoAsociadosAlArticulo(int id);
         void AgregarArticulo(Articulo articulo);
-        void AgregarARepuestosParaMantenimiento(int idRepuesto,int idMantenimiento);
-        void AgregarMantenimiento(Mantenimiento mantenimiento,int id);
+        void AgregarARepuestosParaMantenimiento(int idRepuesto, int idMantenimiento);
+        void AgregarMantenimiento(Mantenimiento mantenimiento, int id);
         void EditarArticulo(Articulo articulos);
         Articulo ObtenerPorId(int id);
         Mantenimiento ObteneCatalogoDeMantenimeintosPorId(int id);
@@ -30,7 +26,7 @@ namespace GestorDeTaller.BL
         public List<Repuesto> ObtenerCatalogoRepuestos();
         public List<Repuesto> ObtenerRepuestosAsociadosAlMantenimiento(int id);
         public List<Mantenimiento> ObtenerMantenimientoAsociadoAlRepuesto(int id);
-        public List<OrdenDeMantenimiento> ListarOrdenesDeMantenimientoRecibidas();  
+        public List<OrdenDeMantenimiento> ListarOrdenesDeMantenimientoRecibidas();
         public List<OrdenDeMantenimiento> ListarOrdenesDeMantenimentoEnProceso();
         public List<OrdenDeMantenimiento> ListarOrdenesDeMantenimientoTerminadas();
         public void TerminarMantenimiento(int id);

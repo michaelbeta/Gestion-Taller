@@ -5,7 +5,7 @@ using System.Text;
 
 namespace GestorDeTaller.Model
 {
-    class Cliente
+    public class Cliente
     {
         public int Id { get; set; }
         [Required(ErrorMessage = "Este campo es requerido")]

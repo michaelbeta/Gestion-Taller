@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace GestorDeTaller.Model
+﻿namespace GestorDeTaller.Model
 {
-   public class Costos
+    public class Costos
     {
         public string Descripcion { get; set; }
         public double CostoFijo { get; set; }

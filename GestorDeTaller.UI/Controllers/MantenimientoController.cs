@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using GestorDeTaller.BL;
+﻿using GestorDeTaller.BL;
 using GestorDeTaller.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
 
 namespace GestorDeTaller.UI.Controllers
 {
@@ -27,9 +25,9 @@ namespace GestorDeTaller.UI.Controllers
 
             return View(laLista);
         }
-       
 
-      
+
+
         // GET: Mantenimiento/Details/5
         public ActionResult DetallesDeMantenimiento(int id)
         {
@@ -63,7 +61,7 @@ namespace GestorDeTaller.UI.Controllers
                     Repositorio.AgregarMantenimiento(mantenimiento, idArticulo);
 
                     return RedirectToAction("ListarCatalogoDeArticulos", "CatalogoDeArticulos");
-                 
+
 
                 }
                 else
@@ -98,7 +96,7 @@ namespace GestorDeTaller.UI.Controllers
                 if (ModelState.IsValid)
                 {
                     Repositorio.EditarCatalogoDeMantenimiento(Mantenimiento);
-                   
+
                     return RedirectToAction(nameof(ListarMantenimientosAsociados));
                 }
                 else
@@ -112,7 +110,7 @@ namespace GestorDeTaller.UI.Controllers
                 return View(Mantenimiento);
             }
         }
-    
+
 
         // GET: Mantenimiento/Delete/5
         public ActionResult Delete(int id)
