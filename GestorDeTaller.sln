@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30104.148
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GestorDeTaller.UI", "GestorDeTaller.UI\GestorDeTaller.UI.csproj", "{A4CC0BD9-01D1-4174-8FF7-BA9ACBE7F164}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GestorDeTaller.UI", "GestorDeTaller.UI\GestorDeTaller.UI.csproj", "{A4CC0BD9-01D1-4174-8FF7-BA9ACBE7F164}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GestorDeTaller.DA", "GestorDeTaller.DA\GestorDeTaller.DA.csproj", "{019D5A97-34A8-4573-9ED0-B68C2C6D9A47}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GestorDeTaller.DA", "GestorDeTaller.DA\GestorDeTaller.DA.csproj", "{019D5A97-34A8-4573-9ED0-B68C2C6D9A47}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GestorDeTaller.BL", "GestorDeTaller.BL\GestorDeTaller.BL.csproj", "{D67A1F92-4112-44C1-90E7-5E19E9F3A760}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GestorDeTaller.BL", "GestorDeTaller.BL\GestorDeTaller.BL.csproj", "{D67A1F92-4112-44C1-90E7-5E19E9F3A760}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GestorDeTaller.Model", "GestorDeTaller.Model\GestorDeTaller.Model.csproj", "{791905D0-8D31-46B7-A97A-C8D44A4B99F7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GestorDeTaller.Model", "GestorDeTaller.Model\GestorDeTaller.Model.csproj", "{791905D0-8D31-46B7-A97A-C8D44A4B99F7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GestionDeTaller.SI", "GestionDeTaller.SI\GestionDeTaller.SI.csproj", "{0E89F80D-67BB-46FC-94D0-A43FF786A067}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{791905D0-8D31-46B7-A97A-C8D44A4B99F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{791905D0-8D31-46B7-A97A-C8D44A4B99F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{791905D0-8D31-46B7-A97A-C8D44A4B99F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E89F80D-67BB-46FC-94D0-A43FF786A067}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E89F80D-67BB-46FC-94D0-A43FF786A067}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E89F80D-67BB-46FC-94D0-A43FF786A067}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E89F80D-67BB-46FC-94D0-A43FF786A067}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
