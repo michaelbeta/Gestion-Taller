@@ -28,7 +28,7 @@ namespace GestorDeTaller.UI
         {
             services.AddDbContext<ContextoDeBaseDeDatos>(Option => Option.UseSqlServer
           (Configuration.GetConnectionString("DefaultConnection")));
-            services.AddScoped<IRepositorioDeTaller, RepositorioDeTaller>();
+            //services.AddScoped<IRepositorioDeTaller, RepositorioDeTaller>();
             services.AddControllersWithViews();
         }
 

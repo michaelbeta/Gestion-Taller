@@ -1,9 +1,12 @@
 ﻿using GestorDeTaller.BL;
 using GestorDeTaller.Model;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace GestorDeTaller.Controllers
 {
@@ -17,12 +20,26 @@ namespace GestorDeTaller.Controllers
         {
             Repositorio = repositorio;
         }
-        public ActionResult ListarCatalogoDeArticulos()
+        public async Task<IActionResult> ListarCatalogoDeArticulos()
         {
 
             List<Articulo> laLista;
             laLista = Repositorio.ObtenerArticulo();
+            try
+            {
+                var httpClient = new HttpClient();
 
+                var response = await httpClient.GetAsync("https://localhost:5001/api/Taller/");
+
+                string apiResponse = await response.Content.ReadAsStringAsync();
+
+                laLista = JsonConvert.DeserializeObject<List<Articulo>>(apiResponse);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
             return View(laLista);
 
         }
