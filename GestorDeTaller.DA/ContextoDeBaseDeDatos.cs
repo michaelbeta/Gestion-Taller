@@ -2,8 +2,6 @@
 using GestorDeTaller.UI.Models;
 using Microsoft.EntityFrameworkCore;
 
-
-
 namespace GestorDeTaller.DA
 {
     public class ContextoDeBaseDeDatos : DbContext
