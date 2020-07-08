@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GestorDeTaller.BL", "Gestor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GestorDeTaller.Model", "GestorDeTaller.Model\GestorDeTaller.Model.csproj", "{791905D0-8D31-46B7-A97A-C8D44A4B99F7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GestionDeTaller.SI", "GestionDeTaller.SI\GestionDeTaller.SI.csproj", "{0E89F80D-67BB-46FC-94D0-A43FF786A067}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GestionDeTaller.SI", "GestionDeTaller.SI\GestionDeTaller.SI.csproj", "{0E89F80D-67BB-46FC-94D0-A43FF786A067}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

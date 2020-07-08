@@ -29,7 +29,7 @@ namespace GestorDeTaller.Controllers
             {
                 var httpClient = new HttpClient();
 
-                var response = await httpClient.GetAsync("https://localhost:5001/api/Taller/");
+                var response = await httpClient.GetAsync("https://localhost:44343/api/Taller");
 
                 string apiResponse = await response.Content.ReadAsStringAsync();
 

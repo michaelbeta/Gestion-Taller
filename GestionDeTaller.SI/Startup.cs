@@ -50,11 +50,10 @@ namespace GestionDeTaller.SI
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=CatalogoDeArticulos}/{action=ListarCatalogoDeArticulos}/{id?}");
-        });
-        }
 
+                endpoints.MapControllers();
+            });
+        }
     }
 }
+
