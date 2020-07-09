@@ -1,11 +1,13 @@
 ﻿using GestorDeTaller.BL;
 using GestorDeTaller.Model;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 namespace GestorDeTaller.Controllers
@@ -22,14 +24,14 @@ namespace GestorDeTaller.Controllers
         }
         public async Task<IActionResult> ListarCatalogoDeArticulos()
         {
-
+            
             List<Articulo> laLista;
             laLista = Repositorio.ObtenerArticulo();
             try
             {
                 var httpClient = new HttpClient();
 
-                var response = await httpClient.GetAsync("https://localhost:5001/api/Taller/");
+                var response = await httpClient.GetAsync("https://localhost:5001/api/Taller");
 
                 string apiResponse = await response.Content.ReadAsStringAsync();
 
@@ -95,29 +97,37 @@ namespace GestorDeTaller.Controllers
         // POST: CatalogoDeArticulos/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AgregarArticulo(Articulo articulo)
+        public async Task<IActionResult> AgregarArticulo(Articulo articulo)
         {
             try
             {
-
                 if (ModelState.IsValid)
                 {
+                    var httpClient = new HttpClient();
 
-                    Repositorio.AgregarArticulo(articulo);
+                    string json = JsonConvert.SerializeObject(articulo);
 
-                    return RedirectToAction("ListarCatalogoDeArticulos");
+                    var buffer = System.Text.Encoding.UTF8.GetBytes(json);
+
+                    var byteContent = new ByteArrayContent(buffer);
+
+                    byteContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+
+                    await httpClient.PostAsync("https://localhost:5001/api/Taller", byteContent);
+
+                    return RedirectToAction(nameof(ListarCatalogoDeArticulos));
                 }
                 else
                 {
-                    return View(articulo);
+                    return View();
                 }
-
             }
             catch (Exception)
             {
 
                 return View();
             }
+           
         }
 
         // GET: CatalogoDeArticulos/Edit/5
