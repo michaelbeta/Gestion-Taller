@@ -18,20 +18,20 @@ namespace GestorDeTaller.Controllers
 
         private readonly IRepositorioDeTaller Repositorio;
 
-        public CatalogoDeArticulosController(IRepositorioDeTaller repositorio)
+        public CatalogoDeArticulosController()
         {
-            Repositorio = repositorio;
+           
         }
         public async Task<IActionResult> ListarCatalogoDeArticulos()
         {
+
+            List<Articulo> laLista = new List<Articulo>();
             
-            List<Articulo> laLista;
-            laLista = Repositorio.ObtenerArticulo();
             try
             {
                 var httpClient = new HttpClient();
 
-                var response = await httpClient.GetAsync("https://localhost:5001/api/Taller");
+                var response = await httpClient.GetAsync("https://localhost:5001/api/CatalogoDeArticulos");
 
                 string apiResponse = await response.Content.ReadAsStringAsync();
 
@@ -113,7 +113,7 @@ namespace GestorDeTaller.Controllers
 
                     byteContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
 
-                    await httpClient.PostAsync("https://localhost:5001/api/Taller", byteContent);
+                    await httpClient.PostAsync("https://localhost:5001/api/CatalogoDeArticulos", byteContent);
 
                     return RedirectToAction(nameof(ListarCatalogoDeArticulos));
                 }
