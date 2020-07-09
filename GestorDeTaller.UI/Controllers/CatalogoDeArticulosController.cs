@@ -31,7 +31,7 @@ namespace GestorDeTaller.Controllers
             {
                 var httpClient = new HttpClient();
 
-                var response = await httpClient.GetAsync("https://localhost:44343/api/CatalogoDeArticulos");
+                var response = await httpClient.GetAsync("https://localhost:5001/api/CatalogoDeArticulos");
 
                 string apiResponse = await response.Content.ReadAsStringAsync();
 
@@ -64,9 +64,47 @@ namespace GestorDeTaller.Controllers
         }
 
         // GET: CatalogoDeArticulos/Details/5
+       
         public async Task<IActionResult> DetallesDelArticulo(int id)
         {
-            Articulo detalleDeLArticulo;
+            Articulo articulo;
+            List<Repuesto> repuestoasociado = new List<Repuesto>();
+            List<OrdenDeMantenimiento> ordenesDeMantenimientosEnProceso = new List<OrdenDeMantenimiento>();
+            List<OrdenDeMantenimiento> ordenesDeMantenimientosTerminadas = new List<OrdenDeMantenimiento>();
+            try
+            {
+                var httpClient = new HttpClient();
+                var response = await httpClient.GetAsync("https://localhost:5001/api/CatalogoDeArticulos/Detalles_De_Articulo" + id.ToString());
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                articulo = JsonConvert.DeserializeObject<Articulo>(apiResponse);
+                ////////////////////////
+                var httpClientRepuesto = new HttpClient();
+                var responseRepuesto = await httpClientRepuesto.GetAsync("https://localhost:5001/api/CatalogoDeArticulos");
+                string apiResponseRepuesto = await responseRepuesto.Content.ReadAsStringAsync();
+                repuestoasociado = JsonConvert.DeserializeObject<List<Repuesto>>(apiResponseRepuesto);
+                ViewData["Repuesto"] = repuestoasociado;
+                ///////////////////////
+                var httpClientordenesDeMantenimientosEnProceso = new HttpClient();
+                var responseordenesDeMantenimientosEnProceso = await httpClientordenesDeMantenimientosEnProceso.GetAsync("https://localhost:5001/api/CatalogoDeArticulos");
+                string apiResponseordenesDeMantenimientosEnProceso = await responseordenesDeMantenimientosEnProceso.Content.ReadAsStringAsync();
+                ordenesDeMantenimientosEnProceso = JsonConvert.DeserializeObject<List<OrdenDeMantenimiento>>(apiResponseordenesDeMantenimientosEnProceso);
+                int CantidadDeOrdenesEnProceso = ordenesDeMantenimientosEnProceso.Count();
+                ViewBag.OrdenesEnProceso = CantidadDeOrdenesEnProceso;
+                ///////////////////////
+                var httpClientordenesDeMantenimientosTerminadas = new HttpClient();
+                var responseordenesDeMantenimientosTerminadas = await httpClientordenesDeMantenimientosTerminadas.GetAsync("https://localhost:5001/api/CatalogoDeArticulos");
+                string apiResponseordenesDeMantenimientosTerminadas = await responseordenesDeMantenimientosTerminadas.Content.ReadAsStringAsync();
+                ordenesDeMantenimientosTerminadas = JsonConvert.DeserializeObject<List<OrdenDeMantenimiento>>(apiResponseordenesDeMantenimientosTerminadas);
+                int CantidadDeOrdenesTerminadas = ordenesDeMantenimientosTerminadas.Count();
+                ViewBag.OrdenesTerminadas = CantidadDeOrdenesTerminadas;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return View(articulo);
+
+            /*Articulo detalleDeLArticulo;
             detalleDeLArticulo = Repositorio.ObtenerPorId(id);
             List<Repuesto> repuestoasociado;
             repuestoasociado = Repositorio.ObtenerRepuestoAsociadosAlArticulo(id);
@@ -85,7 +123,7 @@ namespace GestorDeTaller.Controllers
 
             ViewBag.OrdenesTerminadas = CantidadDeOrdenesTerminadas;
 
-            return View(detalleDeLArticulo);
+            return View(detalleDeLArticulo);*/
         }
 
         // GET: CatalogoDeArticulos/Create
@@ -113,7 +151,7 @@ namespace GestorDeTaller.Controllers
 
                     byteContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
 
-                    await httpClient.PostAsync("https://localhost:44343/api/CatalogoDeArticulos", byteContent);
+                    await httpClient.PostAsync("https://localhost:5001/api/CatalogoDeArticulos", byteContent);
 
                     return RedirectToAction(nameof(ListarCatalogoDeArticulos));
                 }

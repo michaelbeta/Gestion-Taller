@@ -24,9 +24,9 @@ namespace GestionDeTaller.SI.Controllers
         {
             Repositorio = repositorio;
         }
-        // GET: api/<TallerController>
+        // GET: Lista de articulos
         [HttpGet]
-        public IEnumerable<Articulo> Get()
+        public IEnumerable<Articulo> Lista_De_Articulos()
         {
             List<Articulo> laLista;
             laLista = Repositorio.ObtenerArticulo();
@@ -34,28 +34,23 @@ namespace GestionDeTaller.SI.Controllers
             return laLista;
         }
 
-        // GET api/<TallerController>/5
+        // GET Detalles de articulos
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public IActionResult Detalles_De_Articulo(int id)
         {
+
             Articulo detalleDeLArticulo;
             detalleDeLArticulo = Repositorio.ObtenerPorId(id);
             List<Repuesto> repuestoasociado;
             repuestoasociado = Repositorio.ObtenerRepuestoAsociadosAlArticulo(id);
 
-           // ViewData["Repuesto"] = repuestoasociado;
-
             List<OrdenDeMantenimiento> ordenesDeMantenimientosEnProceso;
             ordenesDeMantenimientosEnProceso = Repositorio.ListarOrdenesDeMantenimientoEnProceso();
-            int CantidadDeOrdenesEnProceso = ordenesDeMantenimientosEnProceso.Count();
-
-           // ViewBag.OrdenesEnProceso = CantidadDeOrdenesEnProceso;
+           
 
             List<OrdenDeMantenimiento> ordenesDeMantenimientosTerminadas;
             ordenesDeMantenimientosTerminadas = Repositorio.ListarOrdenesDeMantenimientoTerminadas();
-            int CantidadDeOrdenesTerminadas = ordenesDeMantenimientosTerminadas.Count();
-
-           // ViewBag.OrdenesTerminadas = CantidadDeOrdenesTerminadas;
+          
 
             if (detalleDeLArticulo==null)
             {
@@ -64,9 +59,9 @@ namespace GestionDeTaller.SI.Controllers
             return Ok(detalleDeLArticulo);
         }
 
-        // POST api/<TallerController>
+        // POST Agregar articulo
         [HttpPost]
-        public IActionResult Post([FromBody] Articulo articulo)
+        public IActionResult AgregarArticulo([FromBody] Articulo articulo)
         {
             try
             {
@@ -74,6 +69,7 @@ namespace GestionDeTaller.SI.Controllers
                 if (ModelState.IsValid)
                 {
 
+                    
                     Repositorio.AgregarArticulo(articulo);
 
                     
