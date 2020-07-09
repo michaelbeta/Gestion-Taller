@@ -51,6 +51,8 @@ namespace GestorDeTaller.Model
         [Display(Name = "Cantidad de días en proceso")]
         public int CantidadDeDiasEnProceso { get; set; }
         [NotMapped]
+
+        [Display(Name = "Cantidad de días en proceso")]
         public int CantidadDeDiasTrabajados { get; set; }
         [NotMapped]
         public int CantidadUtilizadaenlasOrdenesdeMantenimiento { get; set; }
