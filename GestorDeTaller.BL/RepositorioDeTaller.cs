@@ -156,26 +156,22 @@ namespace GestorDeTaller.BL
         {
             int idRepuesto = 0;
 
-            if (ElContextoDeBaseDeDatos.RepuestosParaMantenimiento.Count() == 0)
-            { }
-            else
+
+            Mantenimiento mantenimiento = ElContextoDeBaseDeDatos.mantenimientos.Find(id);
+
+            List<RepuestoParaMantenimiento> listaDeRepuestoParaMantenimiento = ElContextoDeBaseDeDatos.RepuestosParaMantenimiento.ToList();
+
+
+            foreach (var item in listaDeRepuestoParaMantenimiento)
             {
-
-                Mantenimiento mantenimiento = ElContextoDeBaseDeDatos.mantenimientos.Find(id);
-
-                List<RepuestoParaMantenimiento> listaDeRepuestoParaMantenimiento = ElContextoDeBaseDeDatos.RepuestosParaMantenimiento.ToList();
-
-
-                foreach (var item in listaDeRepuestoParaMantenimiento)
+                if (item.Id_Mantenimiento == mantenimiento.Id)
                 {
-                    if (item.Id_Mantenimiento == mantenimiento.Id)
-                    {
 
-                        idRepuesto = item.Id_Repuesto;
-                    }
+                    idRepuesto = item.Id_Repuesto;
                 }
-
             }
+
+
             var resultado = from c in ElContextoDeBaseDeDatos.repuestos
                             where c.Id == idRepuesto
                             select c;
@@ -269,24 +265,14 @@ namespace GestorDeTaller.BL
         public void AgregarARepuestosParaMantenimiento(int idRepuesto, int idMantenimiento)
         {
             List<RepuestoParaMantenimiento> listaDeRepuestoParaMantenimiento = ElContextoDeBaseDeDatos.RepuestosParaMantenimiento.ToList();
-            Boolean contieneRepuesto = false;
 
-            foreach (var item in listaDeRepuestoParaMantenimiento)
-            {
-                if (item.Id_Mantenimiento == idMantenimiento && item.Id_Repuesto == idRepuesto)
-                {
-                    contieneRepuesto = true;
-                }
-            }
-            if (contieneRepuesto == false)
-            {
-                RepuestoParaMantenimiento repuestoParaMantenimiento = new RepuestoParaMantenimiento();
-                repuestoParaMantenimiento.Id_Repuesto = idRepuesto;
-                repuestoParaMantenimiento.Id_Mantenimiento = idMantenimiento;
+            RepuestoParaMantenimiento repuestoParaMantenimiento = new RepuestoParaMantenimiento();
+            repuestoParaMantenimiento.Id_Repuesto = idRepuesto;
+            repuestoParaMantenimiento.Id_Mantenimiento = idMantenimiento;
 
-                ElContextoDeBaseDeDatos.RepuestosParaMantenimiento.Add(repuestoParaMantenimiento);
-                ElContextoDeBaseDeDatos.SaveChanges();
-            }
+            ElContextoDeBaseDeDatos.RepuestosParaMantenimiento.Add(repuestoParaMantenimiento);
+            ElContextoDeBaseDeDatos.SaveChanges();
+
 
         }
 

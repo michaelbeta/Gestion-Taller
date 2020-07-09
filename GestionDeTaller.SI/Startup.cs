@@ -50,10 +50,10 @@ namespace GestionDeTaller.SI
 
             app.UseEndpoints(endpoints =>
             {
-
                 endpoints.MapControllers();
-            });
+                  
+        });
         }
+
     }
 }
-
