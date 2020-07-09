@@ -13,14 +13,14 @@ namespace GestionDeTaller.SI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TallerController : ControllerBase
+    public class CatalogoDeArticulosController : ControllerBase
     {
         private readonly IRepositorioDeTaller Repositorio;
 
         public object ViewBag { get; private set; }
         public object ViewData { get; private set; }
 
-        public TallerController(IRepositorioDeTaller repositorio)
+        public CatalogoDeArticulosController(IRepositorioDeTaller repositorio)
         {
             Repositorio = repositorio;
         }

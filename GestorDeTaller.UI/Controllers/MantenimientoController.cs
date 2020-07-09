@@ -60,7 +60,7 @@ namespace GestorDeTaller.UI.Controllers
                     int idArticulo = int.Parse(TempData["IdArticulo"].ToString());
                     Repositorio.AgregarMantenimiento(mantenimiento, idArticulo);
 
-                    return RedirectToAction("ListarCatalogoDeArticulos", "CatalogoDeArticulos");
+                    return RedirectToAction("ListarMantenimientosAsociados", new { id = idArticulo });
 
 
                 }
@@ -96,8 +96,9 @@ namespace GestorDeTaller.UI.Controllers
                 if (ModelState.IsValid)
                 {
                     Repositorio.EditarCatalogoDeMantenimiento(Mantenimiento);
+                    int idArticulo = int.Parse(TempData["IdArticulo"].ToString());
 
-                    return RedirectToAction(nameof(ListarMantenimientosAsociados));
+                    return RedirectToAction("ListarMantenimientosAsociados", new { id = idArticulo });
                 }
                 else
                 {
