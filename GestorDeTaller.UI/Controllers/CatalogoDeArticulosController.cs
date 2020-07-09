@@ -64,7 +64,7 @@ namespace GestorDeTaller.Controllers
         }
 
         // GET: CatalogoDeArticulos/Details/5
-        public ActionResult DetallesDelArticulo(int id)
+        public async Task<IActionResult> DetallesDelArticulo(int id)
         {
             Articulo detalleDeLArticulo;
             detalleDeLArticulo = Repositorio.ObtenerPorId(id);

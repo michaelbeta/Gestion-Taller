@@ -155,10 +155,11 @@ namespace GestorDeTaller.BL
         public List<Repuesto> ObtenerRepuestosAsociadosAlMantenimiento(int id)
         {
             int idRepuesto = 0;
-
+            var listarRepuestosAsociados = new List<Repuesto>();
 
             Mantenimiento mantenimiento = ElContextoDeBaseDeDatos.mantenimientos.Find(id);
 
+            List<Repuesto> repuestosAMostrar = ElContextoDeBaseDeDatos.repuestos.ToList();
             List<RepuestoParaMantenimiento> listaDeRepuestoParaMantenimiento = ElContextoDeBaseDeDatos.RepuestosParaMantenimiento.ToList();
 
 
@@ -168,16 +169,31 @@ namespace GestorDeTaller.BL
                 {
 
                     idRepuesto = item.Id_Repuesto;
+
+                    foreach (var repuestos in repuestosAMostrar)
+                    {
+                        if (idRepuesto == repuestos.Id)
+                        {
+                            var resultado = from c in ElContextoDeBaseDeDatos.repuestos
+                                            where c.Id == idRepuesto
+                                            select c;
+
+                            foreach (var repuestosAbuscar in resultado)
+                            {
+                                listarRepuestosAsociados.Add(repuestosAbuscar);
+                            }
+
+                        }
+
+                    }
+
+
                 }
             }
 
 
-            var resultado = from c in ElContextoDeBaseDeDatos.repuestos
-                            where c.Id == idRepuesto
-                            select c;
 
-
-            return resultado.ToList();
+            return listarRepuestosAsociados.ToList();
         }
 
 
