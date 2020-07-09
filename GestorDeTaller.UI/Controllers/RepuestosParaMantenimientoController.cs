@@ -39,11 +39,11 @@ namespace GestorDeTaller.UI.Controllers
         [HttpPost]
         public ActionResult Asociar_Repuesto(String repuesto)
         {
-            int idRepuesto =Int32.Parse(repuesto);
-            int idMantenimiento= int.Parse(TempData["IdMantenimiento"].ToString());
+            int idRepuesto = Int32.Parse(repuesto);
+            int idMantenimiento = int.Parse(TempData["IdMantenimiento"].ToString());
             Repositorio.AgregarARepuestosParaMantenimiento(idRepuesto, idMantenimiento);
-           
-            return RedirectToAction(nameof(Asociar_Repuesto));
+
+            return RedirectToAction("ListarRepuestosAsociadosAMantenimiento", "Repuestos", new { id = idMantenimiento });
         }
 
        
