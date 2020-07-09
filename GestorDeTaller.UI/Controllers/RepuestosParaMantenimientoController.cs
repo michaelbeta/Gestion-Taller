@@ -59,8 +59,9 @@ namespace GestorDeTaller.UI.Controllers
         public ActionResult DesasociarRepuesto(int id)
         {
             Repositorio.DesasociarRepuesto(id);
+            int idMantenimiento = int.Parse(TempData["IdMantenimiento"].ToString());
 
-            return RedirectToAction("ListarCatalogoDeArticulos", "CatalogoDeArticulos");
+            return RedirectToAction("ListarRepuestosAsociadosAMantenimiento", "Repuestos", new { id = idMantenimiento });
         }
 
  
