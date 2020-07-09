@@ -31,7 +31,7 @@ namespace GestorDeTaller.Controllers
             {
                 var httpClient = new HttpClient();
 
-                var response = await httpClient.GetAsync("https://localhost:5001/api/CatalogoDeArticulos");
+                var response = await httpClient.GetAsync("https://localhost:44343/api/CatalogoDeArticulos");
 
                 string apiResponse = await response.Content.ReadAsStringAsync();
 
@@ -113,7 +113,7 @@ namespace GestorDeTaller.Controllers
 
                     byteContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
 
-                    await httpClient.PostAsync("https://localhost:5001/api/CatalogoDeArticulos", byteContent);
+                    await httpClient.PostAsync("https://localhost:44343/api/CatalogoDeArticulos", byteContent);
 
                     return RedirectToAction(nameof(ListarCatalogoDeArticulos));
                 }
@@ -139,7 +139,7 @@ namespace GestorDeTaller.Controllers
             return View(ListarArticuloAEditar);
         }
 
-        // POST: CatalogoDeArticulos/Edit/5
+        // POST: CatalogoDeArticulos/Edit/5 //
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult EditarCatalogoDeArticulos(Articulo articulo)
