@@ -1,17 +1,16 @@
 ﻿@using (Html.BeginForm())
 {
 <h1>Lista de Mantenimiento</h1>
-   <br>
-  <br>
-
+    <br>
+    <br>
 
   <label for="Name">Seleccione un Mantenimiento</label>
 
-  @Html.DropDownList("Mantenimiento", new SelectList(ViewBag.laLista, "Id", "DescripCosto", null))
+   @Html.DropDownList("Mantenimiento", new SelectList(ViewBag.laLista, "Id", "DescripCosto", null))
 
-   <input type="submit" name="Elegir" value="Elegir" />
-<br>
-     <br>
+    <input type="submit" name="Elegir" value="Elegir" />
+       <br>
+        <br>
 
                                                                                                                                 <div>
 

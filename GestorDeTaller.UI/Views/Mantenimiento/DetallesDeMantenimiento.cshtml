@@ -23,13 +23,13 @@
     @foreach (var std in ViewData["Repuesto"] as IList<GestorDeTaller.Model.Repuesto>)
     {
 <h4>Resumen de uso</h4>
-  <br>
- <b> <label for="Name">Cantidad utilizada en las órdenes de mantenimiento</label> </b>
-     <br> <br>
-    <h4>Repuestos asociados</h4>
-     <br>
-      <b> <label for="Name">Nombre</label> </b> @std.Nombre
-    <br>
+                <br>
+                                <b> <label for="Name">Cantidad utilizada en las órdenes de mantenimiento</label> </b>
+                                                <br> <br>
+                                                                <h4>Repuestos asociados</h4>
+                                                                                <br>
+                                                                                                <b> <label for="Name">Nombre</label> </b> @std.Nombre
+                                                                                                                <br>
                                                                                                                                 <b><label for="Name">Precio</label> </b> @std.Precio
                                                                                                                                                 <br>
                                                                                                                                                                 <br>}

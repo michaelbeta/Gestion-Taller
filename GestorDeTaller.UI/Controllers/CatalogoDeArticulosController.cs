@@ -20,13 +20,13 @@ namespace GestorDeTaller.Controllers
 
         public CatalogoDeArticulosController()
         {
-           
+
         }
         public async Task<IActionResult> ListarCatalogoDeArticulos()
         {
 
             List<Articulo> laLista = new List<Articulo>();
-            
+
             try
             {
                 var httpClient = new HttpClient();
@@ -64,7 +64,7 @@ namespace GestorDeTaller.Controllers
         }
 
         // GET: CatalogoDeArticulos/Details/5
-       
+
         public async Task<IActionResult> DetallesDelArticulo(int id)
         {
             Articulo articulo;
@@ -165,7 +165,7 @@ namespace GestorDeTaller.Controllers
 
                 return View();
             }
-           
+
         }
 
         // GET: CatalogoDeArticulos/Edit/5

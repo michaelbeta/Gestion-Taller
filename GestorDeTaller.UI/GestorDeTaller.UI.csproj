@@ -2,21 +2,22 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>aspnet-GestorDeTaller.UI-453CD63E-0A7D-4780-9F46-FDD2F903B6E1</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Controllers\NewFile.txt" />
-    <None Remove="Controllers\NewFile1.txt" />
-    <None Remove="Controllers\NewFile2.txt" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.5" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.3" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\GestorDeTaller.BL\GestorDeTaller.BL.csproj" />
+    <ProjectReference Include="..\GestorDeTaller.Model\GestorDeTaller.Model.csproj" />
   </ItemGroup>
 
 </Project>
