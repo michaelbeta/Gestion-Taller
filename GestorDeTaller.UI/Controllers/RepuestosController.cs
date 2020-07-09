@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using GestorDeTaller.BL;
+﻿using GestorDeTaller.BL;
 using GestorDeTaller.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Razor.Language;
+using System;
+using System.Collections.Generic;
+using System.Runtime.InteropServices.ComTypes;
 
 namespace GestorDeTaller.UI.Controllers
 {
@@ -18,12 +18,13 @@ namespace GestorDeTaller.UI.Controllers
         {
             Repositorio = repositorio;
         }
-        
+
         public ActionResult ListarRepuestosAsociados(int id)
         {
             List<Repuesto> repuestoasociado;
+            TempData["IdArticulo"] = id;
             repuestoasociado = Repositorio.ObtenerRepuestoAsociadosAlArticulo(id);
-            TempData["IdArticulo"]=id;
+
 
             return View(repuestoasociado);
         }
@@ -39,7 +40,7 @@ namespace GestorDeTaller.UI.Controllers
         // GET: Repuestos/Details/5
         public ActionResult DetalleDeRepuesto(int id)
         {
-           
+
             Repuesto repuesto;
             repuesto = Repositorio.ObtenerRepuestoAdesasociar(id);
 
@@ -77,7 +78,7 @@ namespace GestorDeTaller.UI.Controllers
             return View();
         }
 
-        // POST: Repuestos/Create
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult AgregarRepuesto(Repuesto repuesto)
@@ -87,10 +88,11 @@ namespace GestorDeTaller.UI.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    int idArticulo=int.Parse(TempData["IdArticulo"].ToString());
-                    Repositorio.AgregarRepuesto(repuesto,idArticulo);
+                    int idArticulo = int.Parse(TempData["IdArticulo"].ToString());
+                    Repositorio.AgregarRepuesto(repuesto, idArticulo);
 
-                    return RedirectToAction("ListarCatalogoDeArticulos", "CatalogoDeArticulos");
+
+                    return RedirectToAction("ListarRepuestosAsociados", new { id = idArticulo });
 
                 }
                 else
@@ -107,31 +109,31 @@ namespace GestorDeTaller.UI.Controllers
         }
 
         // GET: Repuestos/Edit/5
-       
+
         public ActionResult EditarRepuesto(int id)
         {
             Repuesto editarRepuesto;
             editarRepuesto = Repositorio.ObtenerRepuestoPorId(id);
 
-           
+
 
             return View(editarRepuesto);
         }
 
-        
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult EditarRepuesto(Repuesto repuesto)
         {
-          
+
             try
             {
                 if (ModelState.IsValid)
                 {
                     Repositorio.EditarRepuesto(repuesto);
+                    int idArticulo = int.Parse(TempData["IdArticulo"].ToString());
 
-                  
-                    return RedirectToAction("ListarRepuestosAsociados");
+                    return RedirectToAction("ListarRepuestosAsociados", new { id = idArticulo });
                 }
                 else
                 {
