@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using GestorDeTaller.BL;
 using GestorDeTaller.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace GestorDeTaller.UI.Controllers
 {
@@ -13,15 +15,28 @@ namespace GestorDeTaller.UI.Controllers
     {
         private readonly IRepositorioDeTaller Repositorio;
 
-        public OrdenesDeMantenimientoTerminadaController(IRepositorioDeTaller repositorio)
+        public OrdenesDeMantenimientoTerminadaController()
         {
-            Repositorio = repositorio;
+           
         }
-        public ActionResult ListarOrdenesDeMantenimientoTerminadas()
+        public async Task<IActionResult> ListarOrdenesDeMantenimientoTerminadas()
         {
-            List<OrdenDeMantenimiento> laLista;
-            laLista = Repositorio.ListarOrdenesDeMantenimientoTerminadas();
+            List<OrdenDeMantenimiento> laLista = new List<OrdenDeMantenimiento>();
+            try
+            {
+                var httpClient = new HttpClient();
 
+                var response = await httpClient.GetAsync("https://localhost:44343/api/OrdenesDeMantenimientoTerminadas");
+
+                string apiResponse = await response.Content.ReadAsStringAsync();
+
+                laLista = JsonConvert.DeserializeObject<List<OrdenDeMantenimiento>>(apiResponse);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
             return View(laLista);
         }
 

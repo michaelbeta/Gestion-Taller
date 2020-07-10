@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\GestionDeTaller.SI\GestionDeTaller.SI.csproj" />
     <ProjectReference Include="..\GestorDeTaller.BL\GestorDeTaller.BL.csproj" />
   </ItemGroup>
 

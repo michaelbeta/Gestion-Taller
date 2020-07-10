@@ -17,8 +17,10 @@ namespace GestionDeTaller.SI.Controllers
     {
         private readonly IRepositorioDeTaller Repositorio;
 
-        public object ViewBag { get; private set; }
-        public object ViewData { get; private set; }
+        //public object ViewBag { get; private set; }
+        //public object ViewData { get; private set; }
+        public dynamic ViewBag { get; }
+        public dynamic ViewData { get; }
 
         public CatalogoDeArticulosController(IRepositorioDeTaller repositorio)
         {
@@ -43,19 +45,19 @@ namespace GestionDeTaller.SI.Controllers
             List<Repuesto> repuestoasociado;
             repuestoasociado = Repositorio.ObtenerRepuestoAsociadosAlArticulo(id);
 
-           // ViewData["Repuesto"] = repuestoasociado;
+            ViewData["Repuesto"] = repuestoasociado;
 
             List<OrdenDeMantenimiento> ordenesDeMantenimientosEnProceso;
             ordenesDeMantenimientosEnProceso = Repositorio.ListarOrdenesDeMantenimientoEnProceso();
             int CantidadDeOrdenesEnProceso = ordenesDeMantenimientosEnProceso.Count();
 
-           // ViewBag.OrdenesEnProceso = CantidadDeOrdenesEnProceso;
+            ViewBag.OrdenesEnProceso = CantidadDeOrdenesEnProceso;
 
             List<OrdenDeMantenimiento> ordenesDeMantenimientosTerminadas;
             ordenesDeMantenimientosTerminadas = Repositorio.ListarOrdenesDeMantenimientoTerminadas();
             int CantidadDeOrdenesTerminadas = ordenesDeMantenimientosTerminadas.Count();
 
-           // ViewBag.OrdenesTerminadas = CantidadDeOrdenesTerminadas;
+            ViewBag.OrdenesTerminadas = CantidadDeOrdenesTerminadas;
 
             if (detalleDeLArticulo==null)
             {
