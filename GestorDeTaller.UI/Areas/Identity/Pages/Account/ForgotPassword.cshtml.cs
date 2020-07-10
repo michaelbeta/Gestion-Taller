@@ -30,8 +30,9 @@ namespace GestorDeTaller.UI.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
+            [Required (ErrorMessage ="El correo es requrido")]
             [EmailAddress]
+            [Display(Name ="Correo")]
             public string Email { get; set; }
         }
 
@@ -59,7 +60,7 @@ namespace GestorDeTaller.UI.Areas.Identity.Pages.Account
                 await _emailSender.SendEmailAsync(
                     Input.Email,
                     "Reset Password",
-                    $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    $"Por favor restablezca su contraseña por <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>click aquí</a>.");
 
                 return RedirectToPage("./ForgotPasswordConfirmation");
             }

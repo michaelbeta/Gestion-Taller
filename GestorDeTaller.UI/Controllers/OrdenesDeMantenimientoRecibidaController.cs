@@ -2,8 +2,11 @@
 using GestorDeTaller.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace GestorDeTaller.UI.Controllers
 {
@@ -11,16 +14,29 @@ namespace GestorDeTaller.UI.Controllers
     {
         private readonly IRepositorioDeTaller Repositorio;
 
-        public OrdenesDeMantenimientoRecibidaController(IRepositorioDeTaller repositorio)
+        public OrdenesDeMantenimientoRecibidaController()
         {
-            Repositorio = repositorio;
+           
         }
         // GET: OrdenesDeMantenimientoRecibidatroller
-        public ActionResult ListarOrdenesDeMantenimientoRecibidas()
+        public async Task<IActionResult> ListarOrdenesDeMantenimientoRecibidas()
         {
-            List<OrdenDeMantenimiento> laLista;
-            laLista = Repositorio.ListarOrdenesDeMantenimientoRecibidas();
+            List<OrdenDeMantenimiento> laLista = new List<OrdenDeMantenimiento>();
+            try
+            {
+                var httpClient = new HttpClient();
 
+                var response = await httpClient.GetAsync("https://localhost:44343/api/OrdenesDeMantenimientoRecibida");
+
+                string apiResponse = await response.Content.ReadAsStringAsync();
+
+                laLista = JsonConvert.DeserializeObject<List<OrdenDeMantenimiento>>(apiResponse);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
             return View(laLista);
         }
 
@@ -41,14 +57,15 @@ namespace GestorDeTaller.UI.Controllers
 
             return View(DetallesDelAOrden);
         }
-        public ActionResult AgregarOrdenDeMantenimientoRecibidas()
+       
+       
+        public ActionResult ListarMantenimientosDisponiblesParaArticulo(int id)
         {
-            List<Articulo> laLista;
-            laLista = Repositorio.ObtenerArticulo();
-            ViewBag.laLista = laLista;
+            List<Mantenimiento> laLista;
+            laLista = Repositorio.ObtenerCatalogoDeMantenimeintos(id);
+            TempData["IdArticulo"] = id;
 
-            return View();
-
+            return View(laLista);
         }
         public ActionResult AgregarMantenimientoAOrdenRecibidas(Mantenimiento idMantenimiento)
         {
@@ -63,130 +80,142 @@ namespace GestorDeTaller.UI.Controllers
 
 
         }
-        public ActionResult ListarMantenimientosDisponiblesParaArticulo(int id)
+       
+        public async Task<IActionResult> AgregarOrdenDeMantenimientoRecibidas()
         {
-            List<Mantenimiento> laLista;
-            laLista = Repositorio.ObtenerCatalogoDeMantenimeintos(id);
-            TempData["IdArticulo"] = id;
-
-            return View(laLista);
-        }
-
-        // POST: OrdenesDeMantenimientoRecibidatroller/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult AgregarOrdenDeMantenimientoRecibidas(string Articulo, OrdenDeMantenimiento ordenDeMantenimiento)
-        {
-
-            int idArticulo = int.Parse(Articulo);
+            
+            List<Articulo> laLista = new List<Articulo>();
 
             try
             {
+                var httpClient = new HttpClient();
 
-                if (ModelState.IsValid)
-                {
+                var response = await httpClient.GetAsync("https://localhost:44343/api/CatalogoDeArticulos");
 
-                    Repositorio.AgregarOrdenDeMantenimientoRecibida(idArticulo, ordenDeMantenimiento);
+                string apiResponse = await response.Content.ReadAsStringAsync();
 
-                    return RedirectToAction(nameof(ListarOrdenesDeMantenimientoRecibidas));
-
-
-                }
-                else
-                {
-                    return View(ordenDeMantenimiento);
-                }
-
+                laLista = JsonConvert.DeserializeObject<List<Articulo>>(apiResponse);
             }
             catch (Exception)
             {
 
-                return View();
+                throw;
             }
-        }
-        // GET: OrdenesDeMantenimientoRecibidatroller/Create
-        public ActionResult Create()
-        {
+            ViewBag.laLista = laLista;
             return View();
+
+           
+
         }
 
-        // POST: OrdenesDeMantenimientoRecibidatroller/Create
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<IActionResult> AgregarOrdenDeMantenimientoRecibidas(string Articulo, OrdenDeMantenimiento ordenDeMantenimiento)
         {
+            int idArticulo = int.Parse(Articulo);
+            ordenDeMantenimiento.Id_Articulo = idArticulo;
             try
             {
-                // TODO: Add insert logic here
+                if (ModelState.IsValid)
+                {
+                    var httpClient = new HttpClient();
 
-                return RedirectToAction(nameof(Index));
+                    string json = JsonConvert.SerializeObject(ordenDeMantenimiento);
+
+                    var buffer = System.Text.Encoding.UTF8.GetBytes(json);
+
+                    var byteContent = new ByteArrayContent(buffer);
+
+                    byteContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+
+                    await httpClient.PostAsync("https://localhost:44343/api/OrdenesDeMantenimientoRecibida", byteContent);
+
+                    return RedirectToAction(nameof(ListarOrdenesDeMantenimientoRecibidas));
+                }
+                else
+                {
+                    return View();
+                }
             }
-            catch
+            catch (Exception)
             {
+
                 return View();
             }
         }
 
         // GET: OrdenesDeMantenimientoRecibidatroller/Edit/5
-        public ActionResult EditarOrden(int id)
+        public async Task<ActionResult> EditarOrden(int id)
         {
-            OrdenDeMantenimiento ListarOrdenDeMantenimientoAeditar;
-            ListarOrdenDeMantenimientoAeditar = Repositorio.ObtenerOrdenDeMantenimientoPorId(id);
-
-            return View(ListarOrdenDeMantenimientoAeditar);
+            OrdenDeMantenimiento ordenDeMantenimiento;
+            try
+            {
+                var httpClient = new HttpClient();
+                var response = await httpClient.GetAsync("https://localhost:44343/api/OrdenesDeMantenimientoRecibida/" + id.ToString());
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                ordenDeMantenimiento = JsonConvert.DeserializeObject<OrdenDeMantenimiento>(apiResponse);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            return View(ordenDeMantenimiento);
         }
 
         // POST: OrdenesDeMantenimientoRecibidatroller/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditarOrden(OrdenDeMantenimiento ordenDeMantenimiento)
+        public async Task<ActionResult> EditarOrden(OrdenDeMantenimiento ordenDeMantenimiento)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    Repositorio.EditaOrdenDeMantenimientoRecibida(ordenDeMantenimiento);
+                    var httpClient = new HttpClient();
+
+                    string json = JsonConvert.SerializeObject(ordenDeMantenimiento);
+
+                    var buffer = System.Text.Encoding.UTF8.GetBytes(json);
+
+                    var byteContent = new ByteArrayContent(buffer);
+
+                    byteContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+
+                    await httpClient.PutAsync("https://localhost:44343/api/OrdenesDeMantenimientoRecibida", byteContent);
 
                     return RedirectToAction(nameof(ListarOrdenesDeMantenimientoRecibidas));
                 }
                 else
                 {
-                    return View(ordenDeMantenimiento);
+                    return View();
                 }
             }
             catch (Exception)
             {
 
-                return View(ordenDeMantenimiento);
-            }
-        }
-        public ActionResult IniciarOrdenMantenimiento(int id)
-        {
-            Repositorio.IniciarOrdenDerMantenimiento(id);
-
-            return RedirectToAction(nameof(ListarOrdenesDeMantenimientoRecibidas));
-        }
-        // GET: OrdenesDeMantenimientoRecibidatroller/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: OrdenesDeMantenimientoRecibidatroller/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
                 return View();
             }
         }
+        public async Task<ActionResult> IniciarOrdenMantenimiento(int id)
+        {
+            try
+            {
+                var httpClient = new HttpClient();
+                var response = await httpClient.GetAsync("https://localhost:44343/api/OrdenesDeMantenimientoRecibida/IniciarOrden/" + id.ToString());
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            
+            //Repositorio.IniciarOrdenDerMantenimiento(id);
+
+            return RedirectToAction(nameof(ListarOrdenesDeMantenimientoRecibidas));
+        }
+       
+       
     }
 }

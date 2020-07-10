@@ -29,7 +29,7 @@ namespace GestorDeTaller.Model
 
 
         [Required(ErrorMessage = "Este campo es requerido")]
-        [RegularExpression("(^[0-9]+$)", ErrorMessage = "Solo se permiten números ")]
+       // [RegularExpression("^[0-9]([.,][0-9])?$", ErrorMessage = "Solo se permiten números ")]
         [Range(0, 999999999, ErrorMessage = "El Costo Fijo debe ser mayor o igual a 0 y menor 999999999 ")]
         [Display(Name = "Monto de adelanto")]
         public Decimal MontoDeAdelanto { get; set; }
