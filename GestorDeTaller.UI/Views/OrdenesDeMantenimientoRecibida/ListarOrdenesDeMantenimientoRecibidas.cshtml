@@ -3,7 +3,12 @@
 @{
     ViewData["Title"] = "ListarOrdenesDeMantenimientoRecibidas";
 }
-
+@{
+    Layout = "~/Views/Restringido/_Layout2.cshtml";
+}
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml"; //Esta sería la plantilla original del sitio web.
+}
 <h1>Ordenes de mantenimiento Recibidas</h1>
 
 <p>
@@ -15,7 +20,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.NombreDelCliente)
             </th>
-         
+
             <th>
                 @Html.DisplayNameFor(model => model.FechaDeIngreso)
             </th>
@@ -24,24 +29,25 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-        
-            <td>
-                @Html.DisplayFor(modelItem => item.NombreDelCliente)
-            </td>
-        
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaDeIngreso)
-            </td>
-           
-            <td>
-                <a asp-action="ListarMantenimientosDisponiblesParaArticulo" asp-route-id=@item.Id class="btn btn-success">Agregar mantenimiento a la orden</a>
-                <a asp-action="EditarOrden" asp-route-id="@item.Id" class="btn btn-success">Editar</a>
-                <a asp-action="DetallesDeOrdenRecibida" asp-route-id="@item.Id" class="btn btn-success">Detalles</a>
-                <a asp-action="IniciarOrdenMantenimiento" asp-route-id="@item.Id" class="btn btn-success">Iniciar</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.NombreDelCliente)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.FechaDeIngreso)
+                </td>
+
+                <td>
+                    <a asp-action="ListarMantenimientosDisponiblesParaArticulo" asp-route-id=@item.Id class="btn btn-success">Agregar mantenimiento a la orden</a>
+                    <a asp-action="EditarOrden" asp-route-id="@item.Id" class="btn btn-success">Editar</a>
+                    <a asp-action="DetallesDeOrdenRecibida" asp-route-id="@item.Id" class="btn btn-success">Detalles</a>
+                    <a asp-action="IniciarOrdenMantenimiento" asp-route-id="@item.Id" class="btn btn-success">Iniciar</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

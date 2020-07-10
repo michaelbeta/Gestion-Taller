@@ -22,8 +22,8 @@ namespace GestorDeTaller.UI.Controllers
         {
             Repositorio = repositorio;
         }
-       
-      
+
+
         public ActionResult Asociar_Repuesto(int id)
         {
 
@@ -33,9 +33,9 @@ namespace GestorDeTaller.UI.Controllers
             ViewBag.laLista = laLista;
 
             return View();
-           
+
         }
-       
+
         [HttpPost]
         public ActionResult Asociar_Repuesto(String repuesto)
         {
@@ -46,7 +46,7 @@ namespace GestorDeTaller.UI.Controllers
             return RedirectToAction("ListarRepuestosAsociadosAMantenimiento", "Repuestos", new { id = idMantenimiento });
         }
 
-       
+
         public ActionResult ConfirmarRepuestoAdesasociar(int id)
         {
             Repuesto repuestoAdesasociar;
@@ -54,16 +54,17 @@ namespace GestorDeTaller.UI.Controllers
 
             return View(repuestoAdesasociar);
         }
-      
-       
+
+
         public ActionResult DesasociarRepuesto(int id)
         {
             Repositorio.DesasociarRepuesto(id);
+            int idMantenimiento = int.Parse(TempData["IdMantenimiento"].ToString());
 
-            return RedirectToAction("ListarCatalogoDeArticulos", "CatalogoDeArticulos");
+            return RedirectToAction("ListarRepuestosAsociadosAMantenimiento", "Repuestos", new { id = idMantenimiento });
         }
 
- 
-       
+
+
     }
 }

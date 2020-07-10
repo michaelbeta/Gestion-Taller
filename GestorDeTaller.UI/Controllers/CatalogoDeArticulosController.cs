@@ -20,13 +20,13 @@ namespace GestorDeTaller.Controllers
 
         public CatalogoDeArticulosController()
         {
-           
+
         }
         public async Task<IActionResult> ListarCatalogoDeArticulos()
         {
 
             List<Articulo> laLista = new List<Articulo>();
-            
+
             try
             {
                 var httpClient = new HttpClient();
@@ -64,9 +64,47 @@ namespace GestorDeTaller.Controllers
         }
 
         // GET: CatalogoDeArticulos/Details/5
-        public ActionResult DetallesDelArticulo(int id)
+
+        public async Task<IActionResult> DetallesDelArticulo(int id)
         {
-            Articulo detalleDeLArticulo;
+            Articulo articulo;
+            List<Repuesto> repuestoasociado = new List<Repuesto>();
+            List<OrdenDeMantenimiento> ordenesDeMantenimientosEnProceso = new List<OrdenDeMantenimiento>();
+            List<OrdenDeMantenimiento> ordenesDeMantenimientosTerminadas = new List<OrdenDeMantenimiento>();
+            try
+            {
+                var httpClient = new HttpClient();
+                var response = await httpClient.GetAsync("https://localhost:44343/api/CatalogoDeArticulos/Detalles_De_Articulo" + id.ToString());
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                articulo = JsonConvert.DeserializeObject<Articulo>(apiResponse);
+                ////////////////////////
+                var httpClientRepuesto = new HttpClient();
+                var responseRepuesto = await httpClientRepuesto.GetAsync("https://localhost:44343/api/CatalogoDeArticulos");
+                string apiResponseRepuesto = await responseRepuesto.Content.ReadAsStringAsync();
+                repuestoasociado = JsonConvert.DeserializeObject<List<Repuesto>>(apiResponseRepuesto);
+                ViewData["Repuesto"] = repuestoasociado;
+                ///////////////////////
+                var httpClientordenesDeMantenimientosEnProceso = new HttpClient();
+                var responseordenesDeMantenimientosEnProceso = await httpClientordenesDeMantenimientosEnProceso.GetAsync("https://localhost:5001/api/CatalogoDeArticulos");
+                string apiResponseordenesDeMantenimientosEnProceso = await responseordenesDeMantenimientosEnProceso.Content.ReadAsStringAsync();
+                ordenesDeMantenimientosEnProceso = JsonConvert.DeserializeObject<List<OrdenDeMantenimiento>>(apiResponseordenesDeMantenimientosEnProceso);
+                int CantidadDeOrdenesEnProceso = ordenesDeMantenimientosEnProceso.Count();
+                ViewBag.OrdenesEnProceso = CantidadDeOrdenesEnProceso;
+                ///////////////////////
+                var httpClientordenesDeMantenimientosTerminadas = new HttpClient();
+                var responseordenesDeMantenimientosTerminadas = await httpClientordenesDeMantenimientosTerminadas.GetAsync("https://localhost:5001/api/CatalogoDeArticulos");
+                string apiResponseordenesDeMantenimientosTerminadas = await responseordenesDeMantenimientosTerminadas.Content.ReadAsStringAsync();
+                ordenesDeMantenimientosTerminadas = JsonConvert.DeserializeObject<List<OrdenDeMantenimiento>>(apiResponseordenesDeMantenimientosTerminadas);
+                int CantidadDeOrdenesTerminadas = ordenesDeMantenimientosTerminadas.Count();
+                ViewBag.OrdenesTerminadas = CantidadDeOrdenesTerminadas;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return View(articulo);
+
+            /*Articulo detalleDeLArticulo;
             detalleDeLArticulo = Repositorio.ObtenerPorId(id);
             List<Repuesto> repuestoasociado;
             repuestoasociado = Repositorio.ObtenerRepuestoAsociadosAlArticulo(id);
@@ -85,7 +123,7 @@ namespace GestorDeTaller.Controllers
 
             ViewBag.OrdenesTerminadas = CantidadDeOrdenesTerminadas;
 
-            return View(detalleDeLArticulo);
+            return View(detalleDeLArticulo);*/
         }
 
         // GET: CatalogoDeArticulos/Create
@@ -127,9 +165,9 @@ namespace GestorDeTaller.Controllers
 
                 return View();
             }
-           
-        }
 
+        }
+        
         // GET: CatalogoDeArticulos/Edit/5
         public ActionResult EditarCatalogoDeArticulos(int id)
         {
@@ -139,7 +177,7 @@ namespace GestorDeTaller.Controllers
             return View(ListarArticuloAEditar);
         }
 
-        // POST: CatalogoDeArticulos/Edit/5
+        // POST: CatalogoDeArticulos/Edit/5 //
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult EditarCatalogoDeArticulos(Articulo articulo)

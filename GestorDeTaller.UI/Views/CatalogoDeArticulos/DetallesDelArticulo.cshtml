@@ -3,7 +3,12 @@
 @{
     ViewData["Title"] = "DetallesDelArticulo";
 }
-
+@{
+    Layout = "~/Views/Restringido/_Layout2.cshtml";
+}
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml"; //Esta sería la plantilla original del sitio web.
+}
 <h1>Detalles del articulo</h1>
 
 <div>
@@ -42,7 +47,7 @@
     <b><label for="Name">Precio</label> </b> @std.Precio
     <br>
     <br>
-    
+
 }
 <div class="card bg-light mb-3" style="max-width: 20rem;">
     <div class="card-header">Cantidad de órdenes</div>

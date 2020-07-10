@@ -1,17 +1,23 @@
-﻿@using (Html.BeginForm())
+﻿@{
+    Layout = "~/Views/Restringido/_Layout2.cshtml";
+}
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml"; //Esta sería la plantilla original del sitio web.
+}
+@using (Html.BeginForm())
 {
+
 <h1>Lista de Mantenimiento</h1>
    <br>
-  <br>
+   <br>
 
+    <label for="Name">Seleccione un Mantenimiento</label>
 
-  <label for="Name">Seleccione un Mantenimiento</label>
+     @Html.DropDownList("Mantenimiento", new SelectList(ViewBag.laLista, "Id", "DescripCosto", null))
 
-  @Html.DropDownList("Mantenimiento", new SelectList(ViewBag.laLista, "Id", "DescripCosto", null))
-
-   <input type="submit" name="Elegir" value="Elegir" />
-<br>
-     <br>
+      <input type="submit" name="Elegir" value="Elegir" />
+         <br>
+          <br>
 
                                                                                                                                 <div>
 

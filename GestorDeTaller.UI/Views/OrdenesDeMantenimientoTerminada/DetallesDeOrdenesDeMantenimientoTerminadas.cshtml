@@ -1,7 +1,12 @@
 ﻿@model GestorDeTaller.Model.OrdenDeMantenimiento
 
 @{ ViewData["Title"] = "DetallesDeOrdenesDeMantenimientoTerminadas"; }
-
+@{
+    Layout = "~/Views/Restringido/_Layout2.cshtml";
+}
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml"; //Esta sería la plantilla original del sitio web.
+}
 <h1>Detalles de la orden terminada</h1>
 
 <div>
@@ -49,14 +54,14 @@
 
 
     </dl>
-    <h4>Articulo</h4>
+    <h4>Artículo</h4>
     <br>
 
     @foreach (var std in ViewData["Articulo"] as IList<GestorDeTaller.Model.Articulo>)
     {
 
-<b> <label for="Name">Nombre</label> </b> @std.Nombre <br>
-                <b><label for="Name">Marca</label> </b> @std.Marca <br>}
+        <b> <label for="Name">Nombre</label> </b> @std.Nombre <br>
+        <b><label for="Name">Marca</label> </b> @std.Marca <br>}
     <br>
     <h4>Mantenimiento</h4>
     <br>
@@ -64,9 +69,11 @@
     {
 
 
-<b> <label for="Name">Descripcion</label></b>@std.Descripcion <br>
-                <b><label for="Name">Costo fijo</label> </b>@std.CostoFijo <br>
-                                <b><label for="Name">Costo de repuesto</label> </b>@std.CostoDeRepuestos <br>}
+        <b> <label for="Name">Descripción</label></b>@std.Descripcion <br>
+        <b><label for="Name">Costo fijo</label> </b>@std.CostoFijo <br>
+        <b>
+            <label for="Name">Costo de repuestos</label>
+        </b>@std.CostoDeRepuestos <br>}
 
     <br>
 </div>
