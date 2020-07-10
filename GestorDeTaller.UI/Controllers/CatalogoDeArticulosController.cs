@@ -31,7 +31,7 @@ namespace GestorDeTaller.Controllers
             {
                 var httpClient = new HttpClient();
 
-                var response = await httpClient.GetAsync("https://localhost:5001/api/CatalogoDeArticulos");
+                var response = await httpClient.GetAsync("https://localhost:44343/api/CatalogoDeArticulos");
 
                 string apiResponse = await response.Content.ReadAsStringAsync();
 
@@ -74,12 +74,12 @@ namespace GestorDeTaller.Controllers
             try
             {
                 var httpClient = new HttpClient();
-                var response = await httpClient.GetAsync("https://localhost:5001/api/CatalogoDeArticulos/Detalles_De_Articulo" + id.ToString());
+                var response = await httpClient.GetAsync("https://localhost:44343/api/CatalogoDeArticulos/Detalles_De_Articulo" + id.ToString());
                 string apiResponse = await response.Content.ReadAsStringAsync();
                 articulo = JsonConvert.DeserializeObject<Articulo>(apiResponse);
                 ////////////////////////
                 var httpClientRepuesto = new HttpClient();
-                var responseRepuesto = await httpClientRepuesto.GetAsync("https://localhost:5001/api/CatalogoDeArticulos");
+                var responseRepuesto = await httpClientRepuesto.GetAsync("https://localhost:44343/api/CatalogoDeArticulos");
                 string apiResponseRepuesto = await responseRepuesto.Content.ReadAsStringAsync();
                 repuestoasociado = JsonConvert.DeserializeObject<List<Repuesto>>(apiResponseRepuesto);
                 ViewData["Repuesto"] = repuestoasociado;
@@ -151,7 +151,7 @@ namespace GestorDeTaller.Controllers
 
                     byteContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
 
-                    await httpClient.PostAsync("https://localhost:5001/api/CatalogoDeArticulos", byteContent);
+                    await httpClient.PostAsync("https://localhost:44343/api/CatalogoDeArticulos", byteContent);
 
                     return RedirectToAction(nameof(ListarCatalogoDeArticulos));
                 }

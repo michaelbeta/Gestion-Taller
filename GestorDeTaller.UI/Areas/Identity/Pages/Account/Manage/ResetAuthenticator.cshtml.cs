@@ -33,7 +33,7 @@ namespace GestorDeTaller.UI.Areas.Identity.Pages.Account.Manage
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return NotFound($"No se puede cargar al usuario con ID '{_userManager.GetUserId(User)}'.");
             }
 
             return Page();
@@ -44,7 +44,7 @@ namespace GestorDeTaller.UI.Areas.Identity.Pages.Account.Manage
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return NotFound($"No se puede cargar al usuario con ID '{_userManager.GetUserId(User)}'.");
             }
 
             await _userManager.SetTwoFactorEnabledAsync(user, false);
@@ -52,7 +52,7 @@ namespace GestorDeTaller.UI.Areas.Identity.Pages.Account.Manage
             _logger.LogInformation("User with ID '{UserId}' has reset their authentication app key.", user.Id);
             
             await _signInManager.RefreshSignInAsync(user);
-            StatusMessage = "Your authenticator app key has been reset, you will need to configure your authenticator app using the new key.";
+            StatusMessage = "La clave de su aplicación de autenticación se ha restablecido, deberá configurarla con la nueva clave..";
 
             return RedirectToPage("./EnableAuthenticator");
         }
