@@ -1,7 +1,12 @@
 ﻿@model IEnumerable<GestorDeTaller.Model.OrdenDeMantenimiento>
 
 @{ ViewData["Title"] = "ListarOrdenesDeMantenimientoCanceladas"; }
-
+@{
+    Layout = "~/Views/Restringido/_Layout2.cshtml";
+}
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml"; //Esta sería la plantilla original del sitio web.
+}
 <h1>Ordenenes canceladas</h1>
 
 
@@ -37,8 +42,7 @@
         <a asp-action="DetallesDeLaOrden" asp-route-id="@item.Id" class="btn btn-danger">Detalles</a>
 
     </td>
-</tr>
-}
+</tr>}
     </tbody>
 </table>
 <td>

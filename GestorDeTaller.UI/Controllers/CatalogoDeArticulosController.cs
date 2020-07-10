@@ -167,7 +167,7 @@ namespace GestorDeTaller.Controllers
             }
 
         }
-
+        
         // GET: CatalogoDeArticulos/Edit/5
         public ActionResult EditarCatalogoDeArticulos(int id)
         {

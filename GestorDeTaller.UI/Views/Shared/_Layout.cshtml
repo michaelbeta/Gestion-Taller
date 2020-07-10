@@ -11,7 +11,13 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">GestorDeTaller.UI</a>
+                <a class="btn btn-primary" asp-area="" asp-controller="CatalogoDeArticulos" asp-action="ListarCatalogoDeArticulos">Catálogo De Artículos</a>
+                <a class="btn btn-success" asp-area="" asp-controller="OrdenesDeMantenimientoRecibida" asp-action="ListarOrdenesDeMantenimientoRecibidas">Órdenes De Mantenimiento Recibidas</a>
+                <a class="btn btn-warning" asp-area="" asp-controller="OrdenesDeMantenimientoEnProceso" asp-action="ListarOrdenesDeMantenimentoEnProceso">Órdenes De Mantenimiento En Proceso</a>
+                <a class="btn btn-secondary" asp-area="" asp-controller="OrdenesDeMantenimientoTerminada" asp-action="ListarOrdenesDeMantenimientoTerminadas">Órdenes De Mantenimiento Terminadas</a>
+                <a class="btn btn-danger" asp-area="" asp-controller="OrdenesDeMantenimientoCanceladas" asp-action="ListarOrdenesDeMantenimientoCanceladas">Órdenes De Mantenimiento Canceladas</a>
+                
+         
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -19,12 +25,7 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <partial name="_LoginPartial" />
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
+                        
                     </ul>
                 </div>
             </div>
@@ -38,7 +39,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2020 - GestorDeTaller.UI - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; Informática Empresarial 2020 - GestorDeTaller
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

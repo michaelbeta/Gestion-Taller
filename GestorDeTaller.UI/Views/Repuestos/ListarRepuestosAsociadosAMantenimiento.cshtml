@@ -1,7 +1,12 @@
 ﻿@model IEnumerable<GestorDeTaller.Model.Repuesto>
 
 @{ ViewData["Title"] = "Listar Repuestos Asociados al Mantenimiento"; }
-
+@{
+    Layout = "~/Views/Restringido/_Layout2.cshtml";
+}
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml"; //Esta sería la plantilla original del sitio web.
+}
 <h1>Repuestos Asociados a un Mantenimiento</h1>
 <p>
 
@@ -29,8 +34,7 @@
 
 
     </td>
-</tr>
-}
+</tr>}
     </tbody>
 </table>
 <br>

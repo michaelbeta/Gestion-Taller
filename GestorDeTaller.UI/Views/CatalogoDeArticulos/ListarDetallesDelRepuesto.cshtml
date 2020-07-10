@@ -1,7 +1,12 @@
 ﻿@model IEnumerable<GestorDeTaller.Model.Repuesto>
 
 @{ ViewData["Title"] = "ListarDetallesDelRepuesto"; }
-
+@{
+    Layout = "~/Views/Restringido/_Layout2.cshtml";
+}
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml"; //Esta sería la plantilla original del sitio web.
+}
 <h1>Detalles Del Repuesto</h1>
 
 
@@ -36,8 +41,7 @@
 
 
 
-</tr>
-}
+</tr>}
 
     </tbody>
 </table>

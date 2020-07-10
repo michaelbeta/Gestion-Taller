@@ -19,7 +19,7 @@ namespace GestorDeTaller.UI.Controllers
             _logger = logger;
         }
 
-        public IActionResult InicioDeLogin()
+        public IActionResult InicioDeSesion()
         {
             return View();
         }

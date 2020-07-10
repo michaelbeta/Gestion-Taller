@@ -1,0 +1,15 @@
+﻿@page
+@model LockoutModel
+@{
+    ViewData["Title"] = "Locked out";
+}
+@{
+    Layout = "~/Views/Restringido/_Layout.cshtml";
+}
+@{
+    Layout = "~/Views/Shared/_Layout2.cshtml"; //Esta sería la plantilla original del sitio web.
+}
+<header>
+    <h1 class="text-danger">@ViewData["Title"]</h1>
+    <p class="text-danger">This account has been locked out, please try again later.</p>
+</header>

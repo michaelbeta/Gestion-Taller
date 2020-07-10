@@ -62,10 +62,11 @@ namespace GestorDeTaller.UI
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=CatalogoDeArticulos}/{action=ListarCatalogoDeArticulos}/{id?}");
+                    pattern: "{controller=InicioDelLogin}/{action=InicioDeSesion}/{id?}");
                 endpoints.MapRazorPages();
             });
         }
-       // pattern: "{controller=InicioDelLogin}/{action=InicioDeLogin}/{id?}");
+        //"{controller=CatalogoDeArticulos}/{action=ListarCatalogoDeArticulos}/{id?}");
+        //pattern: "{controller=InicioDelLogin}/{action=InicioDeSesion}/{id?}");
     }
 }
