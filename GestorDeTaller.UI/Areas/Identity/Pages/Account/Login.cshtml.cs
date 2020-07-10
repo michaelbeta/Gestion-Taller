@@ -50,7 +50,7 @@ namespace GestorDeTaller.UI.Areas.Identity.Pages.Account
             [DataType(DataType.Password)]
             public string Password { get; set; }
 
-            [Display(Name = "Remember me?")]
+            [Display(Name = "Recuerdame?")]
             public bool RememberMe { get; set; }
         }
 
@@ -73,7 +73,7 @@ namespace GestorDeTaller.UI.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            returnUrl = returnUrl ?? Url.Content("~/");
+            returnUrl = returnUrl ?? Url.Content("~/CatalogoDeArticulos/ListarCatalogoDeArticulos");
 
             if (ModelState.IsValid)
             {
