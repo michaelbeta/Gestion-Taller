@@ -84,7 +84,7 @@ namespace GestorDeTaller.UI.Areas.Identity.Pages.Account
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("Usuario logeado");
+                    _logger.LogInformation("Usuario logueado");
                     return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
