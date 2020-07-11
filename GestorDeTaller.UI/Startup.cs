@@ -14,6 +14,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using GestorDeTaller.UI.Areas.Identity.Pages.Account;
 
+using GestorDeTaller.UI.Services;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace GestorDeTaller.UI
 {
@@ -29,6 +31,8 @@ namespace GestorDeTaller.UI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<IEmailSender, EmailSender>();
+            services.Configure<EmailSenderOptions>(Configuration.GetSection("EmailSenderOptions"));
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
@@ -37,6 +41,7 @@ namespace GestorDeTaller.UI
             services.AddControllersWithViews();
             services.AddRazorPages();
 
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -63,6 +68,7 @@ namespace GestorDeTaller.UI
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllers();
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=InicioDelLogin}/{action=InicioDeSesion}/{id?}");

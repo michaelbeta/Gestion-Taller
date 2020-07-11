@@ -3,9 +3,12 @@ using GestorDeTaller.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Razor.Language;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Runtime.InteropServices.ComTypes;
+using System.Threading.Tasks;
 
 namespace GestorDeTaller.UI.Controllers
 {
@@ -14,19 +17,37 @@ namespace GestorDeTaller.UI.Controllers
 
         private readonly IRepositorioDeTaller Repositorio;
 
-        public RepuestosController(IRepositorioDeTaller repositorio)
+        public RepuestosController()
         {
-            Repositorio = repositorio;
+            
         }
 
-        public ActionResult ListarRepuestosAsociados(int id)
+        public async Task<IActionResult> ListarRepuestosAsociados(int id)
         {
             List<Repuesto> repuestoasociado;
             TempData["IdArticulo"] = id;
-            repuestoasociado = Repositorio.ObtenerRepuestoAsociadosAlArticulo(id);
+            
 
+            try
+            {
+                var httpClient = new HttpClient();
 
+                var response = await httpClient.GetAsync("https://localhost:44343/api/Repuestos/" + id.ToString() );
+
+                string apiResponse = await response.Content.ReadAsStringAsync();
+
+                repuestoasociado = JsonConvert.DeserializeObject<List<Repuesto>>(apiResponse);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
             return View(repuestoasociado);
+            
+
+
+            
         }
         public ActionResult ListarRepuestosAsociadosAMantenimiento(int id)
         {
@@ -50,8 +71,8 @@ namespace GestorDeTaller.UI.Controllers
             List<Mantenimiento> MantenimientoAsosiado;
             MantenimientoAsosiado = Repositorio.ObtenerMantenimientoAsociadoAlRepuesto(id);
 
-            ViewData["Articulo"] = articuloAsociado;
-            ViewData["Mantenimiento"] = MantenimientoAsosiado;
+            ViewBag.laLista = articuloAsociado;
+           // ViewData["Mantenimiento"] = MantenimientoAsosiado;
 
             return View(repuesto);
         }
@@ -72,7 +93,7 @@ namespace GestorDeTaller.UI.Controllers
             return View(Mantenimientoasociado);
         }
         // GET: Repuestos/Create
-        public ActionResult AgregarRepuesto()
+        public async Task<IActionResult> AgregarRepuesto()
         {
 
             return View();
@@ -81,18 +102,32 @@ namespace GestorDeTaller.UI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AgregarRepuesto(Repuesto repuesto)
+        public async Task<IActionResult> AgregarRepuesto(Repuesto repuesto)
         {
             try
             {
+                int idArticulo = int.Parse(TempData["IdArticulo"].ToString());
+                repuesto.Id_Articulo = idArticulo;
 
                 if (ModelState.IsValid)
                 {
-                    int idArticulo = int.Parse(TempData["IdArticulo"].ToString());
-                    Repositorio.AgregarRepuesto(repuesto, idArticulo);
+                    
+                    var httpClient = new HttpClient();
 
+                    string json = JsonConvert.SerializeObject(repuesto);
+
+                    var buffer = System.Text.Encoding.UTF8.GetBytes(json);
+
+                    var byteContent = new ByteArrayContent(buffer);
+
+                    byteContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+
+                    await httpClient.PostAsync("https://localhost:44343/api/Repuestos", byteContent);
 
                     return RedirectToAction("ListarRepuestosAsociados", new { id = idArticulo });
+
+
+
 
                 }
                 else
@@ -110,64 +145,61 @@ namespace GestorDeTaller.UI.Controllers
 
         // GET: Repuestos/Edit/5
 
-        public ActionResult EditarRepuesto(int id)
+        public async Task<IActionResult> EditarRepuesto(int id)
         {
             Repuesto editarRepuesto;
-            editarRepuesto = Repositorio.ObtenerRepuestoPorId(id);
-
-
-
+            try
+            {
+                var httpClient = new HttpClient();
+                var response = await httpClient.GetAsync("https://localhost:44343/api/Repuestos/EditarRepuesto/" + id.ToString());
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                editarRepuesto = JsonConvert.DeserializeObject<Repuesto>(apiResponse);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            
             return View(editarRepuesto);
         }
 
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditarRepuesto(Repuesto repuesto)
+        public async Task<ActionResult> EditarRepuesto(Repuesto repuesto)
         {
-
             try
             {
+                int idArticulo = int.Parse(TempData["IdArticulo"].ToString());
                 if (ModelState.IsValid)
                 {
-                    Repositorio.EditarRepuesto(repuesto);
-                    int idArticulo = int.Parse(TempData["IdArticulo"].ToString());
+                    var httpClient = new HttpClient();
+
+                    string json = JsonConvert.SerializeObject(repuesto);
+
+                    var buffer = System.Text.Encoding.UTF8.GetBytes(json);
+
+                    var byteContent = new ByteArrayContent(buffer);
+
+                    byteContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+
+                    await httpClient.PutAsync("https://localhost:44343/api/Repuestos/", byteContent);
 
                     return RedirectToAction("ListarRepuestosAsociados", new { id = idArticulo });
                 }
                 else
                 {
-                    return View(repuesto);
+                    return View();
                 }
             }
-            catch
+            catch (Exception)
             {
-                return View(repuesto);
-            }
-        }
 
-
-        // GET: Repuestos/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Repuestos/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
                 return View();
             }
         }
+
+
+
     }
 }

@@ -26,7 +26,7 @@ namespace GestorDeTaller.UI.Controllers
             {
                 var httpClient = new HttpClient();
 
-                var response = await httpClient.GetAsync("https://localhost:44343/api/OrdenesDeMantenimientoRecibida");
+                var response = await httpClient.GetAsync("https://localhost:5001/api/OrdenesDeMantenimientoRecibida");
 
                 string apiResponse = await response.Content.ReadAsStringAsync();
 
@@ -41,21 +41,25 @@ namespace GestorDeTaller.UI.Controllers
         }
 
 
-        public ActionResult DetallesDeOrdenRecibida(int id)
+        public async Task<IActionResult> DetallesDeOrdenRecibida(int id)
         {
-            OrdenDeMantenimiento DetallesDelAOrden;
-            DetallesDelAOrden = Repositorio.ObtenerOrdenesDeMantenimentoCanceladasPorid(id);
-
-            List<Articulo> articuloAsociado;
-            articuloAsociado = Repositorio.ObtenerArticuloAsociadosALaOrdenEnMantenimiento(id);
-
-            List<Mantenimiento> MantenimientoAsosiado;
-            MantenimientoAsosiado = Repositorio.ObtenermantenimientoAsociadosalaOrden(id);
-
-            ViewData["Articulo"] = articuloAsociado;
+            OrdenDeMantenimiento ordenDeMantenimiento;
+            List<Articulo> articuloAsociado = new List<Articulo>();
+            List<Mantenimiento> MantenimientoAsosiado = new List<Mantenimiento>();
+            try
+            {
+                var httpClient = new HttpClient();
+                var response = await httpClient.GetAsync("https://localhost:44343/api/OrdenesDeMantenimientoRecibida/Detalles/" + id.ToString());
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                ordenDeMantenimiento = JsonConvert.DeserializeObject<OrdenDeMantenimiento>(apiResponse);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            ViewBag.laLista = articuloAsociado;
             ViewData["Mantenimiento"] = MantenimientoAsosiado;
-
-            return View(DetallesDelAOrden);
+            return View(ordenDeMantenimiento);
         }
        
        
@@ -90,7 +94,7 @@ namespace GestorDeTaller.UI.Controllers
             {
                 var httpClient = new HttpClient();
 
-                var response = await httpClient.GetAsync("https://localhost:44343/api/CatalogoDeArticulos");
+                var response = await httpClient.GetAsync("https://localhost:5001/api/CatalogoDeArticulos");
 
                 string apiResponse = await response.Content.ReadAsStringAsync();
 
@@ -129,7 +133,7 @@ namespace GestorDeTaller.UI.Controllers
 
                     byteContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
 
-                    await httpClient.PostAsync("https://localhost:44343/api/OrdenesDeMantenimientoRecibida", byteContent);
+                    await httpClient.PostAsync("https://localhost:5001/api/OrdenesDeMantenimientoRecibida", byteContent);
 
                     return RedirectToAction(nameof(ListarOrdenesDeMantenimientoRecibidas));
                 }
@@ -152,7 +156,7 @@ namespace GestorDeTaller.UI.Controllers
             try
             {
                 var httpClient = new HttpClient();
-                var response = await httpClient.GetAsync("https://localhost:44343/api/OrdenesDeMantenimientoRecibida/" + id.ToString());
+                var response = await httpClient.GetAsync("https://localhost:5001/api/OrdenesDeMantenimientoRecibida/" + id.ToString());
                 string apiResponse = await response.Content.ReadAsStringAsync();
                 ordenDeMantenimiento = JsonConvert.DeserializeObject<OrdenDeMantenimiento>(apiResponse);
             }
@@ -182,7 +186,7 @@ namespace GestorDeTaller.UI.Controllers
 
                     byteContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
 
-                    await httpClient.PutAsync("https://localhost:44343/api/OrdenesDeMantenimientoRecibida", byteContent);
+                    await httpClient.PutAsync("https://localhost:5001/api/OrdenesDeMantenimientoRecibida", byteContent);
 
                     return RedirectToAction(nameof(ListarOrdenesDeMantenimientoRecibidas));
                 }
@@ -202,7 +206,7 @@ namespace GestorDeTaller.UI.Controllers
             try
             {
                 var httpClient = new HttpClient();
-                var response = await httpClient.GetAsync("https://localhost:44343/api/OrdenesDeMantenimientoRecibida/IniciarOrden/" + id.ToString());
+                var response = await httpClient.GetAsync("https://localhost:5001/api/OrdenesDeMantenimientoRecibida/IniciarOrden/" + id.ToString());
                 string apiResponse = await response.Content.ReadAsStringAsync();
                 
             }

@@ -31,7 +31,7 @@ namespace GestorDeTaller.Controllers
             {
                 var httpClient = new HttpClient();
 
-                var response = await httpClient.GetAsync("https://localhost:44343/api/CatalogoDeArticulos");
+                var response = await httpClient.GetAsync("https://localhost:5001/api/CatalogoDeArticulos");
 
                 string apiResponse = await response.Content.ReadAsStringAsync();
 
@@ -55,11 +55,24 @@ namespace GestorDeTaller.Controllers
             return View(ArticuloAsociado);
         }
         // GET: Repuestos
-        public ActionResult ListarDetallesDelRepuesto(int id)
+        public async Task<IActionResult> ListarDetallesDelRepuesto(int id)
         {
-            List<Repuesto> repuestoasociado;
-            repuestoasociado = Repositorio.ObtenerRepuestoAsociadosAlArticulo(id);
+            List<Repuesto> repuestoasociado = new List<Repuesto>();
+            try
+            {
+                var httpClient = new HttpClient();
 
+                var response = await httpClient.GetAsync("https://localhost:44343/api/CatalogoDeArticulos/ListarDetallesDelRepuesto/" + id.ToString());
+
+                string apiResponse = await response.Content.ReadAsStringAsync();
+
+                repuestoasociado = JsonConvert.DeserializeObject<List<Repuesto>>(apiResponse);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
             return View(repuestoasociado);
         }
 
@@ -74,12 +87,12 @@ namespace GestorDeTaller.Controllers
             try
             {
                 var httpClient = new HttpClient();
-                var response = await httpClient.GetAsync("https://localhost:44343/api/CatalogoDeArticulos/Detalles_De_Articulo" + id.ToString());
+                var response = await httpClient.GetAsync("https://localhost:5001/api/CatalogoDeArticulos/Detalles_De_Articulo" + id.ToString());
                 string apiResponse = await response.Content.ReadAsStringAsync();
                 articulo = JsonConvert.DeserializeObject<Articulo>(apiResponse);
                 ////////////////////////
                 var httpClientRepuesto = new HttpClient();
-                var responseRepuesto = await httpClientRepuesto.GetAsync("https://localhost:44343/api/CatalogoDeArticulos");
+                var responseRepuesto = await httpClientRepuesto.GetAsync("https://localhost:5001/api/CatalogoDeArticulos");
                 string apiResponseRepuesto = await responseRepuesto.Content.ReadAsStringAsync();
                 repuestoasociado = JsonConvert.DeserializeObject<List<Repuesto>>(apiResponseRepuesto);
                 ViewData["Repuesto"] = repuestoasociado;
@@ -151,7 +164,7 @@ namespace GestorDeTaller.Controllers
 
                     byteContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
 
-                    await httpClient.PostAsync("https://localhost:44343/api/CatalogoDeArticulos", byteContent);
+                    await httpClient.PostAsync("https://localhost:5001/api/CatalogoDeArticulos", byteContent);
 
                     return RedirectToAction(nameof(ListarCatalogoDeArticulos));
                 }
@@ -167,26 +180,45 @@ namespace GestorDeTaller.Controllers
             }
 
         }
-        
+
         // GET: CatalogoDeArticulos/Edit/5
-        public ActionResult EditarCatalogoDeArticulos(int id)
+        public async Task<ActionResult> EditarCatalogoDeArticulos(int id)
         {
             Articulo ListarArticuloAEditar;
-            ListarArticuloAEditar = Repositorio.ObtenerPorId(id);
-
+            try
+            {
+                var httpClient = new HttpClient();
+                var response = await httpClient.GetAsync("https://localhost:5001/api/CatalogoDeArticulos/" + id.ToString());
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                ListarArticuloAEditar = JsonConvert.DeserializeObject<Articulo>(apiResponse);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
             return View(ListarArticuloAEditar);
         }
 
         // POST: CatalogoDeArticulos/Edit/5 //
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditarCatalogoDeArticulos(Articulo articulo)
+        public async Task<ActionResult> EditarCatalogoDeArticulos(Articulo articulo)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    Repositorio.EditarArticulo(articulo);
+                    var httpClient = new HttpClient();
+
+                    string json = JsonConvert.SerializeObject(articulo);
+
+                    var buffer = System.Text.Encoding.UTF8.GetBytes(json);
+
+                    var byteContent = new ByteArrayContent(buffer);
+
+                    byteContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+
+                    await httpClient.PutAsync("https://localhost:5001/api/CatalogoDeArticulos", byteContent);
 
                     return RedirectToAction(nameof(ListarCatalogoDeArticulos));
                 }
