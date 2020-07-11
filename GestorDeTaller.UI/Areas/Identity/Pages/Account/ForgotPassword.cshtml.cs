@@ -30,7 +30,7 @@ namespace GestorDeTaller.UI.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required (ErrorMessage ="El correo es requrido")]
+            [Required (ErrorMessage ="Este campo es  requrido")]
             [EmailAddress]
             [Display(Name ="Correo")]
             public string Email { get; set; }

@@ -30,8 +30,10 @@ namespace GestorDeTaller.UI.Areas.Identity.Pages.Account.Manage
 
         public class InputModel
         {
-            [Required]
-            [StringLength(100, ErrorMessage = "El {0} debe tener al menos {2} y un máximo de {1}caracteres de longitu.", MinimumLength = 6)]
+            [Required(ErrorMessage = "Este campo es requrido")]
+          
+            [RegularExpression("^((?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])|(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[^a-zA-Z0-9])|(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[^a-zA-Z0-9])|(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^a-zA-Z0-9])).{8,}$",
+             ErrorMessage = "La clave debe tener al menos 8 caracteres y contener 3 de 4 de los siguientes: mayúsculas(A - Z), minúsculas(a - z), números(0 - 9) y caracteres especiales(p.Ej.! @ # $% ^ & *) ")]
             [DataType(DataType.Password)]
             [Display(Name = "Nueva contraseña")]
             public string NewPassword { get; set; }

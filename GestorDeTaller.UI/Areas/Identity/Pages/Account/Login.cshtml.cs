@@ -42,14 +42,17 @@ namespace GestorDeTaller.UI.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required(ErrorMessage = "Correo inválido")]
-            [EmailAddress]
-            [Display(Name = "Correo")]
-            public string Email { get; set; }
+            [Required(ErrorMessage = "Este campo es requerido")]
 
-            [Required(ErrorMessage = "Contraseña inválida")]
+            [Display(Name = "Nombre")]
+            public string Name{ get; set; }
+
+            [Required(ErrorMessage = "Este campo es requerido")]
+            [RegularExpression("^((?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])|(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[^a-zA-Z0-9])|(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[^a-zA-Z0-9])|(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^a-zA-Z0-9])).{8,}$", 
+             ErrorMessage = "La clave debe tener al menos 8 caracteres y contener 3 de 4 de los siguientes: mayúsculas(A - Z), minúsculas(a - z), números(0 - 9) y caracteres especiales(p.Ej.! @ # $% ^ & *) ")]
             [DataType(DataType.Password)]
-            [Display(Name = "Contraseña")]
+            [Display(Name = "Clave")]
+           
             public string Password { get; set; }
 
             [Display(Name = "Recuerdame?")]
@@ -58,9 +61,9 @@ namespace GestorDeTaller.UI.Areas.Identity.Pages.Account
 
         public async Task OnGetAsync(string returnUrl = null)
         {
-            if (!string.IsNullOrEmpty(ErrorMessage))
+            if (!string.IsNullOrEmpty(ErrorMessage=""))
             {
-                ModelState.AddModelError(string.Empty, ErrorMessage);
+                ModelState.AddModelError(string.Empty, ErrorMessage="Intento de inicio de sesión no válido");
             }
 
             returnUrl = returnUrl ?? Url.Content("~/");
@@ -81,7 +84,7 @@ namespace GestorDeTaller.UI.Areas.Identity.Pages.Account
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+                var result = await _signInManager.PasswordSignInAsync(Input.Name, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("Usuario logueado");
