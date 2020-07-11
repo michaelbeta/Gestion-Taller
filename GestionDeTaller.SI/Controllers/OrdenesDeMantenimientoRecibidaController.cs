@@ -17,8 +17,8 @@ namespace GestionDeTaller.SI.Controllers
         private readonly IRepositorioDeTaller Repositorio;
 
        // public object ViewBag { get; private set; }
-        public object ViewData { get; private set; }
-        public dynamic ViewBag { get; }
+        public dynamic ViewData { get; private set; }
+        public dynamic ViewBag { get; private set; }
 
         public OrdenesDeMantenimientoRecibidaController(IRepositorioDeTaller repositorio)
         {
@@ -42,6 +42,7 @@ namespace GestionDeTaller.SI.Controllers
             ListarOrdenDeMantenimientoAeditar = Repositorio.ObtenerOrdenDeMantenimientoPorId(id);
             return ListarOrdenDeMantenimientoAeditar;
         }
+      
 
         // POST api/<OrdenesDeMantenimientoRecibidas>
         [HttpPost]
@@ -89,9 +90,26 @@ namespace GestionDeTaller.SI.Controllers
         }
 
         
-        [HttpGet("{iniciar}/{id}")]
-        public IActionResult Iniciar(string iniciar, int id)
+        [HttpGet("{Iniciar}/{id}")]
+        public ActionResult<OrdenDeMantenimiento> Iniciar(string iniciar, int id)
         {
+            if (iniciar.Equals("Detalles"))
+            {
+                OrdenDeMantenimiento DetallesDelAOrden;
+                DetallesDelAOrden = Repositorio.ObtenerOrdenesDeMantenimentoCanceladasPorid(id);
+
+                List<Articulo> articuloAsociado;
+                articuloAsociado = Repositorio.ObtenerArticuloAsociadosALaOrdenEnMantenimiento(id);
+
+                List<Mantenimiento> MantenimientoAsosiado;
+                MantenimientoAsosiado = Repositorio.ObtenermantenimientoAsociadosalaOrden(id);
+
+               //ViewData["Articulo"] = articuloAsociado;
+                // ViewData["Mantenimiento"] = MantenimientoAsosiado;
+                
+                
+                return DetallesDelAOrden;
+            }
             if (iniciar.Equals("IniciarOrden"))
             {
                 Repositorio.IniciarOrdenDerMantenimiento(id);
@@ -101,6 +119,7 @@ namespace GestionDeTaller.SI.Controllers
             {
                 return null;
             }
+            
         }
     }
 }

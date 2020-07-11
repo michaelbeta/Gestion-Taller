@@ -37,10 +37,20 @@ namespace GestionDeTaller.SI.Controllers
         }
 
         // GET api/<TallerController>/5
-        [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        [HttpGet("{accion}/{id}")]
+        public IEnumerable<Repuesto> Get(string accion, int id)
         {
-            Articulo detalleDeLArticulo;
+            if (accion.Equals("ListarDetallesDelRepuesto"))
+            {
+                List<Repuesto> repuestoasociados;
+                repuestoasociados = Repositorio.ObtenerRepuestoAsociadosAlArticulo(id);
+                return repuestoasociados;
+            }
+            else 
+            {
+                return null;
+            }
+          /*  Articulo detalleDeLArticulo;
             detalleDeLArticulo = Repositorio.ObtenerPorId(id);
             List<Repuesto> repuestoasociado;
             repuestoasociado = Repositorio.ObtenerRepuestoAsociadosAlArticulo(id);
@@ -63,7 +73,7 @@ namespace GestionDeTaller.SI.Controllers
             {
                 return NotFound();
             }
-            return Ok(detalleDeLArticulo);
+            return Ok(detalleDeLArticulo);*/
         }
 
         // POST api/<TallerController>
