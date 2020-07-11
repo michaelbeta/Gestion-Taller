@@ -30,9 +30,18 @@ namespace GestionDeTaller.SI.Controllers
 
         // GET api/<MantenimientoController>/5
         [HttpGet("{accion}/{id}")]
-        public string Get(string accion, int id)
+        public ActionResult<Mantenimiento> Get(string accion, int id)
         {
-            return "value";
+            if (accion.Equals("EditarMantenimiento"))
+            {
+                Mantenimiento editarMantenimiento;
+                editarMantenimiento = Repositorio.ObteneCatalogoDeMantenimeintosPorId(id);
+                return editarMantenimiento;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         // POST api/<MantenimientoController>
@@ -62,15 +71,23 @@ namespace GestionDeTaller.SI.Controllers
         }
 
         // PUT api/<MantenimientoController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut]
+        public IActionResult Put([FromBody] Mantenimiento mantenimiento)
         {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    Repositorio.EditarCatalogoDeMantenimiento(mantenimiento);
+                }
+            }
+            catch (Exception)
+            {
+                return NotFound();
+            }
+            return Ok(mantenimiento);
+            
         }
-
-        // DELETE api/<MantenimientoController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
+  
     }
 }

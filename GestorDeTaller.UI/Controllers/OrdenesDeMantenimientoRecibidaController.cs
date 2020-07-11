@@ -57,7 +57,7 @@ namespace GestorDeTaller.UI.Controllers
             {
                 throw e;
             }
-            ViewData["Articulo"] = articuloAsociado;
+            ViewBag.laLista = articuloAsociado;
             ViewData["Mantenimiento"] = MantenimientoAsosiado;
             return View(ordenDeMantenimiento);
         }

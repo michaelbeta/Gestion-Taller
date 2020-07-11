@@ -107,26 +107,49 @@ namespace GestorDeTaller.UI.Controllers
         }
 
         // GET: Mantenimiento/Edit/5
-        public ActionResult EditarMantenimiento(int id)
+        public async Task<IActionResult> EditarMantenimiento(int id)
         {
             Mantenimiento ListarMantenimientoAeditar;
-            ListarMantenimientoAeditar = Repositorio.ObteneCatalogoDeMantenimeintosPorId(id);
+            try
+            {
+                var httpClient = new HttpClient();
+                var response = await httpClient.GetAsync("https://localhost:44343/api/Mantenimiento/EditarMantenimiento/" + id.ToString());
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                ListarMantenimientoAeditar = JsonConvert.DeserializeObject<Mantenimiento>(apiResponse);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
 
             return View(ListarMantenimientoAeditar);
+            
+
+            
         }
 
         // POST: Mantenimiento/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditarMantenimiento(Mantenimiento Mantenimiento)
+        public async Task<ActionResult> EditarMantenimiento(Mantenimiento Mantenimiento)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    Repositorio.EditarCatalogoDeMantenimiento(Mantenimiento);
+                    
                     int idArticulo = int.Parse(TempData["IdArticulo"].ToString());
+                    var httpClient = new HttpClient();
 
+                    string json = JsonConvert.SerializeObject(Mantenimiento);
+
+                    var buffer = System.Text.Encoding.UTF8.GetBytes(json);
+
+                    var byteContent = new ByteArrayContent(buffer);
+
+                    byteContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+
+                    await httpClient.PutAsync("https://localhost:44343/api/Mantenimiento", byteContent);
                     return RedirectToAction("ListarMantenimientosAsociados", new { id = idArticulo });
                 }
                 else

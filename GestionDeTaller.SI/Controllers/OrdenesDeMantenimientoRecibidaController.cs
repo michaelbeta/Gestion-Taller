@@ -93,9 +93,10 @@ namespace GestionDeTaller.SI.Controllers
         [HttpGet("{Iniciar}/{id}")]
         public ActionResult<OrdenDeMantenimiento> Iniciar(string iniciar, int id)
         {
+            OrdenDeMantenimiento DetallesDelAOrden;
             if (iniciar.Equals("Detalles"))
             {
-                OrdenDeMantenimiento DetallesDelAOrden;
+               
                 DetallesDelAOrden = Repositorio.ObtenerOrdenesDeMantenimentoCanceladasPorid(id);
 
                 List<Articulo> articuloAsociado;
@@ -104,12 +105,13 @@ namespace GestionDeTaller.SI.Controllers
                 List<Mantenimiento> MantenimientoAsosiado;
                 MantenimientoAsosiado = Repositorio.ObtenermantenimientoAsociadosalaOrden(id);
 
-               //ViewData["Articulo"] = articuloAsociado;
+                //ViewData["Articulo"] = articuloAsociado;
                 // ViewData["Mantenimiento"] = MantenimientoAsosiado;
-                
-                
+
                 return DetallesDelAOrden;
+
             }
+            
             if (iniciar.Equals("IniciarOrden"))
             {
                 Repositorio.IniciarOrdenDerMantenimiento(id);

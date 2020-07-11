@@ -71,8 +71,8 @@ namespace GestorDeTaller.UI.Controllers
             List<Mantenimiento> MantenimientoAsosiado;
             MantenimientoAsosiado = Repositorio.ObtenerMantenimientoAsociadoAlRepuesto(id);
 
-            ViewData["Articulo"] = articuloAsociado;
-            ViewData["Mantenimiento"] = MantenimientoAsosiado;
+            ViewBag.laLista = articuloAsociado;
+           // ViewData["Mantenimiento"] = MantenimientoAsosiado;
 
             return View(repuesto);
         }
