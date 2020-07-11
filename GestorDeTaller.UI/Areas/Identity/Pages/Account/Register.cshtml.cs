@@ -38,7 +38,6 @@ namespace GestorDeTaller.UI.Areas.Identity.Pages.Account
 
         [BindProperty]
         public InputModel Input { get; set; }
-        
 
         public string ReturnUrl { get; set; }
 
@@ -46,20 +45,20 @@ namespace GestorDeTaller.UI.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required (ErrorMessage ="El correo es requerido")]
+            [Required(ErrorMessage = "Este email ya esta registrado")]
             [EmailAddress]
             [Display(Name = "Correo")]
             public string Email { get; set; }
 
-            [Required(ErrorMessage = "La contraseña es requerida")]
-            [StringLength(100, ErrorMessage = "La {0} debe tener al menos {2} y un máximo de {1} caracteres de longitud.", MinimumLength = 6)]
+            [Required]
+            [StringLength(100, ErrorMessage = "El {0} debe tener al menos {2} y un máximo de {1} caracteres de longitud", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Contraseña")]
             public string Password { get; set; }
 
             [DataType(DataType.Password)]
-            [Display(Name = "Confirmar contraseña")]
-            [Compare("Password", ErrorMessage = "La contraseña y la confirmación de la contraseña  no coinciden.")]
+            [Display(Name = "Confirmar constaseña")]
+            [Compare("Password", ErrorMessage = "La contraseña y la contraseña de confirmación no coinciden")]
             public string ConfirmPassword { get; set; }
         }
 
@@ -79,7 +78,7 @@ namespace GestorDeTaller.UI.Areas.Identity.Pages.Account
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("El usuario creó una nueva cuenta con contraseña.");
+                    _logger.LogInformation("El usuario creó una nueva cuenta con contraseña");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
@@ -90,7 +89,7 @@ namespace GestorDeTaller.UI.Areas.Identity.Pages.Account
                         protocol: Request.Scheme);
 
                     await _emailSender.SendEmailAsync(Input.Email, "Confirme su correo",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                        $"Por favor confirme su cuenta por <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>click aqui</a>.");
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {

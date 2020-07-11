@@ -36,44 +36,16 @@ namespace GestionDeTaller.SI.Controllers
             return laLista;
         }
 
+
         // GET api/<TallerController>/5
-        [HttpGet("{accion}/{id}")]
-        public IEnumerable<Repuesto> Get(string accion, int id)
+        [HttpGet("{id}")]
+        public ActionResult<Articulo> GetEditar(int id)
         {
-            if (accion.Equals("ListarDetallesDelRepuesto"))
-            {
-                List<Repuesto> repuestoasociados;
-                repuestoasociados = Repositorio.ObtenerRepuestoAsociadosAlArticulo(id);
-                return repuestoasociados;
-            }
-            else 
-            {
-                return null;
-            }
-          /*  Articulo detalleDeLArticulo;
-            detalleDeLArticulo = Repositorio.ObtenerPorId(id);
-            List<Repuesto> repuestoasociado;
-            repuestoasociado = Repositorio.ObtenerRepuestoAsociadosAlArticulo(id);
+            Articulo articulo;
+            articulo = Repositorio.ObtenerPorId(id);
 
-            ViewData["Repuesto"] = repuestoasociado;
+            return (articulo);
 
-            List<OrdenDeMantenimiento> ordenesDeMantenimientosEnProceso;
-            ordenesDeMantenimientosEnProceso = Repositorio.ListarOrdenesDeMantenimientoEnProceso();
-            int CantidadDeOrdenesEnProceso = ordenesDeMantenimientosEnProceso.Count();
-
-            ViewBag.OrdenesEnProceso = CantidadDeOrdenesEnProceso;
-
-            List<OrdenDeMantenimiento> ordenesDeMantenimientosTerminadas;
-            ordenesDeMantenimientosTerminadas = Repositorio.ListarOrdenesDeMantenimientoTerminadas();
-            int CantidadDeOrdenesTerminadas = ordenesDeMantenimientosTerminadas.Count();
-
-            ViewBag.OrdenesTerminadas = CantidadDeOrdenesTerminadas;
-
-            if (detalleDeLArticulo==null)
-            {
-                return NotFound();
-            }
-            return Ok(detalleDeLArticulo);*/
         }
 
         // POST api/<TallerController>
@@ -88,9 +60,9 @@ namespace GestionDeTaller.SI.Controllers
 
                     Repositorio.AgregarArticulo(articulo);
 
-                    
+
                 }
-               
+
 
             }
             catch (Exception ex)
@@ -102,15 +74,23 @@ namespace GestionDeTaller.SI.Controllers
         }
 
         // PUT api/<TallerController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut]
+        public IActionResult Put([FromBody] Articulo articulo)
         {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    Repositorio.EditarArticulo(articulo);
+                }
+            }
+            catch
+            {
+
+            }
+            return Ok(articulo);
         }
 
-        // DELETE api/<TallerController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
+      
     }
 }

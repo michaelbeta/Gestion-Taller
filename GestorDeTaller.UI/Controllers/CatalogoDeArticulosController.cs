@@ -180,26 +180,45 @@ namespace GestorDeTaller.Controllers
             }
 
         }
-        
+
         // GET: CatalogoDeArticulos/Edit/5
-        public ActionResult EditarCatalogoDeArticulos(int id)
+        public async Task<ActionResult> EditarCatalogoDeArticulos(int id)
         {
             Articulo ListarArticuloAEditar;
-            ListarArticuloAEditar = Repositorio.ObtenerPorId(id);
-
+            try
+            {
+                var httpClient = new HttpClient();
+                var response = await httpClient.GetAsync("https://localhost:44343/api/CatalogoDeArticulos/" + id.ToString());
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                ListarArticuloAEditar = JsonConvert.DeserializeObject<Articulo>(apiResponse);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
             return View(ListarArticuloAEditar);
         }
 
         // POST: CatalogoDeArticulos/Edit/5 //
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditarCatalogoDeArticulos(Articulo articulo)
+        public async Task<ActionResult> EditarCatalogoDeArticulos(Articulo articulo)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    Repositorio.EditarArticulo(articulo);
+                    var httpClient = new HttpClient();
+
+                    string json = JsonConvert.SerializeObject(articulo);
+
+                    var buffer = System.Text.Encoding.UTF8.GetBytes(json);
+
+                    var byteContent = new ByteArrayContent(buffer);
+
+                    byteContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+
+                    await httpClient.PutAsync("https://localhost:44343/api/CatalogoDeArticulos", byteContent);
 
                     return RedirectToAction(nameof(ListarCatalogoDeArticulos));
                 }
