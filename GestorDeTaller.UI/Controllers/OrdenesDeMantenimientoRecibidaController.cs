@@ -26,7 +26,7 @@ namespace GestorDeTaller.UI.Controllers
             {
                 var httpClient = new HttpClient();
 
-                var response = await httpClient.GetAsync("https://localhost:44343/api/OrdenesDeMantenimientoRecibida");
+                var response = await httpClient.GetAsync("https://localhost:5001/api/OrdenesDeMantenimientoRecibida");
 
                 string apiResponse = await response.Content.ReadAsStringAsync();
 
@@ -90,7 +90,7 @@ namespace GestorDeTaller.UI.Controllers
             {
                 var httpClient = new HttpClient();
 
-                var response = await httpClient.GetAsync("https://localhost:44343/api/CatalogoDeArticulos");
+                var response = await httpClient.GetAsync("https://localhost:5001/api/CatalogoDeArticulos");
 
                 string apiResponse = await response.Content.ReadAsStringAsync();
 
@@ -129,7 +129,7 @@ namespace GestorDeTaller.UI.Controllers
 
                     byteContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
 
-                    await httpClient.PostAsync("https://localhost:44343/api/OrdenesDeMantenimientoRecibida", byteContent);
+                    await httpClient.PostAsync("https://localhost:5001/api/OrdenesDeMantenimientoRecibida", byteContent);
 
                     return RedirectToAction(nameof(ListarOrdenesDeMantenimientoRecibidas));
                 }
@@ -152,7 +152,7 @@ namespace GestorDeTaller.UI.Controllers
             try
             {
                 var httpClient = new HttpClient();
-                var response = await httpClient.GetAsync("https://localhost:44343/api/OrdenesDeMantenimientoRecibida/" + id.ToString());
+                var response = await httpClient.GetAsync("https://localhost:5001/api/OrdenesDeMantenimientoRecibida/" + id.ToString());
                 string apiResponse = await response.Content.ReadAsStringAsync();
                 ordenDeMantenimiento = JsonConvert.DeserializeObject<OrdenDeMantenimiento>(apiResponse);
             }
@@ -182,7 +182,7 @@ namespace GestorDeTaller.UI.Controllers
 
                     byteContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
 
-                    await httpClient.PutAsync("https://localhost:44343/api/OrdenesDeMantenimientoRecibida", byteContent);
+                    await httpClient.PutAsync("https://localhost:5001/api/OrdenesDeMantenimientoRecibida", byteContent);
 
                     return RedirectToAction(nameof(ListarOrdenesDeMantenimientoRecibidas));
                 }
@@ -202,7 +202,7 @@ namespace GestorDeTaller.UI.Controllers
             try
             {
                 var httpClient = new HttpClient();
-                var response = await httpClient.GetAsync("https://localhost:44343/api/OrdenesDeMantenimientoRecibida/IniciarOrden/" + id.ToString());
+                var response = await httpClient.GetAsync("https://localhost:5001/api/OrdenesDeMantenimientoRecibida/IniciarOrden/" + id.ToString());
                 string apiResponse = await response.Content.ReadAsStringAsync();
                 
             }

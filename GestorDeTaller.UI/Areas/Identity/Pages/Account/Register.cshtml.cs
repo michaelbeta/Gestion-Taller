@@ -88,9 +88,12 @@ namespace GestorDeTaller.UI.Areas.Identity.Pages.Account
                         values: new { area = "Identity", userId = user.Id, code = code, returnUrl = returnUrl },
                         protocol: Request.Scheme);
 
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirme su correo",
-                        $"Por favor confirme su cuenta por <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>click aqui</a>.");
-
+                  
+                      await _emailSender
+                      .SendEmailAsync(user.Email, "Solicitud de creación de usuario", 
+                      "Cuenta de usuario creada satisfactoriamente para el usuario ")
+                        .ConfigureAwait(false);
+                  
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
                         return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
