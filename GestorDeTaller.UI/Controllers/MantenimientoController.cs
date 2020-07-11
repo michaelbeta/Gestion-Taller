@@ -2,8 +2,11 @@
 using GestorDeTaller.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace GestorDeTaller.UI.Controllers
 {
@@ -12,16 +15,30 @@ namespace GestorDeTaller.UI.Controllers
 
         private readonly IRepositorioDeTaller Repositorio;
 
-        public MantenimientoController(IRepositorioDeTaller repositorio)
+        public MantenimientoController()
         {
-            Repositorio = repositorio;
+           
         }
         // GET: Mantenimiento
-        public ActionResult ListarMantenimientosAsociados(int id)
+        public async Task<IActionResult> ListarMantenimientosAsociados(int id)
         {
             List<Mantenimiento> laLista;
-            laLista = Repositorio.ObtenerCatalogoDeMantenimeintos(id);
             TempData["IdArticulo"] = id;
+            try
+            {
+                var httpClient = new HttpClient();
+
+                var response = await httpClient.GetAsync("https://localhost:44343/api/Mantenimiento/" + id.ToString());
+
+                string apiResponse = await response.Content.ReadAsStringAsync();
+
+                laLista = JsonConvert.DeserializeObject<List<Mantenimiento>>(apiResponse);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
 
             return View(laLista);
         }
@@ -50,7 +67,7 @@ namespace GestorDeTaller.UI.Controllers
         // POST: Mantenimiento/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CrearMantenimiento(Mantenimiento mantenimiento)
+        public async Task<IActionResult> CrearMantenimiento(Mantenimiento mantenimiento)
         {
             try
             {
@@ -58,7 +75,19 @@ namespace GestorDeTaller.UI.Controllers
                 if (ModelState.IsValid)
                 {
                     int idArticulo = int.Parse(TempData["IdArticulo"].ToString());
-                    Repositorio.AgregarMantenimiento(mantenimiento, idArticulo);
+                    mantenimiento.Id_Articulo = idArticulo;
+                    var httpClient = new HttpClient();
+
+                    string json = JsonConvert.SerializeObject(mantenimiento);
+
+                    var buffer = System.Text.Encoding.UTF8.GetBytes(json);
+
+                    var byteContent = new ByteArrayContent(buffer);
+
+                    byteContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+
+                    await httpClient.PostAsync("https://localhost:44343/api/Mantenimiento", byteContent);
+
 
                     return RedirectToAction("ListarMantenimientosAsociados", new { id = idArticulo });
 
@@ -78,26 +107,49 @@ namespace GestorDeTaller.UI.Controllers
         }
 
         // GET: Mantenimiento/Edit/5
-        public ActionResult EditarMantenimiento(int id)
+        public async Task<IActionResult> EditarMantenimiento(int id)
         {
             Mantenimiento ListarMantenimientoAeditar;
-            ListarMantenimientoAeditar = Repositorio.ObteneCatalogoDeMantenimeintosPorId(id);
+            try
+            {
+                var httpClient = new HttpClient();
+                var response = await httpClient.GetAsync("https://localhost:44343/api/Mantenimiento/EditarMantenimiento/" + id.ToString());
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                ListarMantenimientoAeditar = JsonConvert.DeserializeObject<Mantenimiento>(apiResponse);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
 
             return View(ListarMantenimientoAeditar);
+            
+
+            
         }
 
         // POST: Mantenimiento/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditarMantenimiento(Mantenimiento Mantenimiento)
+        public async Task<ActionResult> EditarMantenimiento(Mantenimiento Mantenimiento)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    Repositorio.EditarCatalogoDeMantenimiento(Mantenimiento);
+                    
                     int idArticulo = int.Parse(TempData["IdArticulo"].ToString());
+                    var httpClient = new HttpClient();
 
+                    string json = JsonConvert.SerializeObject(Mantenimiento);
+
+                    var buffer = System.Text.Encoding.UTF8.GetBytes(json);
+
+                    var byteContent = new ByteArrayContent(buffer);
+
+                    byteContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+
+                    await httpClient.PutAsync("https://localhost:44343/api/Mantenimiento", byteContent);
                     return RedirectToAction("ListarMantenimientosAsociados", new { id = idArticulo });
                 }
                 else

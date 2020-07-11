@@ -55,11 +55,24 @@ namespace GestorDeTaller.Controllers
             return View(ArticuloAsociado);
         }
         // GET: Repuestos
-        public ActionResult ListarDetallesDelRepuesto(int id)
+        public async Task<IActionResult> ListarDetallesDelRepuesto(int id)
         {
-            List<Repuesto> repuestoasociado;
-            repuestoasociado = Repositorio.ObtenerRepuestoAsociadosAlArticulo(id);
+            List<Repuesto> repuestoasociado = new List<Repuesto>();
+            try
+            {
+                var httpClient = new HttpClient();
 
+                var response = await httpClient.GetAsync("https://localhost:44343/api/CatalogoDeArticulos/ListarDetallesDelRepuesto/" + id.ToString());
+
+                string apiResponse = await response.Content.ReadAsStringAsync();
+
+                repuestoasociado = JsonConvert.DeserializeObject<List<Repuesto>>(apiResponse);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
             return View(repuestoasociado);
         }
 

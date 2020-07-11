@@ -41,21 +41,25 @@ namespace GestorDeTaller.UI.Controllers
         }
 
 
-        public ActionResult DetallesDeOrdenRecibida(int id)
+        public async Task<IActionResult> DetallesDeOrdenRecibida(int id)
         {
-            OrdenDeMantenimiento DetallesDelAOrden;
-            DetallesDelAOrden = Repositorio.ObtenerOrdenesDeMantenimentoCanceladasPorid(id);
-
-            List<Articulo> articuloAsociado;
-            articuloAsociado = Repositorio.ObtenerArticuloAsociadosALaOrdenEnMantenimiento(id);
-
-            List<Mantenimiento> MantenimientoAsosiado;
-            MantenimientoAsosiado = Repositorio.ObtenermantenimientoAsociadosalaOrden(id);
-
-            ViewData["Articulo"] = articuloAsociado;
+            OrdenDeMantenimiento ordenDeMantenimiento;
+            List<Articulo> articuloAsociado = new List<Articulo>();
+            List<Mantenimiento> MantenimientoAsosiado = new List<Mantenimiento>();
+            try
+            {
+                var httpClient = new HttpClient();
+                var response = await httpClient.GetAsync("https://localhost:44343/api/OrdenesDeMantenimientoRecibida/Detalles/" + id.ToString());
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                ordenDeMantenimiento = JsonConvert.DeserializeObject<OrdenDeMantenimiento>(apiResponse);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            ViewBag.laLista = articuloAsociado;
             ViewData["Mantenimiento"] = MantenimientoAsosiado;
-
-            return View(DetallesDelAOrden);
+            return View(ordenDeMantenimiento);
         }
        
        
