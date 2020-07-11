@@ -16,6 +16,7 @@ using GestorDeTaller.UI.Areas.Identity.Pages.Account;
 
 using GestorDeTaller.UI.Services;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.CodeAnalysis.Options;
 
 namespace GestorDeTaller.UI
 {
@@ -31,13 +32,28 @@ namespace GestorDeTaller.UI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var lockoutOptions = new LockoutOptions()
+            {
+                AllowedForNewUsers = true,
+                DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10),
+                MaxFailedAccessAttempts = 3
+            };
+
+
             services.AddTransient<IEmailSender, EmailSender>();
             services.Configure<EmailSenderOptions>(Configuration.GetSection("EmailSenderOptions"));
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.AddIdentity<IdentityUser, IdentityRole>(options =>
+             {
+                 options.SignIn.RequireConfirmedAccount = true;
+                 options.Lockout = lockoutOptions;
+             })
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddDefaultTokenProviders();
+            services.AddMvc();
             services.AddControllersWithViews();
             services.AddRazorPages();
 

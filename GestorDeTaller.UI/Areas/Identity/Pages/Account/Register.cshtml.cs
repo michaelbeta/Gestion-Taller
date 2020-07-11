@@ -88,8 +88,8 @@ namespace GestorDeTaller.UI.Areas.Identity.Pages.Account
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("El usuario creó una nueva cuenta con clave");
 
+                    _logger.LogInformation("El usuario creó una nueva cuenta con clave");
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                     var callbackUrl = Url.Page(
@@ -97,12 +97,16 @@ namespace GestorDeTaller.UI.Areas.Identity.Pages.Account
                         pageHandler: null,
                         values: new { area = "Identity", userId = user.Id, code = code, returnUrl = returnUrl },
                         protocol: Request.Scheme);
-
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirme su correo  electrónico",
+                   
+                        await _emailSender.SendEmailAsync(user.Email, "Confirme su correo  electrónico",
                         $"Por favor confirme su cuenta por <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>click aqui</a>.");
+
+                   
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
+
+
                         return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
                     }
                     else

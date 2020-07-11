@@ -49,7 +49,7 @@ namespace GestorDeTaller.UI.Controllers
             try
             {
                 var httpClient = new HttpClient();
-                var response = await httpClient.GetAsync("https://localhost:44343/api/OrdenesDeMantenimientoRecibida/Detalles/" + id.ToString());
+                var response = await httpClient.GetAsync("https://localhost:5001/api/OrdenesDeMantenimientoRecibida/Detalles/" + id.ToString());
                 string apiResponse = await response.Content.ReadAsStringAsync();
                 ordenDeMantenimiento = JsonConvert.DeserializeObject<OrdenDeMantenimiento>(apiResponse);
             }

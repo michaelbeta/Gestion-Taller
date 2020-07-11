@@ -32,7 +32,7 @@ namespace GestorDeTaller.UI.Controllers
             {
                 var httpClient = new HttpClient();
 
-                var response = await httpClient.GetAsync("https://localhost:44343/api/Repuestos/" + id.ToString() );
+                var response = await httpClient.GetAsync("https://localhost:5001/api/Repuestos/" + id.ToString() );
 
                 string apiResponse = await response.Content.ReadAsStringAsync();
 
@@ -122,7 +122,7 @@ namespace GestorDeTaller.UI.Controllers
 
                     byteContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
 
-                    await httpClient.PostAsync("https://localhost:44343/api/Repuestos", byteContent);
+                    await httpClient.PostAsync("https://localhost:5001/api/Repuestos", byteContent);
 
                     return RedirectToAction("ListarRepuestosAsociados", new { id = idArticulo });
 
@@ -151,7 +151,7 @@ namespace GestorDeTaller.UI.Controllers
             try
             {
                 var httpClient = new HttpClient();
-                var response = await httpClient.GetAsync("https://localhost:44343/api/Repuestos/EditarRepuesto/" + id.ToString());
+                var response = await httpClient.GetAsync("https://localhost:5001/api/Repuestos/EditarRepuesto/" + id.ToString());
                 string apiResponse = await response.Content.ReadAsStringAsync();
                 editarRepuesto = JsonConvert.DeserializeObject<Repuesto>(apiResponse);
             }
@@ -183,7 +183,7 @@ namespace GestorDeTaller.UI.Controllers
 
                     byteContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
 
-                    await httpClient.PutAsync("https://localhost:44343/api/Repuestos/", byteContent);
+                    await httpClient.PutAsync("https://localhost:5001/api/Repuestos/", byteContent);
 
                     return RedirectToAction("ListarRepuestosAsociados", new { id = idArticulo });
                 }

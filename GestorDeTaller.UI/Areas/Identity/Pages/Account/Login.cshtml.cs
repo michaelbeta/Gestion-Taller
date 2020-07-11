@@ -20,14 +20,16 @@ namespace GestorDeTaller.UI.Areas.Identity.Pages.Account
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
-
+        private readonly IEmailSender _emailSender;
+        private DateTime Horalocal = DateTime.Now;
         public LoginModel(SignInManager<IdentityUser> signInManager, 
             ILogger<LoginModel> logger,
-            UserManager<IdentityUser> userManager)
+            UserManager<IdentityUser> userManager, IEmailSender emailSender)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
+            _emailSender = emailSender;
         }
 
         [BindProperty]
@@ -48,8 +50,8 @@ namespace GestorDeTaller.UI.Areas.Identity.Pages.Account
             public string Name{ get; set; }
 
             [Required(ErrorMessage = "Este campo es requerido")]
-            [RegularExpression("^((?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])|(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[^a-zA-Z0-9])|(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[^a-zA-Z0-9])|(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^a-zA-Z0-9])).{8,}$", 
-             ErrorMessage = "La clave debe tener al menos 8 caracteres y contener 3 de 4 de los siguientes: mayúsculas(A - Z), minúsculas(a - z), números(0 - 9) y caracteres especiales(p.Ej.! @ # $% ^ & *) ")]
+            //[RegularExpression("^((?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])|(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[^a-zA-Z0-9])|(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[^a-zA-Z0-9])|(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^a-zA-Z0-9])).{8,}$", 
+            // ErrorMessage = "La clave debe tener al menos 8 caracteres y contener 3 de 4 de los siguientes: mayúsculas(A - Z), minúsculas(a - z), números(0 - 9) y caracteres especiales(p.Ej.! @ # $% ^ & *) ")]
             [DataType(DataType.Password)]
             [Display(Name = "Clave")]
            
@@ -79,15 +81,24 @@ namespace GestorDeTaller.UI.Areas.Identity.Pages.Account
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl = returnUrl ?? Url.Content("~/CatalogoDeArticulos/ListarCatalogoDeArticulos");
-
+           
             if (ModelState.IsValid)
             {
-                // This doesn't count login failures towards account lockout
-                // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(Input.Name, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+               
+                var result = await _signInManager.PasswordSignInAsync(Input.Name, Input.Password, Input.RememberMe, lockoutOnFailure: true);
+               
+
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("Usuario logueado");
+
+                    var userABuscar = await _userManager.FindByNameAsync(Input.Name);
+                  
+                    await _emailSender
+                        .SendEmailAsync(userABuscar.Email, "Asunto:  Inicio de sesión usuario  "+ userABuscar.UserName,
+                        "Usted inicio sesión día" + Horalocal)
+                       .ConfigureAwait(false);
+
                     return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
@@ -96,6 +107,15 @@ namespace GestorDeTaller.UI.Areas.Identity.Pages.Account
                 }
                 if (result.IsLockedOut)
                 {
+                    var usuarioBuscar = await _userManager.FindByNameAsync(Input.Name);
+                    
+                    await _emailSender
+                        .SendEmailAsync(usuarioBuscar.Email, "Asunto: Usuario Bloqueado",
+                        "Le informamos que la cuenta del usuario " +usuarioBuscar.UserName+
+                        "se encuentra bloqueada por 10 minutos.Por favor ingrese el día" + Horalocal.Date+
+                        "a las"+ Horalocal.ToLocalTime()+10)
+                       .ConfigureAwait(false);
+
                     _logger.LogWarning("Cuenta de usuario blockeada");
                     return RedirectToPage("./Lockout");
                 }
@@ -106,7 +126,7 @@ namespace GestorDeTaller.UI.Areas.Identity.Pages.Account
                 }
             }
 
-            // If we got this far, something failed, redisplay form
+          
             return Page();
         }
     }
