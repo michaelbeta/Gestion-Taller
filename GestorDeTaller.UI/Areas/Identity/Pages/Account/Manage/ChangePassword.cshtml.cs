@@ -33,19 +33,19 @@ namespace GestorDeTaller.UI.Areas.Identity.Pages.Account.Manage
 
         public class InputModel
         {
-            [Required]
-            [DataType(DataType.Password)]
-            [Display(Name = "Contraseña antigua")]
-            public string OldPassword { get; set; }
+            [Required(ErrorMessage = "Este campo es requrido")]
+            
+            [Display(Name = "Nombre")]
+            public string Name { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "Este campo es requrido")]
             [StringLength(100, ErrorMessage = "El {0} debe tener al menos {2} y un máximo de {1} caracteres de longitud..", MinimumLength = 6)]
             [DataType(DataType.Password)]
-            [Display(Name = "Nueva contraseña")]
+            [Display(Name = "Clave nueva")]
             public string NewPassword { get; set; }
-
+            [Required(ErrorMessage = "Este campo es requrido")]
             [DataType(DataType.Password)]
-            [Display(Name = "Confirmar nueva contraseña")]
+            [Display(Name = "Confirmar la clave nueva")]
             [Compare("NewPassword", ErrorMessage = "La nueva contraseña y la contraseña de confirmación no coinciden.")]
             public string ConfirmPassword { get; set; }
         }
@@ -80,7 +80,7 @@ namespace GestorDeTaller.UI.Areas.Identity.Pages.Account.Manage
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
-            var changePasswordResult = await _userManager.ChangePasswordAsync(user, Input.OldPassword, Input.NewPassword);
+            var changePasswordResult = await _userManager.ChangePasswordAsync(user, Input.Name, Input.NewPassword);
             if (!changePasswordResult.Succeeded)
             {
                 foreach (var error in changePasswordResult.Errors)

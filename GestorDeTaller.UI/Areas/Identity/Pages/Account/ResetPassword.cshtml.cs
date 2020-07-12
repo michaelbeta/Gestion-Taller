@@ -27,17 +27,17 @@ namespace GestorDeTaller.UI.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
+             [Required(ErrorMessage = "Este campo es requrido")]
             [EmailAddress]
             [Display(Name = "Correo")]
             public string Email { get; set; }
 
-            [Required]
+            [Required (ErrorMessage = "Este campo es requrido")]
             [StringLength(100, ErrorMessage = "El {0} debe tener al menos {2} y un máximo de {1} caracteres de longitud.", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Contraseña")]
             public string Password { get; set; }
-
+            [Required(ErrorMessage = "Este campo es requrido")]
             [DataType(DataType.Password)]
             [Display(Name = "Confirmar contraseña")]
             [Compare("Password", ErrorMessage = "La contraseña y la contraseña de confirmación no coinciden.")]

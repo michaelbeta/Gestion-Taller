@@ -45,20 +45,30 @@ namespace GestorDeTaller.UI.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required(ErrorMessage = "Este email ya esta registrado")]
-            [EmailAddress]
-            [Display(Name = "Correo")]
+            [Required(ErrorMessage = "Este campo es requerido")]
+            [EmailAddress(ErrorMessage = "El correo  electrónico ingresado no es una dirreción de correo  electrónico válida")]
+            [Display(Name = "Correo electrónico")]
             public string Email { get; set; }
 
-            [Required]
-            [StringLength(100, ErrorMessage = "El {0} debe tener al menos {2} y un máximo de {1} caracteres de longitud", MinimumLength = 6)]
-            [DataType(DataType.Password)]
-            [Display(Name = "Contraseña")]
-            public string Password { get; set; }
+            [Display(Name = "Nombre")]
+            [Required(ErrorMessage = "Este campo es requerido")]
+            public string Name { get; set; }
 
+
+            [Required ( ErrorMessage ="Este campo es requerido")]
+            [StringLength(100, ErrorMessage = "El {0} debe tener al menos {2} y un máximo de {1} caracteres de longitud", MinimumLength = 6)]
+            [RegularExpression("^((?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])|(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[^a-zA-Z0-9])|(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[^a-zA-Z0-9])|(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^a-zA-Z0-9])).{8,}$",
+             ErrorMessage = "La clave debe tener al menos 8 caracteres y contener 3 de 4 de los siguientes: mayúsculas(A - Z), minúsculas(a - z), números(0 - 9) y caracteres especiales(p.Ej.! @ # $% ^ & *) ")]
             [DataType(DataType.Password)]
-            [Display(Name = "Confirmar constaseña")]
-            [Compare("Password", ErrorMessage = "La contraseña y la contraseña de confirmación no coinciden")]
+
+            [Display(Name = "Clave")]
+            public string Password { get; set; }
+            [Required(ErrorMessage = "Este campo es requerido")]
+            [RegularExpression("^((?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])|(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[^a-zA-Z0-9])|(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[^a-zA-Z0-9])|(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^a-zA-Z0-9])).{8,}$",
+             ErrorMessage = "La clave deben tener al menos 8 caracteres y contener 3 de 4 de los siguientes: mayúsculas(A - Z), minúsculas(a - z), números(0 - 9) y caracteres especiales(p.Ej.! @ # $% ^ & *) ")]
+            [DataType(DataType.Password)]
+            [Display(Name = "Confirmar la  clave ")]
+            [Compare("Password", ErrorMessage = "La clave y la clave de confirmación no coinciden")]
             public string ConfirmPassword { get; set; }
         }
 
@@ -74,12 +84,12 @@ namespace GestorDeTaller.UI.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new IdentityUser { UserName = Input.Email, Email = Input.Email };
+                var user = new IdentityUser { UserName = Input.Name, Email = Input.Email };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("El usuario creó una nueva cuenta con contraseña");
 
+                    _logger.LogInformation("El usuario creó una nueva cuenta con clave");
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                     var callbackUrl = Url.Page(
@@ -87,12 +97,16 @@ namespace GestorDeTaller.UI.Areas.Identity.Pages.Account
                         pageHandler: null,
                         values: new { area = "Identity", userId = user.Id, code = code, returnUrl = returnUrl },
                         protocol: Request.Scheme);
-
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirme su correo",
+                   
+                        await _emailSender.SendEmailAsync(user.Email, "Confirme su correo  electrónico",
                         $"Por favor confirme su cuenta por <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>click aqui</a>.");
+
+                   
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
+
+
                         return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
                     }
                     else
