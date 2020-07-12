@@ -32,7 +32,7 @@ namespace GestorDeTaller.UI.Controllers
             {
                 var httpClient = new HttpClient();
 
-                var response = await httpClient.GetAsync("https://localhost:44343/api/Repuesto/" + id.ToString() );
+                var response = await httpClient.GetAsync("https://localhost:44343/api/Repuestos/" + id.ToString() );
 
                 string apiResponse = await response.Content.ReadAsStringAsync();
 

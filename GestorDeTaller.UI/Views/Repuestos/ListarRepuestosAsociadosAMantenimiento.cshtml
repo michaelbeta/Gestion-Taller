@@ -9,7 +9,8 @@
 }
 <h1>Repuestos asociados a un mantenimiento</h1>
 <p>
-
+    
+   
     @Html.ActionLink("Asociar Repuesto ", "Asociar_Repuesto", "RepuestosParaMantenimiento", new { id = @ViewBag.Id }, null)
 </p>
 
@@ -30,8 +31,7 @@
         @Html.DisplayFor(modelItem => item.Nombre)
     </td>
     <td>
-        @Html.ActionLink("Desasociar ", "ConfirmarRepuestoAdesasociar", "RepuestosParaMantenimiento", new { id = item.Id }, null)
-
+        @Html.ActionLink("Desasociar", "DesasociarRepuesto", "RepuestosParaMantenimiento", new { id = item.Id }, new { onclick = "return confirm('¿Desea seleccionar este mantenimiento?');" })
 
     </td>
 </tr>     }

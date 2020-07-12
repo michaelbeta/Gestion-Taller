@@ -7,19 +7,19 @@
 
 @using (Html.BeginForm())
 {
-<h1>Catálogo de repuestos</h1>
-  <br>
-        <br>
+    <h1>Catálogo de repuestos</h1>
+    <br>
+    <br>
 
-      <label for="Name">Seleccione un repuesto</label> @Html.DropDownList("Repuesto", new SelectList(ViewBag.laLista, "Id", "Nombre"))
+    <label for="Name">Seleccione un repuesto</label> @Html.DropDownList("Repuesto", new SelectList(ViewBag.laLista, "Id", "Nombre"))
 
-      <input type="submit" name="Elegir" value="Elegir" />
-
-        <br>
-       <br>
-         <div>
-             <a href="javascript: history.go(-1)" class="btn btn-primary">Cancelar</a>
-            </div>}
+    <input type="submit" name="Elegir" value="Elegir" new { onclick = "return confirm('¿Desea seleccionar este mantenimiento?');"  />
+    
+    <br>
+    <br>
+    <div>
+        <a href="javascript: history.go(-1)" class="btn btn-primary">Cancelar</a>
+    </div>}
 
 
 
