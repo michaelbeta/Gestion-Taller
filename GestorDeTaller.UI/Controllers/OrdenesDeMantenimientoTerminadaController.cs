@@ -28,7 +28,7 @@ namespace GestorDeTaller.UI.Controllers
             {
                 var httpClient = new HttpClient();
 
-                var response = await httpClient.GetAsync("https://localhost:5001/api/OrdenesDeMantenimientoTerminadas");
+                var response = await httpClient.GetAsync("https://localhost:44343/api/OrdenesDeMantenimientoTerminadas");
 
                 string apiResponse = await response.Content.ReadAsStringAsync();
 
@@ -42,19 +42,24 @@ namespace GestorDeTaller.UI.Controllers
             return View(laLista);
         }
 
-        public ActionResult DetallesDeOrdenesDeMantenimientoTerminadas(int id)
+        public async Task<IActionResult> DetallesDeOrdenesDeMantenimientoTerminadas(int id)
         {
             OrdenDeMantenimiento DetallesDelAOrden;
-            DetallesDelAOrden = Repositorio.ObtenerOrdenesDeMantenimentoTerminadasPorid(id);
+            try
+            {
 
-            List<Articulo> articuloAsociado;
-            articuloAsociado = Repositorio.ObtenerArticuloAsociadosALaOrdenEnMantenimiento(id);
-
-            List<Mantenimiento> MantenimientoAsosiado;
-            MantenimientoAsosiado = Repositorio.ObtenermantenimientoAsociadosalaOrden(id);
-
-            ViewData["Articulo"] = articuloAsociado;
-            ViewData["Mantenimiento"] = MantenimientoAsosiado;
+                var httpClient = new HttpClient();
+                var response = await httpClient.GetAsync("https://localhost:44343/api/OrdenesDeMantenimientoTerminadas/" + id.ToString());
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                DetallesDelAOrden = JsonConvert.DeserializeObject<OrdenDeMantenimiento>(apiResponse);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            
+            ViewData["Articulo"] = DetallesDelAOrden.articulos;
+            ViewData["Mantenimiento"] = DetallesDelAOrden.mantenimientos;
 
             return View(DetallesDelAOrden);
         }

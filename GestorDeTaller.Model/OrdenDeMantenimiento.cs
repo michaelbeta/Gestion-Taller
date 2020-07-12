@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -61,5 +62,9 @@ namespace GestorDeTaller.Model
 
         [NotMapped, Display(Name = "Cantidad de órdenes terminadas")]
         public decimal DiasTrabajados { get; set; }
+        [NotMapped]
+        public List<Articulo> articulos { get; set; }
+        [NotMapped]
+        public List<Mantenimiento> mantenimientos { get; set; }
     }
 }

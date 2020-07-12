@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -28,7 +29,8 @@ namespace GestorDeTaller.Model
                 return string.Format("{0} {1}", Descripcion, CostoFijo);
             }
         }
-
+        [NotMapped]
+        public List<Repuesto> repuestos { get; set; }
     }
 
 

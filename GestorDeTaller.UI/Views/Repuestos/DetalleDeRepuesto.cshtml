@@ -6,7 +6,7 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml"; //Esta sería la plantilla original del sitio web.
 }
-<h1>Detalles De Repuesto</h1>
+<h1>Detalles de repuesto</h1>
 
 <div>
 
@@ -36,7 +36,7 @@
     <h4>Artículo</h4>
     <br>
 
-    @foreach (var std in ViewBag.lalista as IList<GestorDeTaller.Model.Articulo>)
+    @foreach (var std in ViewData["Articulo"] as IList<GestorDeTaller.Model.Articulo>)
     {
 
 <b> <label for="Name">Nombre:</label> </b> @std.Nombre <br>

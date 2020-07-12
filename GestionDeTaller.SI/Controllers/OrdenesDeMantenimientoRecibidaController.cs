@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using GestorDeTaller.BL;
 using GestorDeTaller.Model;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -16,8 +17,8 @@ namespace GestionDeTaller.SI.Controllers
     {
         private readonly IRepositorioDeTaller Repositorio;
 
-       // public object ViewBag { get; private set; }
-        public dynamic ViewData { get; private set; }
+
+        public ViewDataDictionary ViewData { get; set; }
         public dynamic ViewBag { get; private set; }
 
         public OrdenesDeMantenimientoRecibidaController(IRepositorioDeTaller repositorio)
@@ -42,15 +43,15 @@ namespace GestionDeTaller.SI.Controllers
             ListarOrdenDeMantenimientoAeditar = Repositorio.ObtenerOrdenDeMantenimientoPorId(id);
             return ListarOrdenDeMantenimientoAeditar;
         }
-      
+
 
         // POST api/<OrdenesDeMantenimientoRecibidas>
         [HttpPost]
         public IActionResult Post([FromBody] OrdenDeMantenimiento ordenDeMantenimiento)
         {
+
             try
             {
-                
 
                 if (ModelState.IsValid)
                 {
@@ -59,8 +60,6 @@ namespace GestionDeTaller.SI.Controllers
 
 
                 }
-
-
             }
             catch (Exception ex)
             {
@@ -69,6 +68,7 @@ namespace GestionDeTaller.SI.Controllers
             }
             return Ok(ordenDeMantenimiento);
         }
+
 
         // PUT api/<OrdenesDeMantenimientoRecibidas>/5
         [HttpPut]
@@ -86,42 +86,57 @@ namespace GestionDeTaller.SI.Controllers
                 return NotFound();
             }
             return Ok(ordenDeMantenimiento);
-            
+
         }
 
-        
+
         [HttpGet("{Iniciar}/{id}")]
         public ActionResult<OrdenDeMantenimiento> Iniciar(string iniciar, int id)
         {
             OrdenDeMantenimiento DetallesDelAOrden;
             if (iniciar.Equals("Detalles"))
             {
-               
+
                 DetallesDelAOrden = Repositorio.ObtenerOrdenesDeMantenimentoCanceladasPorid(id);
 
                 List<Articulo> articuloAsociado;
                 articuloAsociado = Repositorio.ObtenerArticuloAsociadosALaOrdenEnMantenimiento(id);
-
+                DetallesDelAOrden.articulos = articuloAsociado;
                 List<Mantenimiento> MantenimientoAsosiado;
                 MantenimientoAsosiado = Repositorio.ObtenermantenimientoAsociadosalaOrden(id);
+                DetallesDelAOrden.mantenimientos = MantenimientoAsosiado;
 
-                //ViewData["Articulo"] = articuloAsociado;
-                // ViewData["Mantenimiento"] = MantenimientoAsosiado;
 
                 return DetallesDelAOrden;
 
             }
-            
             if (iniciar.Equals("IniciarOrden"))
             {
                 Repositorio.IniciarOrdenDerMantenimiento(id);
                 return Ok();
             }
-            else 
+            else
             {
                 return null;
             }
+
+        }
+        [HttpGet("{accion}/{IdArticulo}/{id}")]
+        public IActionResult Iniciar(string accion,int IdArticulo,int id)
+        {
             
+            if (accion.Equals("AgregarMantenimientoAOrdenRecibidas"))
+            {
+
+                Repositorio.AgregarMantenimientoAOrdenRecibidas(IdArticulo, id);
+                return Ok();
+
+            }
+            else
+            {
+                return null;
+            }
+
         }
     }
 }
