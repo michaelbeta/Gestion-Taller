@@ -237,7 +237,7 @@ namespace GestorDeTaller.UI.Controllers
             try
             {
                 var httpClient = new HttpClient();
-                var response = await httpClient.GetAsync("https://localhost:44343/api/OrdenesDeMantenimientoRecibida/" + id.ToString());
+                var response = await httpClient.GetAsync("https://localhost:44343/api/OrdenesDeMantenimientoRecibida/IniciarOrden/" + id.ToString());
                 string apiResponse = await response.Content.ReadAsStringAsync();
                 
             }

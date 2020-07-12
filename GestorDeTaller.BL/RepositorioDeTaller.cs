@@ -58,12 +58,23 @@ namespace GestorDeTaller.BL
 
         public List<Repuesto> ObtenerRepuestoAsociadosAlArticulo(int id)
         {
-
-            var resultado = from c in ElContextoDeBaseDeDatos.repuestos
-                            where c.Id_Articulo == id
-                            select c;
-
-            return resultado.ToList();
+            Mantenimiento mantenimiento;
+            mantenimiento = ObteneCatalogoDeMantenimeintosPorId(id);
+            if (mantenimiento == null)
+            {
+                var resultado = from c in ElContextoDeBaseDeDatos.repuestos
+                                where c.Id_Articulo == id
+                                select c;
+                return resultado.ToList();
+            }
+            else 
+            {
+                var resultado = from c in ElContextoDeBaseDeDatos.repuestos
+                                where c.Id_Articulo == mantenimiento.Id_Articulo
+                                select c;
+                return resultado.ToList();
+            }
+           
         }
 
         public void AgregarRepuesto(Repuesto repuesto, int id)
@@ -94,9 +105,9 @@ namespace GestorDeTaller.BL
         }
         public List<Mantenimiento> ObtenerCatalogoDeMantenimeintos(int id)
         {
-            OrdenDeMantenimiento ordenDeMantenimiento;
-            ordenDeMantenimiento = ObtenerOrdenDeMantenimientoPorId(id);
-            if (ordenDeMantenimiento == null)
+            Articulo articulo;
+            articulo = ObtenerPorId(id);
+            if (articulo == null)
             {
                 var resultado = from c in ElContextoDeBaseDeDatos.mantenimientos
                                 where c.Id_Articulo == id
@@ -107,7 +118,7 @@ namespace GestorDeTaller.BL
             else
             {
                 var resultado = from c in ElContextoDeBaseDeDatos.mantenimientos
-                                where c.Id_Articulo ==ordenDeMantenimiento.Id_Articulo
+                                where c.Id_Articulo == articulo.Id
                                 select c;
 
                 return resultado.ToList();
@@ -174,7 +185,7 @@ namespace GestorDeTaller.BL
 
             Mantenimiento mantenimiento = ElContextoDeBaseDeDatos.mantenimientos.Find(id);
 
-            List<Repuesto> repuestosAMostrar = ElContextoDeBaseDeDatos.repuestos.ToList();
+            List<Repuesto> repuestosAMostrar = ObtenerRepuestoAsociadosAlArticulo(id);
             List<RepuestoParaMantenimiento> listaDeRepuestoParaMantenimiento = ElContextoDeBaseDeDatos.RepuestosParaMantenimiento.ToList();
 
 
