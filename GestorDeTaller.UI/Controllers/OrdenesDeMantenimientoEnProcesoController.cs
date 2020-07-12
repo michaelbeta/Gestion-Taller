@@ -41,9 +41,20 @@ namespace GestorDeTaller.UI.Controllers
             return View(laLista);
         }
 
-        public ActionResult TerminarOrdeMantenimiento(int id)
+        public async Task<ActionResult> TerminarOrdeMantenimiento(int id)
         {
-            Repositorio.TerminarMantenimiento(id);
+            try
+            {
+                var httpClient = new HttpClient();
+                var response = await httpClient.GetAsync("https://localhost:44343/api/OrdenesDeMantenimientoEnProceso/TerminarOrdenMantenimiento/" + id.ToString());
+                string apiResponse = await response.Content.ReadAsStringAsync();
+
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            
             return RedirectToAction(nameof(ListarOrdenesDeMantenimentoEnProceso));
         }
 
@@ -56,13 +67,23 @@ namespace GestorDeTaller.UI.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CancelarOrdenDeMantenimiento(MotivoDeCancelacion motivoCancelacion)
+        public async Task<IActionResult> CancelarOrdenDeMantenimiento(MotivoDeCancelacion motivoCancelacion)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    Repositorio.CancelarMantenimiento(motivoCancelacion.Id, motivoCancelacion.motivoDeCancelacion);
+                    var httpClient = new HttpClient();
+
+                    string json = JsonConvert.SerializeObject(motivoCancelacion);
+
+                    var buffer = System.Text.Encoding.UTF8.GetBytes(json);
+
+                    var byteContent = new ByteArrayContent(buffer);
+
+                    byteContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+
+                    await httpClient.PostAsync("https://localhost:44343/api/OrdenesDeMantenimientoEnProceso", byteContent);
 
                     return RedirectToAction(nameof(ListarOrdenesDeMantenimentoEnProceso));
                 }
@@ -79,10 +100,25 @@ namespace GestorDeTaller.UI.Controllers
 
 
         }
-        public ActionResult AgregarMantenimiento(int id)
+        public async Task<IActionResult> AgregarMantenimiento(int id)
         {
             List<Mantenimiento> laLista;
-            laLista = Repositorio.ObtenerMantenimiento();
+            try
+            {
+                var httpClient = new HttpClient();
+
+                var response = await httpClient.GetAsync("https://localhost:44343/api/OrdenesDeMantenimientoEnProceso/" + id.ToString());
+
+                string apiResponse = await response.Content.ReadAsStringAsync();
+
+                laLista = JsonConvert.DeserializeObject<List<Mantenimiento>>(apiResponse);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
             TempData["IdOrdenDeMantenimiento"] = id;
             ViewBag.laLista = laLista;
             return View();
@@ -98,20 +134,25 @@ namespace GestorDeTaller.UI.Controllers
             return RedirectToAction(nameof(ListarOrdenesDeMantenimentoEnProceso));
         }
 
-        public ActionResult DetallesDeOrdenDeMantenimiento(int id)
+        public async Task<IActionResult> DetallesDeOrdenDeMantenimiento(int id)
         {
-
             OrdenDeMantenimiento DetallesDelAOrden;
-            DetallesDelAOrden = Repositorio.ObtenerOrdenesDeMantenimentoCanceladasPorid(id);
+            try
+            {
+                
+                var httpClient = new HttpClient();
+                var response = await httpClient.GetAsync("https://localhost:44343/api/OrdenesDeMantenimientoEnProceso/DetallesDeOrdenesEnProceso/" + id.ToString());
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                DetallesDelAOrden = JsonConvert.DeserializeObject<OrdenDeMantenimiento>(apiResponse);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
 
-            List<Articulo> articuloAsociado;
-            articuloAsociado = Repositorio.ObtenerArticuloAsociadosALaOrdenEnMantenimiento(id);
-
-            List<Mantenimiento> MantenimientoAsosiado;
-            MantenimientoAsosiado = Repositorio.ObtenermantenimientoAsociadosalaOrden(id);
-
-            ViewData["Articulo"] = articuloAsociado;
-            ViewData["Mantenimiento"] = MantenimientoAsosiado;
+            ViewData["Articulo"] = DetallesDelAOrden.articulos;
+            ViewData["Mantenimiento"] = DetallesDelAOrden.mantenimientos;
+   
 
             return View(DetallesDelAOrden);
 

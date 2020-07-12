@@ -24,9 +24,9 @@ namespace GestionDeTaller.SI.Controllers
         public IEnumerable<Repuesto> Get(int id)
         {
             List<Repuesto> repuestoasociado;
-            //TempData["IdArticulo"] = id;
             repuestoasociado = Repositorio.ObtenerRepuestoAsociadosAlArticulo(id);
             return repuestoasociado;
+            
         }
         [HttpGet("{accion}/{id}")]
         public ActionResult<Repuesto> Get(string accion, int id)
@@ -37,7 +37,21 @@ namespace GestionDeTaller.SI.Controllers
                 editarRepuesto = Repositorio.ObtenerRepuestoPorId(id);
                 return editarRepuesto;
             }
-            else 
+            if (accion.Equals("DetalleDeRepuesto"))
+            {
+                Repuesto repuesto;
+                repuesto = Repositorio.ObtenerRepuestoAdesasociar(id);
+
+                List<Articulo> articuloAsociado;
+                articuloAsociado = Repositorio.ObtenerArticuloAsociadosAlRepuesto(id);
+                repuesto.articuloAsociado = articuloAsociado;
+                List<Mantenimiento> MantenimientoAsosiado;
+                MantenimientoAsosiado = Repositorio.ObtenerMantenimientoAsociadoAlRepuesto(id);
+                repuesto.MantenimientoAsosiado = MantenimientoAsosiado;
+                return repuesto;
+            }
+            
+            else
             {
                 return null;
             }
@@ -90,10 +104,6 @@ namespace GestionDeTaller.SI.Controllers
 
        
 
-        // DELETE api/<RepuestosController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
+      
     }
 }

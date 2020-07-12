@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -29,8 +30,10 @@ namespace GestorDeTaller.Model
         public int CantidadDeOrdenesTerminadas { get; set; }
         [NotMapped]
         public int CantidadDeOrdenesEnProceso { get; set; }
-
-
+        [NotMapped]
+        public List<Articulo> articuloAsociado { get; set; }
+        [NotMapped]
+        public List<Mantenimiento> MantenimientoAsosiado { get; set; }
 
 
     }

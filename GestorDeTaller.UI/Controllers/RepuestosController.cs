@@ -32,7 +32,7 @@ namespace GestorDeTaller.UI.Controllers
             {
                 var httpClient = new HttpClient();
 
-                var response = await httpClient.GetAsync("https://localhost:44343/api/Repuestos/" + id.ToString() );
+                var response = await httpClient.GetAsync("https://localhost:44343/api/Repuesto/" + id.ToString() );
 
                 string apiResponse = await response.Content.ReadAsStringAsync();
 
@@ -49,30 +49,52 @@ namespace GestorDeTaller.UI.Controllers
 
             
         }
-        public ActionResult ListarRepuestosAsociadosAMantenimiento(int id)
+        public async Task<IActionResult> ListarRepuestosAsociadosAMantenimiento(int id)
         {
             List<Repuesto> repuestoasociado;
-            repuestoasociado = Repositorio.ObtenerRepuestosAsociadosAlMantenimiento(id);
             TempData["IdArticulo"] = id;
+            try
+            {
+                var httpClient = new HttpClient();
+
+                var response = await httpClient.GetAsync("https://localhost:44343/api/RepuestoParaMantenimiento/ListarRepuestosAsociadosAMantenimiento/" + id.ToString());
+
+                string apiResponse = await response.Content.ReadAsStringAsync();
+
+                repuestoasociado = JsonConvert.DeserializeObject<List<Repuesto>>(apiResponse);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
+            
             ViewBag.Id = id;
             return View(repuestoasociado);
         }
 
         // GET: Repuestos/Details/5
-        public ActionResult DetalleDeRepuesto(int id)
+        public async Task<IActionResult>  DetalleDeRepuesto(int id)
         {
 
             Repuesto repuesto;
-            repuesto = Repositorio.ObtenerRepuestoAdesasociar(id);
+           
 
-            List<Articulo> articuloAsociado;
-            articuloAsociado = Repositorio.ObtenerArticuloAsociadosAlRepuesto(id);
+            try
+            {
+                var httpClient = new HttpClient();
+                var response = await httpClient.GetAsync("https://localhost:44343/api/Repuestos/DetalleDeRepuesto/" + id.ToString());
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                repuesto = JsonConvert.DeserializeObject<Repuesto>(apiResponse);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
 
-            List<Mantenimiento> MantenimientoAsosiado;
-            MantenimientoAsosiado = Repositorio.ObtenerMantenimientoAsociadoAlRepuesto(id);
-
-            ViewBag.laLista = articuloAsociado;
-           // ViewData["Mantenimiento"] = MantenimientoAsosiado;
+            ViewData["Articulo"] = repuesto.articuloAsociado;
+           ViewData["Mantenimiento"] = repuesto.MantenimientoAsosiado;
 
             return View(repuesto);
         }
@@ -93,7 +115,7 @@ namespace GestorDeTaller.UI.Controllers
             return View(Mantenimientoasociado);
         }
         // GET: Repuestos/Create
-        public async Task<IActionResult> AgregarRepuesto()
+        public IActionResult AgregarRepuesto()
         {
 
             return View();

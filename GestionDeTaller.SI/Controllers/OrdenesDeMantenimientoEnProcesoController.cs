@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using GestorDeTaller.BL;
 using GestorDeTaller.Model;
+using GestorDeTaller.UI.Models;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -27,18 +28,65 @@ namespace GestionDeTaller.SI.Controllers
             laLista = Repositorio.ListarOrdenesDeMantenimentoEnProceso();
             return laLista;
         }
-
-        // GET api/<OrdenesDeMantenimientoEnProcesoController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IEnumerable<Mantenimiento> Get(int id)
         {
-            return "value";
+            List<Mantenimiento> laLista;
+            laLista = Repositorio.ObtenerMantenimiento();
+            return laLista;
+        }
+        // GET api/<OrdenesDeMantenimientoEnProcesoController>/5
+        [HttpGet("{accion}/{id}")]
+        public ActionResult<OrdenDeMantenimiento> Get(string accion, int id)
+        {
+            if (accion.Equals("TerminarOrdenMantenimiento"))
+            {
+                Repositorio.TerminarMantenimiento(id);
+                return Ok();
+            }
+            if (accion.Equals("DetallesDeOrdenesEnProceso"))
+            {
+                OrdenDeMantenimiento DetallesDelAOrden;
+                DetallesDelAOrden = Repositorio.ObtenerOrdenesDeMantenimentoCanceladasPorid(id);
+
+                List<Articulo> articuloAsociado;
+                articuloAsociado = Repositorio.ObtenerArticuloAsociadosALaOrdenEnMantenimiento(id);
+                DetallesDelAOrden.articulos = articuloAsociado;
+                List<Mantenimiento> MantenimientoAsosiado;
+                MantenimientoAsosiado = Repositorio.ObtenermantenimientoAsociadosalaOrden(id);
+                DetallesDelAOrden.mantenimientos = MantenimientoAsosiado;
+                return DetallesDelAOrden;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         // POST api/<OrdenesDeMantenimientoEnProcesoController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public IActionResult Post([FromBody] MotivoDeCancelacion motivoCancelacion)
         {
+            try
+            {
+
+                if (ModelState.IsValid)
+                {
+
+                    Repositorio.CancelarMantenimiento(motivoCancelacion.Id, motivoCancelacion.motivoDeCancelacion);
+
+
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+
+                return NotFound();
+            }
+            return Ok(motivoCancelacion);
+
         }
 
         // PUT api/<OrdenesDeMantenimientoEnProcesoController>/5

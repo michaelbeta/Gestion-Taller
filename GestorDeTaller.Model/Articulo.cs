@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace GestorDeTaller.Model
@@ -28,5 +29,15 @@ namespace GestorDeTaller.Model
                 return string.Format("{0} {1}", Nombre, Marca);
             }
         }
+        [NotMapped]
+       public List<Repuesto> repuestoasociado { get; set; }
+        [NotMapped]
+        public List<OrdenDeMantenimiento> ordenesDeMantenimientosEnProceso { get; set; }
+        [NotMapped]
+        public List<OrdenDeMantenimiento> ordenesDeMantenimientosterminada { get; set; }
+        [NotMapped]
+        public int CantidadDeOrdenesEnProceso { get; set; }
+        [NotMapped]
+        public int CantidadDeOrdenesTerminadas { get; set; }
     }
 }

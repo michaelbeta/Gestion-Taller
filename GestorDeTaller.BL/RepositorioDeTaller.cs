@@ -94,12 +94,27 @@ namespace GestorDeTaller.BL
         }
         public List<Mantenimiento> ObtenerCatalogoDeMantenimeintos(int id)
         {
-            var resultado = from c in ElContextoDeBaseDeDatos.mantenimientos
-                            where c.Id_Articulo == id
-                            select c;
+            OrdenDeMantenimiento ordenDeMantenimiento;
+            ordenDeMantenimiento = ObtenerOrdenDeMantenimientoPorId(id);
+            if (ordenDeMantenimiento == null)
+            {
+                var resultado = from c in ElContextoDeBaseDeDatos.mantenimientos
+                                where c.Id_Articulo == id
+                                select c;
 
-            return resultado.ToList();
+                return resultado.ToList();
+            }
+            else
+            {
+                var resultado = from c in ElContextoDeBaseDeDatos.mantenimientos
+                                where c.Id_Articulo ==ordenDeMantenimiento.Id_Articulo
+                                select c;
+
+                return resultado.ToList();
+
+            }
         }
+        
 
 
         public Mantenimiento ObteneCatalogoDeMantenimeintosPorId(int id)
@@ -353,8 +368,10 @@ namespace GestorDeTaller.BL
 
         public List<Articulo> ObtenerArticuloAsociadosALaOrdenEnMantenimiento(int id)
         {
+            OrdenDeMantenimiento ordenDeMantenimiento;
+            ordenDeMantenimiento = ObtenerOrdenDeMantenimientoPorId(id);
             var resultado = from c in ElContextoDeBaseDeDatos.articulo
-                            where c.Id == id
+                            where c.Id == ordenDeMantenimiento.Id_Articulo
                             select c;
 
             return resultado.ToList();

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace GestorDeTaller.UI.Models
+namespace GestorDeTaller.Model
 {
     public class MotivoDeCancelacion
     {

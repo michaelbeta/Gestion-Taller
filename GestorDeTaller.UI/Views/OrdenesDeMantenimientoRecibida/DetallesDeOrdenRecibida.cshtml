@@ -45,7 +45,7 @@
     <h4>Artículo</h4>
     <br>
 
-    @foreach (var std in ViewBag.laLista as IList<GestorDeTaller.Model.Articulo>)
+    @foreach (var std in ViewData["Articulo"] as IList<GestorDeTaller.Model.Articulo>)
     {
 
 <b> <label for="Name">Nombre</label> </b> @std.Nombre <br>

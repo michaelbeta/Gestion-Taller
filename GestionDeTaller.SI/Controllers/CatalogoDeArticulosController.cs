@@ -47,6 +47,40 @@ namespace GestionDeTaller.SI.Controllers
             return (articulo);
 
         }
+        [HttpGet("{accion}/{id}")]
+        public ActionResult<Articulo> Get(string accion, int id)
+        {
+            try
+            {
+                if (accion.Equals("Detalles"))
+                {
+                    Articulo detalleDeLArticulo;
+                    detalleDeLArticulo = Repositorio.ObtenerPorId(id);
+
+                    List<Repuesto> repuestoasociado;
+                    repuestoasociado = Repositorio.ObtenerRepuestoAsociadosAlArticulo(id);
+                    detalleDeLArticulo.repuestoasociado = repuestoasociado;
+
+                    List<OrdenDeMantenimiento> ordenesDeMantenimientosEnProceso;
+                    ordenesDeMantenimientosEnProceso = Repositorio.ListarOrdenesDeMantenimientoEnProceso();
+                    detalleDeLArticulo.CantidadDeOrdenesEnProceso = ordenesDeMantenimientosEnProceso.Count();
+
+                    List<OrdenDeMantenimiento> ordenesDeMantenimientosTerminadas;
+                    ordenesDeMantenimientosTerminadas = Repositorio.ListarOrdenesDeMantenimientoTerminadas();
+                    detalleDeLArticulo.CantidadDeOrdenesTerminadas = ordenesDeMantenimientosTerminadas.Count();
+
+                    return detalleDeLArticulo;
+                }
+                else 
+                {
+                    return null;
+                }
+            }
+            catch(Exception e)
+            {
+                throw e;
+            }
+        }
 
         // POST api/<TallerController>
         [HttpPost]

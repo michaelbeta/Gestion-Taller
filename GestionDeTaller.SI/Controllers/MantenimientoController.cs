@@ -38,6 +38,16 @@ namespace GestionDeTaller.SI.Controllers
                 editarMantenimiento = Repositorio.ObteneCatalogoDeMantenimeintosPorId(id);
                 return editarMantenimiento;
             }
+            if (accion.Equals("DetallesDeMantenimiento"))
+            {
+                Mantenimiento detalleDeMantenimiento;
+                detalleDeMantenimiento = Repositorio.ObteneCatalogoDeMantenimeintosPorId(id);
+                List<Repuesto> laLista;
+                laLista = Repositorio.ObtenerRepuestosAsociadosAlMantenimiento(id);
+                detalleDeMantenimiento.repuestos = laLista;
+                return detalleDeMantenimiento;
+            }
+            
             else
             {
                 return null;

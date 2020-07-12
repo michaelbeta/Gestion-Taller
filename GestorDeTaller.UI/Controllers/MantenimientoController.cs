@@ -46,13 +46,21 @@ namespace GestorDeTaller.UI.Controllers
 
 
         // GET: Mantenimiento/Details/5
-        public ActionResult DetallesDeMantenimiento(int id)
+        public async Task<IActionResult> DetallesDeMantenimiento(int id)
         {
             Mantenimiento detalleDeMantenimiento;
-            detalleDeMantenimiento = Repositorio.ObteneCatalogoDeMantenimeintosPorId(id);
-            List<Repuesto> laLista;
-            laLista = Repositorio.ObtenerRepuestosAsociadosAlMantenimiento(id);
-            ViewData["Repuesto"] = laLista;
+            try
+            {
+                var httpClient = new HttpClient();
+                var response = await httpClient.GetAsync("https://localhost:44343/api/Mantenimiento/DetallesDeMantenimiento/" + id.ToString());
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                detalleDeMantenimiento = JsonConvert.DeserializeObject<Mantenimiento>(apiResponse);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            ViewData["Repuesto"] = detalleDeMantenimiento.repuestos;
 
             return View(detalleDeMantenimiento);
         }
@@ -165,27 +173,6 @@ namespace GestorDeTaller.UI.Controllers
         }
 
 
-        // GET: Mantenimiento/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Mantenimiento/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+     
     }
 }

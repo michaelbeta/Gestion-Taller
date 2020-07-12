@@ -81,62 +81,25 @@ namespace GestorDeTaller.Controllers
         public async Task<IActionResult> DetallesDelArticulo(int id)
         {
             Articulo articulo;
-            List<Repuesto> repuestoasociado = new List<Repuesto>();
-            List<OrdenDeMantenimiento> ordenesDeMantenimientosEnProceso = new List<OrdenDeMantenimiento>();
-            List<OrdenDeMantenimiento> ordenesDeMantenimientosTerminadas = new List<OrdenDeMantenimiento>();
+
             try
             {
                 var httpClient = new HttpClient();
-                var response = await httpClient.GetAsync("https://localhost:44343/api/CatalogoDeArticulos/Detalles_De_Articulo" + id.ToString());
+                var response = await httpClient.GetAsync("https://localhost:44343/api/CatalogoDeArticulos/Detalles/" + id.ToString());
                 string apiResponse = await response.Content.ReadAsStringAsync();
                 articulo = JsonConvert.DeserializeObject<Articulo>(apiResponse);
-                ////////////////////////
-                var httpClientRepuesto = new HttpClient();
-                var responseRepuesto = await httpClientRepuesto.GetAsync("https://localhost:44343/api/CatalogoDeArticulos");
-                string apiResponseRepuesto = await responseRepuesto.Content.ReadAsStringAsync();
-                repuestoasociado = JsonConvert.DeserializeObject<List<Repuesto>>(apiResponseRepuesto);
-                ViewData["Repuesto"] = repuestoasociado;
-                ///////////////////////
-                var httpClientordenesDeMantenimientosEnProceso = new HttpClient();
-                var responseordenesDeMantenimientosEnProceso = await httpClientordenesDeMantenimientosEnProceso.GetAsync("https://localhost:5001/api/CatalogoDeArticulos");
-                string apiResponseordenesDeMantenimientosEnProceso = await responseordenesDeMantenimientosEnProceso.Content.ReadAsStringAsync();
-                ordenesDeMantenimientosEnProceso = JsonConvert.DeserializeObject<List<OrdenDeMantenimiento>>(apiResponseordenesDeMantenimientosEnProceso);
-                int CantidadDeOrdenesEnProceso = ordenesDeMantenimientosEnProceso.Count();
-                ViewBag.OrdenesEnProceso = CantidadDeOrdenesEnProceso;
-                ///////////////////////
-                var httpClientordenesDeMantenimientosTerminadas = new HttpClient();
-                var responseordenesDeMantenimientosTerminadas = await httpClientordenesDeMantenimientosTerminadas.GetAsync("https://localhost:5001/api/CatalogoDeArticulos");
-                string apiResponseordenesDeMantenimientosTerminadas = await responseordenesDeMantenimientosTerminadas.Content.ReadAsStringAsync();
-                ordenesDeMantenimientosTerminadas = JsonConvert.DeserializeObject<List<OrdenDeMantenimiento>>(apiResponseordenesDeMantenimientosTerminadas);
-                int CantidadDeOrdenesTerminadas = ordenesDeMantenimientosTerminadas.Count();
-                ViewBag.OrdenesTerminadas = CantidadDeOrdenesTerminadas;
+
             }
             catch (Exception ex)
             {
                 throw ex;
             }
+
+            ViewData["Repuesto"] = articulo.repuestoasociado;
+            ViewBag.OrdenesEnProceso = articulo.CantidadDeOrdenesEnProceso;
+            ViewBag.OrdenesTerminadas = articulo.CantidadDeOrdenesTerminadas;
+
             return View(articulo);
-
-            /*Articulo detalleDeLArticulo;
-            detalleDeLArticulo = Repositorio.ObtenerPorId(id);
-            List<Repuesto> repuestoasociado;
-            repuestoasociado = Repositorio.ObtenerRepuestoAsociadosAlArticulo(id);
-
-            ViewData["Repuesto"] = repuestoasociado;
-
-            List<OrdenDeMantenimiento> ordenesDeMantenimientosEnProceso;
-            ordenesDeMantenimientosEnProceso = Repositorio.ListarOrdenesDeMantenimientoEnProceso();
-            int CantidadDeOrdenesEnProceso = ordenesDeMantenimientosEnProceso.Count();
-
-            ViewBag.OrdenesEnProceso = CantidadDeOrdenesEnProceso;
-
-            List<OrdenDeMantenimiento> ordenesDeMantenimientosTerminadas;
-            ordenesDeMantenimientosTerminadas = Repositorio.ListarOrdenesDeMantenimientoTerminadas();
-            int CantidadDeOrdenesTerminadas = ordenesDeMantenimientosTerminadas.Count();
-
-            ViewBag.OrdenesTerminadas = CantidadDeOrdenesTerminadas;
-
-            return View(detalleDeLArticulo);*/
         }
 
         // GET: CatalogoDeArticulos/Create

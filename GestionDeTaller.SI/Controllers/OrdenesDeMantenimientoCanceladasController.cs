@@ -31,9 +31,26 @@ namespace GestionDeTaller.SI.Controllers
 
         // GET api/<OrdenesDeMantenimientoCanceladasController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public ActionResult<OrdenDeMantenimiento> Get(int id)
         {
-            return "value";
+            OrdenDeMantenimiento DetallesDelAOrden;
+            try
+            {
+                
+                DetallesDelAOrden = Repositorio.ObtenerOrdenesDeMantenimentoCanceladasPorid(id);
+
+                List<Articulo> articuloAsociado;
+                articuloAsociado = Repositorio.ObtenerArticuloAsociadosALaOrdenEnMantenimiento(id);
+                DetallesDelAOrden.articulos = articuloAsociado;
+                List<Mantenimiento> MantenimientoAsosiado;
+                MantenimientoAsosiado = Repositorio.ObtenermantenimientoAsociadosalaOrden(id);
+                DetallesDelAOrden.mantenimientos = MantenimientoAsosiado;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            return DetallesDelAOrden;
         }
 
         // POST api/<OrdenesDeMantenimientoCanceladasController>
