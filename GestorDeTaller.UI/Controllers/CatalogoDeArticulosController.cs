@@ -1,5 +1,6 @@
 ﻿using GestorDeTaller.BL;
 using GestorDeTaller.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
@@ -12,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace GestorDeTaller.Controllers
 {
-
+    [Authorize]
     public class CatalogoDeArticulosController : Controller
     {
 

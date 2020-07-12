@@ -1,5 +1,6 @@
 ﻿using GestorDeTaller.BL;
 using GestorDeTaller.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace GestorDeTaller.UI.Controllers
 {
+    [Authorize]
     public class MantenimientoController : Controller
     {
 

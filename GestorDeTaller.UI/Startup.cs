@@ -39,7 +39,7 @@ namespace GestorDeTaller.UI
                 MaxFailedAccessAttempts = 3
             };
 
-
+           
             services.AddTransient<IEmailSender, EmailSender>();
             services.Configure<EmailSenderOptions>(Configuration.GetSection("EmailSenderOptions"));
             services.AddDbContext<ApplicationDbContext>(options =>
@@ -50,6 +50,7 @@ namespace GestorDeTaller.UI
              {
                  options.SignIn.RequireConfirmedAccount = true;
                  options.Lockout = lockoutOptions;
+                 
              })
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
@@ -84,6 +85,7 @@ namespace GestorDeTaller.UI
 
             app.UseEndpoints(endpoints =>
             {
+                
                 endpoints.MapControllers();
                 endpoints.MapControllerRoute(
                     name: "default",
@@ -91,7 +93,6 @@ namespace GestorDeTaller.UI
                 endpoints.MapRazorPages();
             });
         }
-        //"{controller=CatalogoDeArticulos}/{action=ListarCatalogoDeArticulos}/{id?}");
-        //pattern: "{controller=InicioDelLogin}/{action=InicioDeSesion}/{id?}");
+       
     }
 }
