@@ -25,7 +25,7 @@ namespace GestorDeTaller.UI.Controllers
             {
                 var httpClient = new HttpClient();
 
-                var response = await httpClient.GetAsync("https://localhost:5001/api/OrdenesDeMantenimientoCanceladas");
+                var response = await httpClient.GetAsync("https://localhost:44343/api/OrdenesDeMantenimientoCanceladas");
 
                 string apiResponse = await response.Content.ReadAsStringAsync();
 
