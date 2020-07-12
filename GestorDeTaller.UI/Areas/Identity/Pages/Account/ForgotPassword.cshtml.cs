@@ -31,8 +31,8 @@ namespace GestorDeTaller.UI.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required (ErrorMessage ="Este campo es  requrido")]
-            [EmailAddress]
-            [Display(Name ="Correo")]
+            [EmailAddress(ErrorMessage = "El correo  electrónico ingresado no es una dirreción de correo  electrónico válida")]
+            [Display(Name = "Correo  electrónico")]
             public string Email { get; set; }
         }
 
@@ -47,8 +47,6 @@ namespace GestorDeTaller.UI.Areas.Identity.Pages.Account
                     return RedirectToPage("./ForgotPasswordConfirmation");
                 }
 
-                // For more information on how to enable account confirmation and password reset please 
-                // visit https://go.microsoft.com/fwlink/?LinkID=532713
                 var code = await _userManager.GeneratePasswordResetTokenAsync(user);
                 code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                 var callbackUrl = Url.Page(
@@ -59,7 +57,7 @@ namespace GestorDeTaller.UI.Areas.Identity.Pages.Account
 
                 await _emailSender.SendEmailAsync(
                     Input.Email,
-                    "Reset Password",
+                    "Restablecer contraseña",
                     $"Por favor restablezca su contraseña por <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>click aquí</a>.");
 
                 return RedirectToPage("./ForgotPasswordConfirmation");

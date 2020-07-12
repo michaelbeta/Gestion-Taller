@@ -14,6 +14,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace GestorDeTaller.UI.Controllers
 {
+    [Authorize]
     public class RepuestosParaMantenimientoController : Controller
     {
         private readonly IRepositorioDeTaller Repositorio;

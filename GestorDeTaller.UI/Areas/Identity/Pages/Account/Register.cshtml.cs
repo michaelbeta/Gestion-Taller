@@ -50,8 +50,10 @@ namespace GestorDeTaller.UI.Areas.Identity.Pages.Account
             [Display(Name = "Correo electrónico")]
             public string Email { get; set; }
 
-            [Display(Name = "Nombre")]
+            [RegularExpression("^[a-zA-Z ]*$",
+             ErrorMessage = "Solo se permite letras")]
             [Required(ErrorMessage = "Este campo es requerido")]
+            [Display(Name = "Nombre")]
             public string Name { get; set; }
 
 

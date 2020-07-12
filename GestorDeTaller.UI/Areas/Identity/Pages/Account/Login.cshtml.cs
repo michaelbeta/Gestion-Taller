@@ -45,13 +45,15 @@ namespace GestorDeTaller.UI.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required(ErrorMessage = "Este campo es requerido")]
+            [RegularExpression("^[a-zA-Z ]*$",
+             ErrorMessage = "Solo se permite letras")]
 
             [Display(Name = "Nombre")]
             public string Name{ get; set; }
 
             [Required(ErrorMessage = "Este campo es requerido")]
-            //[RegularExpression("^((?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])|(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[^a-zA-Z0-9])|(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[^a-zA-Z0-9])|(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^a-zA-Z0-9])).{8,}$", 
-            // ErrorMessage = "La clave debe tener al menos 8 caracteres y contener 3 de 4 de los siguientes: mayúsculas(A - Z), minúsculas(a - z), números(0 - 9) y caracteres especiales(p.Ej.! @ # $% ^ & *) ")]
+            [RegularExpression("^((?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])|(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[^a-zA-Z0-9])|(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[^a-zA-Z0-9])|(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^a-zA-Z0-9])).{8,}$", 
+             ErrorMessage = "La clave debe tener al menos 8 caracteres y contener 3 de 4 de los siguientes: mayúsculas(A - Z), minúsculas(a - z), números(0 - 9) y caracteres especiales(p.Ej.! @ # $% ^ & *) ")]
             [DataType(DataType.Password)]
             [Display(Name = "Clave")]
            
@@ -81,13 +83,12 @@ namespace GestorDeTaller.UI.Areas.Identity.Pages.Account
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl = returnUrl ?? Url.Content("~/CatalogoDeArticulos/ListarCatalogoDeArticulos");
-           
+
             if (ModelState.IsValid)
             {
                
                 var result = await _signInManager.PasswordSignInAsync(Input.Name, Input.Password, Input.RememberMe, lockoutOnFailure: true);
                
-
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("Usuario logueado");
@@ -96,7 +97,7 @@ namespace GestorDeTaller.UI.Areas.Identity.Pages.Account
                   
                     await _emailSender
                         .SendEmailAsync(userABuscar.Email, "Asunto:  Inicio de sesión usuario  "+ userABuscar.UserName,
-                        "Usted inicio sesión día" + Horalocal)
+                        " Usted inicio sesión día " + Horalocal)
                        .ConfigureAwait(false);
 
                     return LocalRedirect(returnUrl);
@@ -107,20 +108,43 @@ namespace GestorDeTaller.UI.Areas.Identity.Pages.Account
                 }
                 if (result.IsLockedOut)
                 {
-                    var usuarioBuscar = await _userManager.FindByNameAsync(Input.Name);
-                    
-                    await _emailSender
-                        .SendEmailAsync(usuarioBuscar.Email, "Asunto: Usuario Bloqueado",
-                        "Le informamos que la cuenta del usuario " +usuarioBuscar.UserName+
-                        "se encuentra bloqueada por 10 minutos.Por favor ingrese el día" + Horalocal.Date+
-                        "a las"+ Horalocal.ToLocalTime()+10)
-                       .ConfigureAwait(false);
-
                     _logger.LogWarning("Cuenta de usuario blockeada");
+                    var usuarioBuscar = await _userManager.FindByNameAsync(Input.Name);
+                    string fecha = Horalocal.ToString("d");
+                    DateTime hora = Horalocal.AddMinutes(10);
+                    string horaDelNuevoLogeo = hora.ToString("HH:mm:ss");
+                    await _userManager.AccessFailedAsync(await _userManager.FindByNameAsync(Input.Name));
+
+                    var BuscarUsusarioBlockeado = await _userManager.GetAccessFailedCountAsync
+                    (await _userManager.FindByNameAsync(Input.Name));
+                   
+                    if (BuscarUsusarioBlockeado>=1)
+                    {
+                        await _emailSender
+                         .SendEmailAsync(usuarioBuscar.Email, "Asunto: Intento de inicio de sesión del usuario "+ usuarioBuscar.UserName,
+                         "Le informamos que la cuenta del usuario " + usuarioBuscar.UserName +
+                         " se encuentra bloqueada por 10 minutos.Por favor ingrese el día " + fecha +
+                         " a las " + horaDelNuevoLogeo)
+                          .ConfigureAwait(false);
+                    }
+                    else
+                    {
+                        await _emailSender
+                        .SendEmailAsync(usuarioBuscar.Email, "Asunto: Usuario Bloqueado",
+                         "Le informamos que la cuenta del usuario " + usuarioBuscar.UserName +
+                       " se encuentra bloqueada por 10 minutos.Por favor ingrese el día " + fecha +
+                        " a las " + horaDelNuevoLogeo)
+                         .ConfigureAwait(false);
+                    }
+                   
+
+                   
                     return RedirectToPage("./Lockout");
                 }
-                else
+                else if(result.IsNotAllowed)
                 {
+                  
+                    await _userManager.AccessFailedAsync(await _userManager.FindByNameAsync(Input.Name));
                     ModelState.AddModelError(string.Empty, "Intento de inicio de sesión no válido");
                     return Page();
                 }

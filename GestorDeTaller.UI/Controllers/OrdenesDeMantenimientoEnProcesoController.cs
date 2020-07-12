@@ -1,6 +1,7 @@
 ﻿using GestorDeTaller.BL;
 using GestorDeTaller.Model;
 using GestorDeTaller.UI.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace GestorDeTaller.UI.Controllers
 {
+    [Authorize]
     public class OrdenesDeMantenimientoEnProcesoController : Controller
     {
         private readonly IRepositorioDeTaller Repositorio;

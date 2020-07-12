@@ -5,12 +5,14 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using GestorDeTaller.BL;
 using GestorDeTaller.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
 namespace GestorDeTaller.UI.Controllers
 {
+    [Authorize]
     public class OrdenesDeMantenimientoTerminadaController : Controller
     {
         private readonly IRepositorioDeTaller Repositorio;

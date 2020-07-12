@@ -1,5 +1,6 @@
 ﻿using GestorDeTaller.BL;
 using GestorDeTaller.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Razor.Language;
@@ -12,6 +13,7 @@ using System.Threading.Tasks;
 
 namespace GestorDeTaller.UI.Controllers
 {
+    [Authorize]
     public class RepuestosController : Controller
     {
 
