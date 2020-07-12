@@ -90,14 +90,15 @@ namespace GestorDeTaller.UI.Controllers
 
         public async Task<IActionResult> DesasociarRepuesto(int id)
         {
-            
-            int idMantenimiento = int.Parse(TempData["IdMantenimiento"].ToString());
+
+            TempData["IdMantenimiento"] = id;
+
             try
             {
 
                 var httpClient = new HttpClient();
 
-                var response = await httpClient.GetAsync("https://localhost:44343/api/RepuestoParaMantenimiento/AsociarRepuesto/" + id.ToString());
+                var response = await httpClient.GetAsync("https://localhost:44343/api/RepuestoParaMantenimiento/" + id.ToString());
 
                 string apiResponse = await response.Content.ReadAsStringAsync();
 
@@ -108,6 +109,8 @@ namespace GestorDeTaller.UI.Controllers
 
                 return View();
             }
+           int idMantenimiento = int.Parse(TempData["IdMantenimiento"].ToString());
+          
             return RedirectToAction("ListarRepuestosAsociadosAMantenimiento", "Repuestos", new { id = idMantenimiento });
         }
 

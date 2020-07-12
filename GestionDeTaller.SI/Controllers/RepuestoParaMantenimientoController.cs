@@ -43,7 +43,7 @@ namespace GestionDeTaller.SI.Controllers
             if (accion.Equals("Asociar_Repuesto"))
             {
                 List<Repuesto> laLista;
-                laLista = Repositorio.ObtenerCatalogoRepuestos();
+                laLista = Repositorio.ObtenerRepuestoAsociadosAlArticulo(id);
                 return laLista;
             }
             else

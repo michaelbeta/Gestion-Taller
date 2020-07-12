@@ -1,44 +1,46 @@
 ﻿@model IEnumerable<GestorDeTaller.Model.Repuesto>
+    $ bower install bootstrap-sweetalert
 
-@{ ViewData["Title"] = "Listar Repuestos Asociados al Mantenimiento"; }
-@{
-    Layout = "~/Views/Restringido/_Layout2.cshtml";
-}
-@{
-    Layout = "~/Views/Shared/_Layout.cshtml"; //Esta sería la plantilla original del sitio web.
-}
-<h1>Repuestos Asociados a un Mantenimiento</h1>
-<p>
+    @{ ViewData["Title"] = "Listar Repuestos Asociados al Mantenimiento"; }
+    @{
+        Layout = "~/Views/Restringido/_Layout2.cshtml";
+    }
+    @{
+        Layout = "~/Views/Shared/_Layout.cshtml"; //Esta sería la plantilla original del sitio web.
+    }
+    <h1>Repuestos Asociados a un Mantenimiento</h1>
+    <p>
 
-    @Html.ActionLink("Asociar Repuesto ", "Asociar_Repuesto", "RepuestosParaMantenimiento", new { id = @ViewBag.Id }, null)
-</p>
+        @Html.ActionLink("Asociar Repuesto ", "Asociar_Repuesto", "RepuestosParaMantenimiento", new { id = @ViewBag.Id }, null)
+    </p>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Nombre)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-<tr>
-    <td>
-        @Html.DisplayFor(modelItem => item.Nombre)
-    </td>
-    <td>
-        @Html.ActionLink("Desasociar ", "ConfirmarRepuestoAdesasociar", "RepuestosParaMantenimiento", new { id = item.Id }, null)
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Nombre)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nombre)
+                    </td>
+                    <td>
+                        
+                        <a asp-controller="RepuestosParaMantenimiento" asp-action="DesasociarRepuesto" asp-route-id="@item.Id" type="button" class="btn btn-primary">Desasociar</a>
 
-
-    </td>
-</tr>     }
-    </tbody>
-</table>
-<br>
-<br>
-<div>
-    <a href="javascript: history.go(-1)" class="btn btn-primary">Cancelar</a>
-</div>
+                    </td>
+                </tr>
+       }
+        </tbody>
+    </table>
+    <br>
+    <br>
+    <div>
+        <a href="javascript: history.go(-1)" class="btn btn-primary">Cancelar</a>
+    </div>

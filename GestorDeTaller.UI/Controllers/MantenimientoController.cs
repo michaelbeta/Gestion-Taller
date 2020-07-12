@@ -28,7 +28,7 @@ namespace GestorDeTaller.UI.Controllers
             {
                 var httpClient = new HttpClient();
 
-                var response = await httpClient.GetAsync("https://localhost:5001/api/Mantenimiento/" + id.ToString());
+                var response = await httpClient.GetAsync("https://localhost:44343/api/Mantenimiento/" + id.ToString());
 
                 string apiResponse = await response.Content.ReadAsStringAsync();
 
@@ -94,7 +94,7 @@ namespace GestorDeTaller.UI.Controllers
 
                     byteContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
 
-                    await httpClient.PostAsync("https://localhost:5001/api/Mantenimiento", byteContent);
+                    await httpClient.PostAsync("https://localhost:44343/api/Mantenimiento", byteContent);
 
 
                     return RedirectToAction("ListarMantenimientosAsociados", new { id = idArticulo });
@@ -121,7 +121,7 @@ namespace GestorDeTaller.UI.Controllers
             try
             {
                 var httpClient = new HttpClient();
-                var response = await httpClient.GetAsync("https://localhost:5001/api/Mantenimiento/EditarMantenimiento/" + id.ToString());
+                var response = await httpClient.GetAsync("https://localhost:44343/api/Mantenimiento/EditarMantenimiento/" + id.ToString());
                 string apiResponse = await response.Content.ReadAsStringAsync();
                 ListarMantenimientoAeditar = JsonConvert.DeserializeObject<Mantenimiento>(apiResponse);
             }
@@ -157,7 +157,7 @@ namespace GestorDeTaller.UI.Controllers
 
                     byteContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
 
-                    await httpClient.PutAsync("https://localhost:5001/api/Mantenimiento", byteContent);
+                    await httpClient.PutAsync("https://localhost:44343/api/Mantenimiento", byteContent);
                     return RedirectToAction("ListarMantenimientosAsociados", new { id = idArticulo });
                 }
                 else
