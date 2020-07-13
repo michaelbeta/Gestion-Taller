@@ -27,21 +27,25 @@
     <tbody>
         @foreach (var item in Model)
         {
-<tr>
+            <tr>
 
-    <td>
-        @Html.DisplayFor(modelItem => item.Nombre)
-    </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombre)
+                </td>
 
-    <td>
-        @Html.DisplayFor(modelItem => item.Precio)
-    </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Precio)
+                </td>
+                <td>
 
+                    <a asp-controller="Mantenimiento" asp-action="ListarMantenimientosAsociados" asp-route-id="@item.Id" class="btn btn-primary">Editar</a>
 
-</tr>}
+                </td>
+
+            </tr>
+        }
+    
     </tbody>
-</table>
-<td>
 
-    <a href="javascript: history.go(-1)" class="btn btn-primary">Regresar</a>
-</td>
+</table>
+

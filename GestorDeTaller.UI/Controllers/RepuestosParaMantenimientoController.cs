@@ -80,15 +80,6 @@ namespace GestorDeTaller.UI.Controllers
         }
 
 
-   /*    public ActionResult ConfirmarRepuestoAdesasociar(int id)
-        {
-            Repuesto repuestoAdesasociar;
-            repuestoAdesasociar = Repositorio.ObtenerRepuestoAdesasociar(id);
-
-            return View(repuestoAdesasociar);
-        } */
-
-
         public async Task<IActionResult> DesasociarRepuesto(int id)
         {
 

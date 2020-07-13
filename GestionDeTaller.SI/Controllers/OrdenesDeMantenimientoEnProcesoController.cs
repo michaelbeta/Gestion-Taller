@@ -89,6 +89,21 @@ namespace GestionDeTaller.SI.Controllers
 
         }
 
+        [HttpGet("{accion}/{idMantenimiento}/{idOrdenDeMantenimiento}")]
+        public IActionResult Get(string accion, int idMantenimiento, int idOrdenDeMantenimiento)
+        {
+            if (accion.Equals("AgregarMantenimiento"))
+            {
+
+
+                Repositorio.AgregarDetallesOrdenesDeMantenimiento(idMantenimiento, idOrdenDeMantenimiento);
+                return Ok();
+            }
+            else
+            {
+                return null;
+            }
+        }
         // PUT api/<OrdenesDeMantenimientoEnProcesoController>/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)

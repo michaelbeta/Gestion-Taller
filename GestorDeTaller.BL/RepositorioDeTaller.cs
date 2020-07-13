@@ -324,6 +324,7 @@ namespace GestorDeTaller.BL
             ordenDeMantenimiento = ObtenerOrdenDeMantenimientoPorId(id);
             ordenDeMantenimiento.Estado = Estado.Cancelada;
             ordenDeMantenimiento.MotivoDeCancelacion = MotivoDeCancelacion;
+            ordenDeMantenimiento.FechaDeFinalizacion = DateTime.Now;
             ElContextoDeBaseDeDatos.ordenesDeMantenimiento.Update(ordenDeMantenimiento);
             ElContextoDeBaseDeDatos.SaveChanges();
         }

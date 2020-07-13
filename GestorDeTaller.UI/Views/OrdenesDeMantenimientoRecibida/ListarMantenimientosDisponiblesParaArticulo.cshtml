@@ -20,9 +20,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.CostoFijo)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CostoDeRepuestos)
-            </th>
+           
             <th></th>
         </tr>
     </thead>
@@ -37,9 +35,7 @@
     <td>
         @Html.DisplayFor(modelItem => item.CostoFijo)
     </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.CostoDeRepuestos)
-    </td>
+   
     <td>
         <a asp-action="AgregarMantenimientoAOrdenRecibidas" asp-route-id="@item.Id" class="btn btn-success">Seleccionar mantenimiento</a>
         

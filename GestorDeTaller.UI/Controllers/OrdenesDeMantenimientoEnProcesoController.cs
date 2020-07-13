@@ -14,7 +14,7 @@ namespace GestorDeTaller.UI.Controllers
     [Authorize]
     public class OrdenesDeMantenimientoEnProcesoController : Controller
     {
-        private readonly IRepositorioDeTaller Repositorio;
+        
 
         public OrdenesDeMantenimientoEnProcesoController()
         {
@@ -127,11 +127,27 @@ namespace GestorDeTaller.UI.Controllers
         }
 
         [HttpPost]
-        public ActionResult AgregarMantenimiento(String Mantenimiento)
+        public async Task<IActionResult> AgregarMantenimiento(String Mantenimiento)
         {
             int idMantenimiento = Int32.Parse(Mantenimiento);
             int idOrdenDeMantenimiento = int.Parse(TempData["IdOrdenDeMantenimiento"].ToString());
-            Repositorio.AgregarDetallesOrdenesDeMantenimiento(idMantenimiento, idMantenimiento);
+            try
+            {
+
+                var httpClient = new HttpClient();
+
+                var response = await httpClient.GetAsync("https://localhost:44343/api/OrdenesDeMantenimientoEnProceso/AgregarMantenimiento/" + idMantenimiento + "/" + idOrdenDeMantenimiento);
+
+                string apiResponse = await response.Content.ReadAsStringAsync();
+
+
+            }
+            catch (Exception)
+            {
+
+                return View();
+            }
+           // Repositorio.AgregarDetallesOrdenesDeMantenimiento(idMantenimiento, idMantenimiento);
 
             return RedirectToAction(nameof(ListarOrdenesDeMantenimentoEnProceso));
         }
@@ -160,20 +176,6 @@ namespace GestorDeTaller.UI.Controllers
 
         }
 
-        public ActionResult Articulo(int id)
-        {
-            Articulo elArticulo;
-            elArticulo = Repositorio.ObtenerPorId(id);
-            return View(elArticulo);
-        }
-
-        public ActionResult MostrarMantenimiento(int id)
-        {
-            List<Costos> elCosto;
-            elCosto = Repositorio.ObtenerCatalogoDeMantenimeintosMasRepuestos(id);
-            return View(elCosto);
-
-
-        }
+        
     }
 }

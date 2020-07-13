@@ -16,7 +16,6 @@ namespace GestorDeTaller.Model
         public int Id_Articulo { get; set; }
 
         [Required(ErrorMessage = "Este campo es requerido")]
-
         [RegularExpression("(^[0-9]+$)", ErrorMessage = "Solo se permiten números ")]
         [Range(1, 999999999, ErrorMessage = "El Precio debe ser mayor a 0 y menor 999999999 ")]
 
