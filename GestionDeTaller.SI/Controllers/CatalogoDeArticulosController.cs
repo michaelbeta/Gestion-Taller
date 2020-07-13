@@ -61,13 +61,14 @@ namespace GestionDeTaller.SI.Controllers
                     repuestoasociado = Repositorio.ObtenerRepuestoAsociadosAlArticulo(id);
                     detalleDeLArticulo.repuestoasociado = repuestoasociado;
 
-                    List<OrdenDeMantenimiento> ordenesDeMantenimientosEnProceso;
-                    ordenesDeMantenimientosEnProceso = Repositorio.ListarOrdenesDeMantenimientoEnProceso();
-                    detalleDeLArticulo.CantidadDeOrdenesEnProceso = ordenesDeMantenimientosEnProceso.Count();
+                   
+                   
 
-                    List<OrdenDeMantenimiento> ordenesDeMantenimientosTerminadas;
-                    ordenesDeMantenimientosTerminadas = Repositorio.ListarOrdenesDeMantenimientoTerminadas();
-                    detalleDeLArticulo.CantidadDeOrdenesTerminadas = ordenesDeMantenimientosTerminadas.Count();
+                    detalleDeLArticulo.CantidadDeOrdenesEnProceso = Repositorio.ListarOrdenesDeMantenimientoEnProceso(id);
+
+
+                   
+                    detalleDeLArticulo.CantidadDeOrdenesTerminadas = Repositorio.ListarOrdenesDeMantenimientoTerminadass(id);
 
                     return detalleDeLArticulo;
                 }

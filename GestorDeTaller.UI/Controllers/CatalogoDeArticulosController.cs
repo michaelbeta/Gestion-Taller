@@ -32,7 +32,7 @@ namespace GestorDeTaller.Controllers
             {
                 var httpClient = new HttpClient();
 
-                var response = await httpClient.GetAsync("https://localhost:44343/api/CatalogoDeArticulos");
+                var response = await httpClient.GetAsync("https://localhost:5001/api/CatalogoDeArticulos");
 
                 string apiResponse = await response.Content.ReadAsStringAsync();
 
@@ -63,7 +63,7 @@ namespace GestorDeTaller.Controllers
             {
                 var httpClient = new HttpClient();
 
-                var response = await httpClient.GetAsync("https://localhost:44343/api/CatalogoDeArticulos/ListarDetallesDelRepuesto/" + id.ToString());
+                var response = await httpClient.GetAsync("https://localhost:5001/api/CatalogoDeArticulos/ListarDetallesDelRepuesto/" + id.ToString());
 
                 string apiResponse = await response.Content.ReadAsStringAsync();
 
@@ -86,7 +86,7 @@ namespace GestorDeTaller.Controllers
             try
             {
                 var httpClient = new HttpClient();
-                var response = await httpClient.GetAsync("https://localhost:44343/api/CatalogoDeArticulos/Detalles/" + id.ToString());
+                var response = await httpClient.GetAsync("https://localhost:5001/api/CatalogoDeArticulos/Detalles/" + id.ToString());
                 string apiResponse = await response.Content.ReadAsStringAsync();
                 articulo = JsonConvert.DeserializeObject<Articulo>(apiResponse);
 
@@ -128,7 +128,7 @@ namespace GestorDeTaller.Controllers
 
                     byteContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
 
-                    await httpClient.PostAsync("https://localhost:44343/api/CatalogoDeArticulos", byteContent);
+                    await httpClient.PostAsync("https://localhost:5001/api/CatalogoDeArticulos", byteContent);
 
                     return RedirectToAction(nameof(ListarCatalogoDeArticulos));
                 }
@@ -152,7 +152,7 @@ namespace GestorDeTaller.Controllers
             try
             {
                 var httpClient = new HttpClient();
-                var response = await httpClient.GetAsync("https://localhost:44343/api/CatalogoDeArticulos/" + id.ToString());
+                var response = await httpClient.GetAsync("https://localhost:5001/api/CatalogoDeArticulos/" + id.ToString());
                 string apiResponse = await response.Content.ReadAsStringAsync();
                 ListarArticuloAEditar = JsonConvert.DeserializeObject<Articulo>(apiResponse);
             }
@@ -182,7 +182,7 @@ namespace GestorDeTaller.Controllers
 
                     byteContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
 
-                    await httpClient.PutAsync("https://localhost:44343/api/CatalogoDeArticulos", byteContent);
+                    await httpClient.PutAsync("https://localhost:5001/api/CatalogoDeArticulos", byteContent);
 
                     return RedirectToAction(nameof(ListarCatalogoDeArticulos));
                 }

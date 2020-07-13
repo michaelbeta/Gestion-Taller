@@ -31,10 +31,10 @@ namespace GestorDeTaller.Model
         }
         [NotMapped]
        public List<Repuesto> repuestoasociado { get; set; }
+      /*  [NotMapped]
+       public List <int> ordenesDeMantenimientosEnProceso { get; set; }
         [NotMapped]
-        public List<OrdenDeMantenimiento> ordenesDeMantenimientosEnProceso { get; set; }
-        [NotMapped]
-        public List<OrdenDeMantenimiento> ordenesDeMantenimientosterminada { get; set; }
+        public List<int> ordenesDeMantenimientosterminada { get; set; }*/
         [NotMapped]
         public int CantidadDeOrdenesEnProceso { get; set; }
         [NotMapped]

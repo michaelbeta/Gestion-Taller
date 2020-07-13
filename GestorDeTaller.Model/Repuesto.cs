@@ -33,7 +33,7 @@ namespace GestorDeTaller.Model
         public List<Articulo> articuloAsociado { get; set; }
         [NotMapped]
         public List<Mantenimiento> MantenimientoAsosiado { get; set; }
-
-
+        [NotMapped]
+        public List<int> dettallesRepuesto { get; set; }
     }
 }

@@ -28,7 +28,7 @@ namespace GestorDeTaller.UI.Controllers
             {
                 var httpClient = new HttpClient();
 
-                var response = await httpClient.GetAsync("https://localhost:44343/api/OrdenesDeMantenimientoTerminadas");
+                var response = await httpClient.GetAsync("https://localhost:5001/api/OrdenesDeMantenimientoTerminadas");
 
                 string apiResponse = await response.Content.ReadAsStringAsync();
 
@@ -49,7 +49,7 @@ namespace GestorDeTaller.UI.Controllers
             {
 
                 var httpClient = new HttpClient();
-                var response = await httpClient.GetAsync("https://localhost:44343/api/OrdenesDeMantenimientoTerminadas/" + id.ToString());
+                var response = await httpClient.GetAsync("https://localhost:5001/api/OrdenesDeMantenimientoTerminadas/" + id.ToString());
                 string apiResponse = await response.Content.ReadAsStringAsync();
                 DetallesDelAOrden = JsonConvert.DeserializeObject<OrdenDeMantenimiento>(apiResponse);
             }

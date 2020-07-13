@@ -48,6 +48,12 @@ namespace GestionDeTaller.SI.Controllers
                 List<Mantenimiento> MantenimientoAsosiado;
                 MantenimientoAsosiado = Repositorio.ObtenerMantenimientoAsociadoAlRepuesto(id);
                 repuesto.MantenimientoAsosiado = MantenimientoAsosiado;
+                List<int> detallesRepuesto;
+               
+                detallesRepuesto = Repositorio.ObtenerDetalleRepuesto(id);
+                repuesto.dettallesRepuesto=detallesRepuesto;
+
+               
                 return repuesto;
             }
             

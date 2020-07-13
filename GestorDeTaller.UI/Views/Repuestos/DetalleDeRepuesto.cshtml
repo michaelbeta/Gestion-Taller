@@ -39,8 +39,9 @@
     @foreach (var std in ViewData["Articulo"] as IList<GestorDeTaller.Model.Articulo>)
     {
 
-<b> <label for="Name">Nombre:</label> </b> @std.Nombre <br>
-                <b><label for="Name">Marca:</label> </b> @std.Marca <br>}
+        <b> <label for="Name">Nombre:</label> </b> @std.Nombre <br>
+        <b><label for="Name">Marca:</label> </b> @std.Marca <br>
+    }
     <br>
     <h4>Mantenimiento</h4>
     <br>
@@ -48,17 +49,24 @@
     {
 
 
-<b> <label for="Name">Descripcion:</label></b> @std.Descripcion <br>}
+        <b> <label for="Name">Descripcion:</label></b> @std.Descripcion <br>
+    }
+    <br>
+    <h4>Cantidad utilizada en los mantenimientos</h4>
+    <br>
+    @foreach (var std in ViewData["CantidadDeRepuestos"] as IList<int>)
+    {
 
+        <b> <label for="Name">Cantidad:</label> </b> @std.ToString() <br>
+
+    }
     <br>
 
 </div>
-<div>
-    <a asp-action="CantidadDeRepuestosUtilizados" asp-route-id="@Model.Id" class="btn btn-primary">Cantidad de Repuestos</a>
-</div>
+
 <div>
 
     <div>
-        <a asp-controller="Repuestos" asp-action="ListarRepuestosAsociados" class="btn btn-primary">Regresar</a>
+         <a href="javascript: history.go(-1)" class="btn btn-primary">Regresar</a>
     </div>
 </div>

@@ -46,7 +46,8 @@ namespace GestorDeTaller.BL
         void AgregarDetallesOrdenesDeMantenimiento(int idMantenimiento, int OrdenDeMantenimiento);
         public Mantenimiento ObtenerMantenimientoPorId(int id);
         public List<DetalleOrdenesDeMantenimiento> obtenerDetallesOrdenDeMantenimiento(int id);
-        public DetallesRepuesto ObtenerDetalleRepuesto(int id);
-        public List<OrdenDeMantenimiento> ListarOrdenesDeMantenimientoEnProceso();
+        public List<int> ObtenerDetalleRepuesto(int id);
+        public int ListarOrdenesDeMantenimientoEnProceso(int id);
+        int ListarOrdenesDeMantenimientoTerminadass(int id);
     }
 }

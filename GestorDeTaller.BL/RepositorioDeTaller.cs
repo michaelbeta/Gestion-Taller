@@ -540,7 +540,7 @@ namespace GestorDeTaller.BL
 
         }
 
-        public DetallesRepuesto ObtenerDetalleRepuesto(int id)
+        public List<int> ObtenerDetalleRepuesto(int id)
         {
             DetallesRepuesto detallesRepuesto = new DetallesRepuesto();
             List<Mantenimiento> mantenimientos = new List<Mantenimiento>();
@@ -557,33 +557,89 @@ namespace GestorDeTaller.BL
             detallesRepuesto.Cantidad = (int)resultado.ToList().Count;
             detallesRepuesto.Lista = mantenimientos;
 
-
-
-            return detallesRepuesto;
+            List<int> list = new List<int>();
+            list.Add(detallesRepuesto.Cantidad);
+            return list.ToList();
         }
-        public List<OrdenDeMantenimiento> ListarOrdenesDeMantenimientoEnProceso()
+        public int ListarOrdenesDeMantenimientoEnProceso(int id)
         {
+            int total=0;
+            List<int> totall = new List<int>();
             OrdenDeMantenimiento ordenes = new OrdenDeMantenimiento();
 
-            var resultado = from c in ElContextoDeBaseDeDatos.ordenesDeMantenimiento
-                            where c.Estado == Estado.EnProceso
-                            select c;
-            if (resultado != null)
+            var ResultadoTotal = from c in ElContextoDeBaseDeDatos.ordenesDeMantenimiento
+                                 join x in ElContextoDeBaseDeDatos.articulo on c.Id_Articulo equals x.Id
+                                 where c.Id_Articulo == id
+                                 select c;
+            foreach (var item in ResultadoTotal)
             {
-                foreach (var item in resultado)
+                if (item.Estado==Estado.EnProceso)
                 {
+                    var resultado = from c in ElContextoDeBaseDeDatos.ordenesDeMantenimiento
+                                    where c.Estado == Estado.EnProceso
+                                    select c;
+                    total++;
+                    if (resultado != null)
+                    {
+                        foreach (var item2 in resultado)
+                        {
 
-                    DateTime fecha_Ingreso = item.FechaDeIngreso;
-                    DateTime fecha_Inicio = (DateTime)item.FechaDeInicio;
-                    TimeSpan ts = fecha_Inicio - fecha_Ingreso;
-                    ordenes.DiasEnProceso = ts.Days;
+                            DateTime fecha_Ingreso = item2.FechaDeIngreso;
+                            DateTime fecha_Inicio = (DateTime)item2.FechaDeInicio;
+                            TimeSpan ts = fecha_Inicio - fecha_Ingreso;
+                            ordenes.DiasEnProceso = ts.Days;
 
-                    item.DiasEnProceso = ordenes.DiasEnProceso;
+                            item2.DiasEnProceso = ordenes.DiasEnProceso;
+                        }
+                    }
                 }
             }
 
+          
 
-            return resultado.ToList();
+
+            return total;
         }
+    
+
+    public int ListarOrdenesDeMantenimientoTerminadass(int id)
+    {
+        int total = 0;
+        List<int> totall = new List<int>();
+        OrdenDeMantenimiento ordenes = new OrdenDeMantenimiento();
+
+        var ResultadoTotal = from c in ElContextoDeBaseDeDatos.ordenesDeMantenimiento
+                             join x in ElContextoDeBaseDeDatos.articulo on c.Id_Articulo equals x.Id
+                             where c.Id_Articulo == id
+                             select c;
+        foreach (var item in ResultadoTotal)
+        {
+            if (item.Estado == Estado.Terminado)
+            {
+                var resultado = from c in ElContextoDeBaseDeDatos.ordenesDeMantenimiento
+                                where c.Estado == Estado.Terminado
+                                select c;
+                total++;
+                if (resultado != null)
+                {
+                    foreach (var item2 in resultado)
+                    {
+
+                        DateTime fecha_Ingreso = item2.FechaDeIngreso;
+                        DateTime fecha_Inicio = (DateTime)item2.FechaDeInicio;
+                        TimeSpan ts = fecha_Inicio - fecha_Ingreso;
+                        ordenes.DiasEnProceso = ts.Days;
+
+                        item2.DiasEnProceso = ordenes.DiasEnProceso;
+                    }
+                }
+            }
+        }
+
+       
+
+
+        return total;
     }
+}
 }
