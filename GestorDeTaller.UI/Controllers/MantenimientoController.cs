@@ -15,7 +15,7 @@ namespace GestorDeTaller.UI.Controllers
     public class MantenimientoController : Controller
     {
 
-        private readonly IRepositorioDeTaller Repositorio;
+       
 
         public MantenimientoController()
         {

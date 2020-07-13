@@ -19,7 +19,7 @@ namespace GestorDeTaller.UI.Controllers
     [Authorize]
     public class RepuestosParaMantenimientoController : Controller
     {
-        private readonly IRepositorioDeTaller Repositorio;
+        
 
         public RepuestosParaMantenimientoController()
         {

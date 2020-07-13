@@ -17,7 +17,7 @@ namespace GestorDeTaller.UI.Controllers
     public class RepuestosController : Controller
     {
 
-        private readonly IRepositorioDeTaller Repositorio;
+        
 
         public RepuestosController()
         {
@@ -103,14 +103,14 @@ namespace GestorDeTaller.UI.Controllers
             return View(repuesto);
         }
        
-        public ActionResult ListarMantenimientosAsociadosAlRepuesto(int id)
+        /*public ActionResult ListarMantenimientosAsociadosAlRepuesto(int id)
         {
             List<Mantenimiento> Mantenimientoasociado;
             Mantenimientoasociado = Repositorio.ObtenerMantenimientoAsociadoAlRepuesto(id);
             TempData["IdArticulo"] = id;
 
             return View(Mantenimientoasociado);
-        }
+        }*/
         // GET: Repuestos/Create
         public IActionResult AgregarRepuesto()
         {

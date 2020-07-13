@@ -17,7 +17,7 @@ namespace GestorDeTaller.Controllers
     public class CatalogoDeArticulosController : Controller
     {
 
-        private readonly IRepositorioDeTaller Repositorio;
+      
 
         public CatalogoDeArticulosController()
         {
@@ -47,15 +47,7 @@ namespace GestorDeTaller.Controllers
 
         }
 
-        public ActionResult ListarArticuloAsociadosARepuesto(int id)
-        {
-            List<Articulo> ArticuloAsociado;
-            ArticuloAsociado = Repositorio.ObtenerArticuloAsociadosAlRepuesto(id);
-            TempData["IdArticulo"] = id;
-
-            return View(ArticuloAsociado);
-        }
-        // GET: Repuestos
+       
         public async Task<IActionResult> ListarDetallesDelRepuesto(int id)
         {
             List<Repuesto> repuestoasociado = new List<Repuesto>();

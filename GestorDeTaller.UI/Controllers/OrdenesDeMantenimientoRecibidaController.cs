@@ -14,7 +14,7 @@ namespace GestorDeTaller.UI.Controllers
     [Authorize]
     public class OrdenesDeMantenimientoRecibidaController : Controller
     {
-        private readonly IRepositorioDeTaller Repositorio;
+       
 
         public OrdenesDeMantenimientoRecibidaController()
         {
